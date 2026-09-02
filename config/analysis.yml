@@ -1,0 +1,30 @@
+schema_version: "1.0.0"
+random_seed: 20260902
+alpha: 0.05
+confidence_level: 0.95
+corrections:
+  room_type: holm
+  segment: fdr_bh
+  association: fdr_bh
+eligibility:
+  minimum_analyzable_listings: 30
+  minimum_positive_activity_listings: 10
+opportunity:
+  minimum_probability_superiority: 0.56
+  require_adjusted_significance: true
+  require_interval_excludes_null: true
+  require_robust_sensitivity: true
+  require_below_city_room_type_share: true
+sensitivity:
+  sample_thresholds: [20, 30, 50]
+  bootstrap_iterations: 500
+  full_run_bootstrap_iterations: 1000
+performance:
+  etl_seconds: 60
+  workflow_seconds: 300
+  peak_rss_mb: 2048
+paths:
+  raw: data/raw
+  processed: data/processed
+  powerbi: data/powerbi
+  artifacts: artifacts

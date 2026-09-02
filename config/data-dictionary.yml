@@ -1,0 +1,39 @@
+schema_version: "1.0.0"
+language: es
+canonical_grain: city_key + listing_id
+restricted_fields:
+  - listing_name
+  - host_name
+  - listing_id
+  - host_id
+  - latitude
+  - longitude
+fields:
+  listing_key:
+    type: string
+    nullable: false
+    definition_es: Clave técnica estable compuesta por ciudad e identificador original.
+  city_key:
+    type: string
+    nullable: false
+    definition_es: Identificador técnico normalizado de ciudad.
+  neighborhood:
+    type: string
+    nullable: true
+    definition_es: Barrio informado por la fuente, normalizado solo en espacios.
+  room_type:
+    type: category
+    nullable: true
+    definition_es: Tipología canónica del alojamiento.
+  price:
+    type: float
+    nullable: true
+    definition_es: Precio publicado en moneda local desconocida; no es ingreso ni margen.
+  activity_proxy:
+    type: float
+    nullable: true
+    definition_es: Proxy de actividad histórica basado en reseñas mensuales; no mide demanda ni ocupación.
+  last_review:
+    type: date
+    nullable: true
+    definition_es: Fecha de última reseña cuando existe; no permite inferir actualidad sin fecha de extracción.
