@@ -36,3 +36,28 @@ forman parte del compromiso actual.
 - [Próximos bloques de trabajo](docs/next-work-blocks.md)
 
 Los comandos ejecutables se documentarán al cerrar la infraestructura y el flujo Esencial.
+
+## Reproducción host y Docker
+
+Requisitos: las seis fuentes bajo `data/raw/`, Git y Docker Desktop con daemon activo para la ruta
+contenedorizada. Para host se requiere Python 3.13 y `uv`.
+
+```powershell
+uv sync --locked --group dev
+uv run --locked airbnb-supply all --log-format json
+```
+
+La ruta equivalente en contenedor es:
+
+```powershell
+docker compose build
+docker compose run --rm pipeline all --log-format json
+```
+
+El servicio limita el contenedor a 2 vCPU y 4 GB y monta `data/raw/` como solo lectura. Los resultados
+se publican en `data/processed/`, `data/powerbi/` y `artifacts/` solo tras validar el flujo.
+
+La suite final aprobó 64 pruebas; el flujo host aprobó el presupuesto de cinco minutos y 2 GB de RSS.
+Esta evidencia acredita reproducción técnica, no demanda, reservas, ocupación ni rentabilidad. Consulta
+la [guía paso a paso](specs/001-supply-opportunity-analysis/quickstart.md), el
+[rendimiento](docs/acceptance/performance.md) y la [puerta Esencial](docs/acceptance/essential-level.md).
