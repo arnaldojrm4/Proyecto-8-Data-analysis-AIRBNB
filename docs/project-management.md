@@ -3,6 +3,13 @@
 GitHub Projects es la fuente única de verdad de la planificación. El tablero debe usar, en este
 orden, `Backlog`, `Ready`, `In Progress`, `Review` y `Done`.
 
+**Tablero activo**:
+[Airbnb Supply Opportunity Analysis — Proyecto 8A](https://github.com/users/arnaldojrm4/projects/2)
+
+El campo `Estado Kanban` contiene las cinco columnas acordadas. Los campos `Nivel` y `Prioridad`
+permiten filtrar el alcance. El campo nativo `Status` se mantiene compatible con la vista inicial de
+GitHub (`Todo`, `In Progress`, `Done`).
+
 ## Convenciones
 
 - Cada unidad de trabajo tiene issue con nivel, fase, responsable y aceptación.
@@ -26,9 +33,8 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 
 ## Incidencias de entorno
 
-- 2026-09-03: Git y las operaciones de repositorio de GitHub CLI funcionan. El token carece del
-  alcance `read:project`, por lo que crear o conciliar el tablero requiere
-  `gh auth refresh -s read:project,project`.
+- 2026-09-03: se renovó la autorización de GitHub CLI con alcance `project`; se creó y vinculó el
+  Project #2 sin modificar el Project #1, que pertenece a otro repositorio.
 - 2026-09-02: Docker CLI está instalado, pero el daemon no permite conexión desde la sesión actual.
 - 2026-09-02: Power BI Desktop no se detectó en la ruta de instalación estándar.
 
@@ -37,8 +43,8 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - Trabajo de US2 local y remoto consolidado en `feat/essential-opportunity-analysis`.
 - Pull request [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) abierta
   contra `main` y enlazada con los issues #2 a #6. La PR borrador #1 fue cerrada por solapamiento.
-- `tasks.md` refleja 57 tareas terminadas y 53 pendientes; no se cierran tareas sin toda su
+- `tasks.md` refleja 67 tareas terminadas y 43 pendientes; no se cierran tareas sin toda su
   evidencia.
 - La suite acumulada aprobó 49 pruebas y Ruff terminó sin incidencias antes de publicar.
-- El tablero GitHub Projects es el único elemento remoto pendiente por alcance insuficiente del
-  token; los issues, la rama y la PR sí están sincronizados.
+- El tablero contiene los issues #2–#6 y la PR #7. Preparación, US1, US2 y la PR están en `Review`;
+  US3 y US4 permanecen en `Backlog`.
