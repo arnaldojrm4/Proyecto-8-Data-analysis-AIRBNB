@@ -4,6 +4,7 @@ import importlib
 from pathlib import Path
 
 import nbformat
+import pytest
 
 EXPECTED_ORDER = (
     "01_data_audit.ipynb",
@@ -30,6 +31,17 @@ def test_notebook_runner_uses_contract_order_and_separate_executions(
     assert tuple(source for source, _ in calls) == EXPECTED_ORDER
     assert tuple(path.name for path in outputs) == EXPECTED_ORDER
     assert len(calls) == 3
+
+
+def test_notebook_runner_rejects_a_missing_contract_notebook(
+    tmp_path: Path, monkeypatch
+) -> None:
+    notebooks = importlib.import_module("airbnb_supply_analysis.notebooks")
+    nbformat.write(nbformat.v4.new_notebook(cells=[]), tmp_path / "01_data_audit.ipynb")
+    monkeypatch.setattr(notebooks, "execute_notebook", lambda *args, **kwargs: None)
+
+    with pytest.raises(FileNotFoundError, match="02_etl.ipynb"):
+        notebooks.execute_notebooks(tmp_path, tmp_path / "executed")
 
 
 def test_each_notebook_execution_creates_a_fresh_client(tmp_path: Path, monkeypatch) -> None:
@@ -63,3 +75,18 @@ def test_notebook_sources_meet_markdown_and_conclusion_contract(project_root: Pa
     for filename in EXPECTED_ORDER:
         issues = notebooks.validate_notebook_narrative(project_root / "notebooks" / filename)
         assert issues == [], f"{filename}: {issues}"
+
+
+def test_notebook_narrative_reports_missing_required_blocks(tmp_path: Path) -> None:
+    notebooks = importlib.import_module("airbnb_supply_analysis.notebooks")
+    source = tmp_path / "incomplete.ipynb"
+    notebook = nbformat.v4.new_notebook(
+        cells=[nbformat.v4.new_markdown_cell("# Informe\n\n## tl;dr\n\nResumen.")]
+    )
+    nbformat.write(notebook, source)
+
+    issues = notebooks.validate_notebook_narrative(source)
+
+    assert "Falta el bloque Markdown de contexto y métodos." in issues
+    assert "Falta al menos una conclusión explícita." in issues
+    assert "Falta el cierre Markdown 'Takeaways'." in issues
