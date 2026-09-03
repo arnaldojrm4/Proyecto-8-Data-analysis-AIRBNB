@@ -121,8 +121,36 @@ def top_neighborhood_activity(frame: pd.DataFrame) -> Figure:
     return figure
 
 
+def association_effects(statistical: pd.DataFrame) -> Figure:
+    """Compara asociaciones estandarizadas por ciudad, nunca importes monetarios."""
+
+    associations = statistical.loc[statistical["method"].eq("spearman")].copy()
+    figure, axis = plt.subplots(figsize=(10, 5))
+    sns.barplot(
+        data=associations,
+        x="city_key",
+        y="estimate",
+        hue="metric",
+        palette={
+            "price_vs_activity": "#2F5D8A",
+            "minimum_nights_vs_activity": "#D99B2B",
+        },
+        ax=axis,
+    )
+    axis.axhline(0, color="#444444", linewidth=0.8)
+    axis.set_title("Asociaciones intra-ciudad con la actividad histórica")
+    axis.set_xlabel("Ciudad")
+    axis.set_ylabel("Coeficiente de Spearman")
+    axis.legend(title="Asociación")
+    figure.tight_layout()
+    return figure
+
+
 def save_core_figures(
-    listings: pd.DataFrame, segments: pd.DataFrame, destination: Path
+    listings: pd.DataFrame,
+    segments: pd.DataFrame,
+    destination: Path,
+    statistical: pd.DataFrame | None = None,
 ) -> list[dict[str, str]]:
     destination.mkdir(parents=True, exist_ok=True)
     artifacts: list[dict[str, str]] = []
@@ -131,6 +159,8 @@ def save_core_figures(
         "room_type_mix_by_city.png": room_type_mix_by_city(listings),
         "top_neighborhood_activity.png": top_neighborhood_activity(listings),
     }
+    if statistical is not None:
+        static_figures["association_effects.png"] = association_effects(statistical)
     for filename, figure in static_figures.items():
         path = destination / filename
         figure.savefig(path, dpi=150, bbox_inches="tight", facecolor="white")

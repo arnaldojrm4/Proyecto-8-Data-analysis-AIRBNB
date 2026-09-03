@@ -26,6 +26,7 @@ RESULT_COLUMNS = [
     "positive_sample_size",
     "estimate",
     "effect_type",
+    "median_difference",
     "ci_low",
     "ci_high",
     "p_value_raw",
@@ -67,6 +68,102 @@ def probability_ci(effect: float, n_first: int, n_second: int) -> tuple[float, f
     ) / (n_first * n_second)
     margin = 1.96 * sqrt(max(variance, 0.0))
     return max(0.0, effect - margin), min(1.0, effect + margin)
+
+
+def epsilon_squared(statistic: float, sample_size: int, group_count: int) -> float:
+    """Tamaño de efecto acotado para Kruskal-Wallis."""
+
+    if sample_size <= group_count:
+        return float("nan")
+    return float(np.clip((statistic - group_count + 1) / (sample_size - group_count), 0, 1))
+
+
+def bounded_effect_ci(effect: float, sample_size: int) -> tuple[float, float]:
+    """Intervalo normal aproximado para un efecto acotado en [0, 1]."""
+
+    if not np.isfinite(effect) or sample_size < 2:
+        return float("nan"), float("nan")
+    margin = 1.96 * sqrt(max(effect * (1 - effect) / sample_size, 0.0))
+    return max(0.0, effect - margin), min(1.0, effect + margin)
+
+
+def clustered_probability_ci(
+    first: pd.DataFrame,
+    second: pd.DataFrame,
+    *,
+    iterations: int = 500,
+    seed: int = 20260902,
+) -> tuple[float, float]:
+    """IC percentil remuestreando anfitriones, no anuncios individuales.
+
+    Cada anfitrión aporta la mediana de sus anuncios. El cálculo multinomial sobre los valores
+    únicos reproduce el bootstrap por conglomerados sin construir matrices de pares gigantes.
+    """
+
+    def host_values(frame: pd.DataFrame) -> np.ndarray:
+        usable = frame.dropna(subset=["activity_proxy"]).copy()
+        if usable.empty:
+            return np.array([], dtype=float)
+        if "host_id" not in usable or usable["host_id"].isna().all():
+            return usable["activity_proxy"].to_numpy(dtype=float)
+        return (
+            usable.groupby("host_id", observed=True)["activity_proxy"]
+            .median()
+            .to_numpy(dtype=float)
+        )
+
+    first_values = host_values(first)
+    second_values = host_values(second)
+    if len(first_values) < 2 or len(second_values) < 2 or iterations < 2:
+        return float("nan"), float("nan")
+    support = np.union1d(first_values, second_values)
+    first_unique, first_frequency = np.unique(first_values, return_counts=True)
+    second_unique, second_frequency = np.unique(second_values, return_counts=True)
+    first_counts = np.zeros(len(support), dtype=int)
+    second_counts = np.zeros(len(support), dtype=int)
+    first_counts[np.searchsorted(support, first_unique)] = first_frequency
+    second_counts[np.searchsorted(support, second_unique)] = second_frequency
+    rng = np.random.default_rng(seed)
+    first_boot = rng.multinomial(
+        len(first_values), first_counts / len(first_values), size=iterations
+    )
+    second_boot = rng.multinomial(
+        len(second_values), second_counts / len(second_values), size=iterations
+    )
+    second_less = np.cumsum(second_boot, axis=1) - second_boot
+    numerators = (first_boot * (second_less + 0.5 * second_boot)).sum(axis=1)
+    effects = numerators / (len(first_values) * len(second_values))
+    low, high = np.quantile(effects, [0.025, 0.975])
+    return float(low), float(high)
+
+
+FORBIDDEN_INFERENCE_TERMS = ("demanda", "liquidez", "ocupación", "margen")
+
+
+def validate_statistical_results(frame: pd.DataFrame) -> None:
+    """Falla si una salida inferencial carece de evidencia o usa términos no sustentados."""
+
+    required = (
+        "result_id",
+        "estimate",
+        "ci_low",
+        "ci_high",
+        "p_value_raw",
+        "p_value_adjusted",
+        "correction_method",
+        "assumption_status",
+        "interpretation_es",
+    )
+    missing_columns = [column for column in required if column not in frame]
+    if missing_columns:
+        raise ValueError(f"Columnas estadísticas ausentes: {', '.join(missing_columns)}")
+    for column in required:
+        if frame[column].isna().any():
+            raise ValueError(f"Evidencia estadística incompleta en {column}")
+    interpretations = frame["interpretation_es"].astype(str).str.lower()
+    used = [term for term in FORBIDDEN_INFERENCE_TERMS if interpretations.str.contains(term).any()]
+    if used:
+        raise ValueError(f"Terminología no sustentada: {', '.join(used)}")
 
 
 def _row(**values) -> dict[str, object]:
@@ -119,9 +216,15 @@ def room_type_tests(frame: pd.DataFrame, build_id: str) -> pd.DataFrame:
         if len(grouped) < 2:
             continue
         try:
-            statistic, pvalue = stats.kruskal(*grouped.values())
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", RuntimeWarning)
+                statistic, pvalue = stats.kruskal(*grouped.values())
         except ValueError:
             statistic, pvalue = 0.0, 1.0
+        if not np.isfinite(statistic) or not np.isfinite(pvalue):
+            statistic, pvalue = 0.0, 1.0
+        effect = epsilon_squared(float(statistic), len(city_frame), len(grouped))
+        effect_low, effect_high = bounded_effect_ci(effect, len(city_frame))
         rows.append(
             _row(
                 result_id=f"room_type:{city}:omnibus",
@@ -132,8 +235,10 @@ def room_type_tests(frame: pd.DataFrame, build_id: str) -> pd.DataFrame:
                 comparison="tipologías dentro de la ciudad",
                 method="kruskal_wallis",
                 sample_size=len(city_frame),
-                estimate=float(statistic),
-                effect_type="kruskal_h",
+                estimate=effect,
+                effect_type="epsilon_squared",
+                ci_low=effect_low,
+                ci_high=effect_high,
                 p_value_raw=float(pvalue),
                 correction_method="holm_across_cities",
                 interpretation_es=(
@@ -145,9 +250,12 @@ def room_type_tests(frame: pd.DataFrame, build_id: str) -> pd.DataFrame:
         ordered = sorted(grouped, key=lambda name: grouped[name].median(), reverse=True)
         for first_name, second_name in combinations(ordered, 2):
             first, second = grouped[first_name], grouped[second_name]
-            test = stats.mannwhitneyu(first, second, alternative="two-sided")
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", RuntimeWarning)
+                test = stats.mannwhitneyu(first, second, alternative="two-sided")
             effect = probability_superiority(first, second)
             low, high = probability_ci(effect, len(first), len(second))
+            pairwise_pvalue = float(test.pvalue) if np.isfinite(test.pvalue) else 1.0
             rows.append(
                 _row(
                     result_id=f"room_type:{city}:{first_name}:{second_name}",
@@ -162,7 +270,7 @@ def room_type_tests(frame: pd.DataFrame, build_id: str) -> pd.DataFrame:
                     effect_type="probability_superiority",
                     ci_low=low,
                     ci_high=high,
-                    p_value_raw=float(test.pvalue),
+                    p_value_raw=pairwise_pvalue,
                     correction_method="holm_pairwise_family",
                     interpretation_es=(
                         "Probabilidad de superioridad de actividad histórica; "
@@ -185,6 +293,7 @@ def segment_tests(
     build_id: str,
     minimum_n: int = 30,
     minimum_positive: int = 10,
+    bootstrap_iterations: int = 500,
 ) -> pd.DataFrame:
     usable = frame.dropna(subset=["activity_proxy", "city_key", "room_type", "neighborhood_key"])
     rows: list[dict[str, object]] = []
@@ -197,12 +306,19 @@ def segment_tests(
             reference_values = reference["activity_proxy"].astype(float)
             if len(reference_values) < minimum_n:
                 continue
-            test = stats.mannwhitneyu(values, reference_values, alternative="two-sided")
-            effect = probability_superiority(values, reference_values)
-            low, high = probability_ci(effect, len(values), len(reference_values))
             segment_hosts = segment.groupby("host_id", observed=True)["activity_proxy"].median()
             reference_hosts = reference.groupby("host_id", observed=True)["activity_proxy"].median()
+            test = stats.mannwhitneyu(segment_hosts, reference_hosts, alternative="two-sided")
+            listing_effect = probability_superiority(values, reference_values)
             host_effect = probability_superiority(segment_hosts, reference_hosts)
+            effect = host_effect
+            seed = int(sum(ord(character) for character in f"{city}:{neighborhood}:{room_type}"))
+            low, high = clustered_probability_ci(
+                segment,
+                reference,
+                iterations=bootstrap_iterations,
+                seed=seed,
+            )
             complete_segment = segment.loc[
                 ~segment.get(
                     "activity_proxy_derived_zero",
@@ -222,7 +338,7 @@ def segment_tests(
             winsor_effect = probability_superiority(
                 values.clip(lower, upper), reference_values.clip(lower, upper)
             )
-            sensitivity_effects = [effect, host_effect, complete_effect, winsor_effect]
+            sensitivity_effects = [listing_effect, host_effect, complete_effect, winsor_effect]
             robust = len(values) >= max(minimum_n, 50) and all(
                 np.isfinite(candidate) and candidate >= 0.56
                 for candidate in sensitivity_effects
@@ -242,15 +358,16 @@ def segment_tests(
                     positive_sample_size=int(values.gt(0).sum()),
                     estimate=effect,
                     effect_type="probability_superiority",
+                    median_difference=float(values.median() - reference_values.median()),
                     ci_low=low,
                     ci_high=high,
                     p_value_raw=float(test.pvalue),
                     correction_method="benjamini_hochberg_within_city",
-                    assumption_status="caution",
+                    assumption_status="pass" if np.isfinite([low, high]).all() else "caution",
                     sensitivity_status="robust" if robust else "fragile",
                     interpretation_es=(
                         "Actividad histórica del segmento frente al resto de la misma ciudad y "
-                        "tipología; asociación no causal."
+                        "tipología, con anfitrión como unidad inferencial; asociación no causal."
                     ),
                 )
             )
@@ -404,13 +521,17 @@ def two_part_summary(frame: pd.DataFrame, build_id: str) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=RESULT_COLUMNS)
 
 
-def run_statistical_analysis(frame: pd.DataFrame, build_id: str) -> pd.DataFrame:
+def run_statistical_analysis(
+    frame: pd.DataFrame, build_id: str, *, bootstrap_iterations: int = 500
+) -> pd.DataFrame:
     parts = [
         room_type_tests(frame, build_id),
-        segment_tests(frame, build_id),
+        segment_tests(frame, build_id, bootstrap_iterations=bootstrap_iterations),
         association_tests(frame, build_id),
         two_part_summary(frame, build_id),
     ]
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", FutureWarning)
-        return pd.concat(parts, ignore_index=True)[RESULT_COLUMNS]
+        result = pd.concat(parts, ignore_index=True)[RESULT_COLUMNS]
+    validate_statistical_results(result)
+    return result
