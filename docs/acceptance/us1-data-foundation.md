@@ -38,7 +38,10 @@ La conciliación y los hashes demuestran integridad del procesamiento, no proced
 actualidad, representatividad ni exactitud de lo declarado en los anuncios. Moneda, licencia y fecha
 de extracción siguen registradas como desconocidas.
 
-## Trazabilidad externa pendiente
+## Trazabilidad externa
 
-El enlace a issue/PR y el movimiento a `Done` no pueden completarse hasta renovar la autenticación
-de GitHub CLI; por ello la tarea de rama remota T025 permanece abierta.
+La evidencia está enlazada al issue
+[#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) y a la pull request
+[#1](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/1). La tarea T025 permanece
+abierta porque el trabajo se consolidó en `feat/essential-foundation`, no en la rama prevista, y el
+movimiento a `Done` depende de la revisión, integración y conciliación del tablero.

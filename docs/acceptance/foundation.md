@@ -13,6 +13,8 @@
 
 ## Estado externo
 
-La infraestructura local y los contratos base están disponibles. La creación del issue y del
-tablero remoto continúa pendiente porque la credencial de GitHub CLI está caducada. Esta dependencia
+La infraestructura local y los contratos base están disponibles. La rama remota, el issue
+[#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) y la pull request
+[#1](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/1) están publicados. El
+tablero remoto continúa pendiente porque el token no dispone del alcance `project`; esta dependencia
 permanece visible en `docs/project-management.md` y T001 no se cierra.
