@@ -10,6 +10,8 @@ __pycache__/
 htmlcov/
 .ipynb_checkpoints/
 .ipython/
+.jupyter-config/
+.jupyter-runtime/
 .env
 .env.*
 .DS_Store

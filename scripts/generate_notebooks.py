@@ -253,6 +253,7 @@ def executive_eda_notebook() -> None:
             from IPython.display import display
             from airbnb_supply_analysis.visualization import (
                 activity_by_room_type,
+                association_effects,
                 opportunity_scatter,
             )
 
@@ -305,6 +306,7 @@ def executive_eda_notebook() -> None:
             ]
             display(room_tests)
             display(associations)
+            association_effects(results)
             """
         ),
         markdown(
@@ -339,9 +341,8 @@ def executive_eda_notebook() -> None:
             """
             **Conclusión.** El primer foco por escala es Justicia-habitación privada en Madrid,
             CENTRALE-alojamiento completo en Milán, Bedford-Stuyvesant-alojamiento completo en Nueva
-            York, Leichhardt-habitación privada en Sídney y Shinjuku Ku-habitación compartida en
-            Tokio. Londres queda sin candidato robusto; no se rebajan reglas para forzar un top
-            tres.
+            York, Leichhardt-habitación privada en Sídney y Nakano Ku-habitación privada en Tokio.
+            Londres queda sin candidato robusto; no se rebajan reglas para forzar un top tres.
             """
         ),
         markdown("### 5. Explorar actividad relativa frente a cuota local"),
