@@ -158,7 +158,7 @@
 
 ### Implementación para US3
 
-- [ ] T075 [US3] Completar ejecución ordenada y aislada de los tres notebooks y validar sus bloques narrativos en `src/airbnb_supply_analysis/notebooks.py`
+- [X] T075 [US3] Completar ejecución ordenada y aislada de los tres notebooks y validar sus bloques narrativos en `src/airbnb_supply_analysis/notebooks.py`
 - [ ] T076 [US3] Completar `test --suite unit|contract|integration|all` con resumen de aprobadas/fallidas/omitidas en `src/airbnb_supply_analysis/cli.py`
 - [ ] T077 [US3] Completar `notebooks` con kernel fresco, salidas en `artifacts/executed_notebooks/` y código de salida 7 ante incumplimiento en `src/airbnb_supply_analysis/cli.py`
 - [ ] T078 [US3] Completar `validate` para esquemas, hashes, conciliación, terminología, privacidad y evidencia de notebooks en `src/airbnb_supply_analysis/cli.py`

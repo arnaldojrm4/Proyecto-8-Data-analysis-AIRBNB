@@ -43,9 +43,9 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - Trabajo de US2 local y remoto consolidado en `feat/essential-opportunity-analysis`.
 - Pull request [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) abierta
   contra `main` y enlazada con los issues #2 a #6. La PR borrador #1 fue cerrada por solapamiento.
-- `tasks.md` refleja T070–T074 como contratos terminados; no se cierran tareas de implementación sin
+- `tasks.md` refleja T070–T075 como contratos terminados; no se cierran tareas de implementación sin
   toda su evidencia.
 - La suite acumulada aprobó 49 pruebas y Ruff terminó sin incidencias antes de publicar.
 - El tablero contiene los issues #2–#6 y la PR #7. Preparación, US1, US2 y la PR están en `Review`;
-  El bloque contractual T070–T074 de US3 está en `Review` mediante la PR #8; la historia US3 sigue
+  El bloque contractual y de notebooks T070–T075 de US3 está en `Review` mediante la PR #8; la historia US3 sigue
   abierta y US4 permanece en `Backlog` hasta cerrar el Nivel Esencial.
