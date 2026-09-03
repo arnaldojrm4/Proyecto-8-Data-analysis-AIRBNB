@@ -159,10 +159,10 @@
 ### Implementación para US3
 
 - [X] T075 [US3] Completar ejecución ordenada y aislada de los tres notebooks y validar sus bloques narrativos en `src/airbnb_supply_analysis/notebooks.py`
-- [ ] T076 [US3] Completar `test --suite unit|contract|integration|all` con resumen de aprobadas/fallidas/omitidas en `src/airbnb_supply_analysis/cli.py`
-- [ ] T077 [US3] Completar `notebooks` con kernel fresco, salidas en `artifacts/executed_notebooks/` y código de salida 7 ante incumplimiento en `src/airbnb_supply_analysis/cli.py`
-- [ ] T078 [US3] Completar `validate` para esquemas, hashes, conciliación, terminología, privacidad y evidencia de notebooks en `src/airbnb_supply_analysis/cli.py`
-- [ ] T079 [US3] Completar `all` con el orden contractual, idempotencia y conservación del último build aceptado en `src/airbnb_supply_analysis/cli.py`
+- [X] T076 [US3] Completar `test --suite unit|contract|integration|all` con resumen de aprobadas/fallidas/omitidas en `src/airbnb_supply_analysis/cli.py`
+- [X] T077 [US3] Completar `notebooks` con kernel fresco, salidas en `artifacts/executed_notebooks/` y código de salida 7 ante incumplimiento en `src/airbnb_supply_analysis/cli.py`
+- [X] T078 [US3] Completar `validate` para esquemas, hashes, conciliación, terminología, privacidad y evidencia de notebooks en `src/airbnb_supply_analysis/cli.py`
+- [X] T079 [US3] Completar `all` con el orden contractual, idempotencia y conservación del último build aceptado en `src/airbnb_supply_analysis/cli.py`
 - [ ] T080 [P] [US3] Completar instalación, comandos host/Docker, estructura, pruebas, resultados, límites y reproducción paso a paso en `README.md`
 - [ ] T081 [P] [US3] Actualizar y ejecutar desde cero la guía canónica de reproducción, dejando todos los pasos libres de rutas personales, en `specs/001-supply-opportunity-analysis/quickstart.md`
 - [ ] T082 [US3] Verificar el flujo completo con límites 2 vCPU/4 GB y documentar versión de Docker, comandos, duración y salidas en `docs/acceptance/docker-reproduction.md`

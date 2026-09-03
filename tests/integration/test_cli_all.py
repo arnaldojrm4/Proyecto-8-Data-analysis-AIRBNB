@@ -46,15 +46,12 @@ def test_all_runs_stages_in_contract_order_and_is_idempotent(
     cli = importlib.import_module("airbnb_supply_analysis.cli")
     calls: list[str] = []
 
-    def stage(name: str):
-        def run(args):
-            calls.append(name)
-            return {"command": name, "status": "success", "artifact_paths": []}
+    def successful_stage(name: str, args):
+        del args
+        calls.append(name)
+        return {"command": name, "status": "success", "artifact_paths": []}
 
-        return run
-
-    for name in STAGE_ORDER:
-        monkeypatch.setattr(cli, f"_{name}", stage(name), raising=False)
+    monkeypatch.setattr(cli, "_run_stage", successful_stage)
 
     first_code = cli.main(_arguments(tmp_path))
     first_payload = json.loads(capsys.readouterr().out.strip().splitlines()[-1])
@@ -77,23 +74,16 @@ def test_all_fails_closed_and_removes_partial_staging(
     accepted.write_text("stable", encoding="utf-8")
     calls: list[str] = []
 
-    def successful(name: str):
-        def run(args):
-            calls.append(name)
+    def staged_runner(name: str, args):
+        calls.append(name)
+        if name != "analyze":
             return {"command": name, "status": "success", "artifact_paths": []}
-
-        return run
-
-    def failed_analysis(args):
-        calls.append("analyze")
         partial = Path(args.processed_dir) / "partial.parquet"
         partial.parent.mkdir(parents=True, exist_ok=True)
         partial.write_text("partial", encoding="utf-8")
-        raise ValueError("fallo estadístico deliberado")
+        raise cli.PipelineCommandError("fallo estadístico deliberado", 5)
 
-    for name in STAGE_ORDER:
-        monkeypatch.setattr(cli, f"_{name}", successful(name), raising=False)
-    monkeypatch.setattr(cli, "_analyze", failed_analysis)
+    monkeypatch.setattr(cli, "_run_stage", staged_runner)
 
     exit_code = cli.main(_arguments(tmp_path))
     payload = json.loads(capsys.readouterr().out.strip().splitlines()[-1])
@@ -103,3 +93,29 @@ def test_all_fails_closed_and_removes_partial_staging(
     assert calls == ["inventory", "audit", "build", "analyze"]
     assert accepted.read_text(encoding="utf-8") == "stable"
     assert not (processed / "partial.parquet").exists()
+
+
+def test_staged_figure_manifest_does_not_publish_temporary_paths(tmp_path: Path) -> None:
+    cli = importlib.import_module("airbnb_supply_analysis.cli")
+    manifest = tmp_path / "artifacts" / "figures" / "manifest.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        json.dumps(
+            {
+                "artifacts": [
+                    {
+                        "path": (
+                            "C:/Users/Arnal/AppData/Local/Temp/build/artifacts/figures/chart.png"
+                        ),
+                        "type": "png",
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    cli.normalize_staged_figure_manifest(manifest)
+
+    payload = json.loads(manifest.read_text(encoding="utf-8"))
+    assert payload["artifacts"][0]["path"] == "artifacts/figures/chart.png"

@@ -2,9 +2,9 @@
 
 ## Alcance
 
-Este bloque cubre T070–T075: gobernanza de la rama, definición ejecutable de los contratos de
-reproducibilidad e implementación de la ejecución y validación narrativa de notebooks. La
-orquestación de CLI y la validación documental integral siguen correspondiendo a T076–T079.
+Este bloque cubre T070–T079: gobernanza de la rama, contratos ejecutables, notebooks, orquestación
+CLI, validación y publicación transaccional. US3 todavía requiere las tareas de documentación y
+aceptación T080–T085 para cerrar el Nivel Esencial.
 
 ## Contratos añadidos
 
@@ -38,11 +38,20 @@ orden contractual, kernel nuevo por ejecución, ausencia de notebook contractual
 de título, `tl;dr`, contexto y métodos, conclusiones y `Takeaways`. El presupuesto del flujo completo
 solo podrá evaluarse cuando `all` deje de responder `not_implemented`.
 
+Tras implementar T076–T079, la CLI ejecuta suites seleccionadas, notebooks, validación documental y
+de artefactos, y el orden completo en un directorio temporal. Se adelantó, con autorización, una
+exportación CSV mínima y segura de las ocho tablas para que el flujo pueda validar y publicar el build
+sin iniciar el dashboard de US4. Para cumplir el RSS máximo, cada etapa pesada de `all` se ejecuta en
+un proceso aislado; la etapa `test` se ejecuta desde el coordinador para no añadir un proceso Python
+intermedio durante pytest.
+
+Evidencia final: Ruff aprobado y **64 pruebas aprobadas** en 7 min 19 s. El contrato de rendimiento
+aprobó en **4 min 38 s**: ETL ≤60 s, flujo completo ≤5 min y RSS pico ≤2 GB.
+
 La regresión previa a este bloque se verificó de forma separada: **49 pruebas aprobadas** y Ruff sin
 incidencias. Ruff también aprobó los cuatro archivos contractuales nuevos.
 
 ## Criterio de interpretación
 
-Los fallos restantes son la línea base roja de TDD para T076–T079, no una aceptación funcional de
-US3. T070–T075 quedan completas; US3 permanecerá abierta hasta implementar y poner en verde
-T076–T085.
+T070–T079 quedan completas y la suite está en verde. US3 permanece abierta hasta completar la
+documentación, reproducción Docker, mediciones, conciliación de gobernanza y aceptación T080–T085.
