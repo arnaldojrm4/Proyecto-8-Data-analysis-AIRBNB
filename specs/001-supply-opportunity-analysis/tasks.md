@@ -150,7 +150,7 @@
 
 ### Pruebas para US3 — escribir primero y comprobar el fallo esperado
 
-- [ ] T070 [US3] Crear la rama `feat/essential-reproducibility` desde US2 aceptada y registrar issue, rama y PR de US3 en `docs/project-management.md`
+- [X] T070 [US3] Crear la rama `feat/essential-reproducibility` desde US2 aceptada y registrar issue, rama y PR de US3 en `docs/project-management.md`
 - [X] T071 [P] [US3] Escribir pruebas NBClient de ejecución en kernels frescos, orden y contrato de bloques Markdown/conclusión en `tests/integration/test_notebooks.py`
 - [X] T072 [P] [US3] Escribir la prueba de integración del orden, idempotencia, fallo cerrado y no publicación parcial del comando `all` en `tests/integration/test_cli_all.py`
 - [X] T073 [P] [US3] Escribir pruebas de documentación, español visible, términos prohibidos, enlaces locales y ausencia de PII en `tests/contract/test_documentation.py`
