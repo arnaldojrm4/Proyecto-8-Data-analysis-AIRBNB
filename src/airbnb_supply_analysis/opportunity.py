@@ -95,7 +95,9 @@ def build_opportunity_matrix(
             ),
             "effect_ci_low": evidence_row["ci_low"] if evidence_row is not None else np.nan,
             "effect_ci_high": evidence_row["ci_high"] if evidence_row is not None else np.nan,
-            "median_difference": np.nan,
+            "median_difference": (
+                evidence_row["median_difference"] if evidence_row is not None else np.nan
+            ),
             "p_value_raw": evidence_row["p_value_raw"] if evidence_row is not None else np.nan,
             "q_value": evidence_row["p_value_adjusted"] if evidence_row is not None else np.nan,
             "sensitivity_status": evidence_row["sensitivity_status"]

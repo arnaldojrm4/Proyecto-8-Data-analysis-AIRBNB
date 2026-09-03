@@ -11,8 +11,10 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
+import pandas as pd
+
 from airbnb_supply_analysis import __version__
-from airbnb_supply_analysis.config import SCHEMA_VERSION
+from airbnb_supply_analysis.config import SCHEMA_VERSION, load_yaml
 from airbnb_supply_analysis.etl import build_canonical
 from airbnb_supply_analysis.exports import write_parquet
 from airbnb_supply_analysis.io import (
@@ -23,7 +25,10 @@ from airbnb_supply_analysis.io import (
 )
 from airbnb_supply_analysis.opportunity import build_opportunity_matrix
 from airbnb_supply_analysis.quality import profile_sources
-from airbnb_supply_analysis.statistics import run_statistical_analysis
+from airbnb_supply_analysis.statistics import (
+    run_statistical_analysis,
+    validate_statistical_results,
+)
 from airbnb_supply_analysis.visualization import save_core_figures
 
 COMMANDS = (
@@ -220,16 +225,28 @@ def _analyze(args: argparse.Namespace) -> dict[str, Any]:
     listings_path = paths.processed / "listings.parquet"
     if not listings_path.exists():
         raise ValueError("Falta data/processed/listings.parquet; ejecute build antes de analyze")
-    listings = __import__("pandas").read_parquet(listings_path)
+    listings = pd.read_parquet(listings_path)
     build_id = args.build_id or _build_id(paths.manifest, paths.config)
-    statistical = run_statistical_analysis(listings, build_id)
+    configuration = load_yaml(paths.config)
+    bootstrap_iterations = int(
+        configuration.get("sensitivity", {}).get("bootstrap_iterations", 500)
+    )
+    statistical = run_statistical_analysis(
+        listings, build_id, bootstrap_iterations=bootstrap_iterations
+    )
+    validate_statistical_results(statistical)
     segment_results = statistical.loc[statistical["analysis_family"].eq("segment")]
     opportunities = build_opportunity_matrix(listings, segment_results, build_id)
     statistical_path = paths.processed / "statistical_results.parquet"
     opportunity_path = paths.processed / "opportunity_segments.parquet"
     write_parquet(statistical, statistical_path, ["result_id"])
     write_parquet(opportunities, opportunity_path, ["segment_key"])
-    figures = save_core_figures(listings, opportunities, paths.artifacts / "figures")
+    figures = save_core_figures(
+        listings,
+        opportunities,
+        paths.artifacts / "figures",
+        statistical=statistical,
+    )
     figure_manifest = paths.artifacts / "figures/manifest.json"
     atomic_write_json({"build_id": build_id, "artifacts": figures}, figure_manifest)
     summary_path = paths.artifacts / "quality/analysis-summary.json"
@@ -281,7 +298,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         payload = _summary(args.command, "failed", error_count=1)
         payload["error"] = str(error)
         print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
-        return 3 if args.command == "inventory" else 4
+        if args.command == "inventory":
+            return 3
+        if args.command == "analyze":
+            return 5
+        return 4
     print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
     return 0
 
