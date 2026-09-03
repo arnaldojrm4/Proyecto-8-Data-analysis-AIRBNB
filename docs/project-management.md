@@ -43,11 +43,13 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - Trabajo de US2 local y remoto consolidado en `feat/essential-opportunity-analysis`.
 - Pull request [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) abierta
   contra `main` y enlazada con los issues #2 a #6. La PR borrador #1 fue cerrada por solapamiento.
-- `tasks.md` refleja T070–T079 como contratos e implementación terminados; no se cierran tareas de
-  documentación y aceptación sin
-  toda su evidencia.
+- `tasks.md` refleja T070–T081 y T083–T084 como terminadas; no se cierran T082 ni T085 sin toda su
+  evidencia.
 - La suite acumulada aprobó 64 pruebas y Ruff terminó sin incidencias. El flujo completo aprobó el
   contrato de 5 minutos y 2 GB de RSS mediante aislamiento de etapas.
+- T080, T081, T083 y T084 están documentadas y verificadas. T082 permanece bloqueada: Docker CLI no
+  accede al daemon ni a su configuración en esta sesión. T085 no puede cerrar el Nivel Esencial hasta
+  resolver T082 y revisar e integrar las PR #7 y #8.
 - El tablero contiene los issues #2–#6 y la PR #7. Preparación, US1, US2 y la PR están en `Review`;
   El bloque T070–T079 de US3 está en `Review` mediante la PR #8; la historia US3 sigue abierta y US4
   permanece en `Backlog` hasta cerrar el Nivel Esencial.
