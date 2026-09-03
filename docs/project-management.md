@@ -25,7 +25,7 @@ GitHub (`Todo`, `In Progress`, `Done`).
 | Esencial | Preparación y fundamentos | [#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) | `feat/essential-foundation` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
 | Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
 | Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
-| Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | Pendiente | Backlog |
+| Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) | Review |
 | Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | Pendiente | Backlog |
 
 ¹ US1 se construyó en la rama autorizada `feat/essential-foundation`; sus commits son la base de la
@@ -43,8 +43,9 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - Trabajo de US2 local y remoto consolidado en `feat/essential-opportunity-analysis`.
 - Pull request [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) abierta
   contra `main` y enlazada con los issues #2 a #6. La PR borrador #1 fue cerrada por solapamiento.
-- `tasks.md` refleja 67 tareas terminadas y 43 pendientes; no se cierran tareas sin toda su
-  evidencia.
+- `tasks.md` refleja T070–T074 como contratos terminados; no se cierran tareas de implementación sin
+  toda su evidencia.
 - La suite acumulada aprobó 49 pruebas y Ruff terminó sin incidencias antes de publicar.
 - El tablero contiene los issues #2–#6 y la PR #7. Preparación, US1, US2 y la PR están en `Review`;
-  US3 y US4 permanecen en `Backlog`.
+  El bloque contractual T070–T074 de US3 está en `Review` mediante la PR #8; la historia US3 sigue
+  abierta y US4 permanece en `Backlog` hasta cerrar el Nivel Esencial.
