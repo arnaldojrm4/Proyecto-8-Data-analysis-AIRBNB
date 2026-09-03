@@ -111,18 +111,18 @@
 
 ### Pruebas para US2 — escribir primero y comprobar el fallo esperado
 
-- [ ] T047 [US2] Crear la rama `feat/essential-opportunity-analysis` desde US1 aceptada y registrar issue, rama y PR de US2 en `docs/project-management.md`
-- [ ] T048 [P] [US2] Escribir pruebas de Kruskal-Wallis por ciudad, comparaciones posteriores, corrección Holm, efecto e IC 95 % con empates y muestras degeneradas en `tests/unit/test_room_type_statistics.py`
-- [ ] T049 [P] [US2] Escribir pruebas de segmento frente al resto de la misma ciudad/tipología, corrección Benjamini-Hochberg por ciudad y agrupación por host en `tests/unit/test_segment_statistics.py`
-- [ ] T050 [P] [US2] Escribir pruebas de Spearman intra-ciudad para precio/estancia mínima, sus 12 correcciones y casos con datos insuficientes en `tests/unit/test_correlations.py`
+- [X] T047 [US2] Crear la rama `feat/essential-opportunity-analysis` desde US1 aceptada y registrar issue, rama y PR de US2 en `docs/project-management.md`
+- [X] T048 [P] [US2] Escribir pruebas de Kruskal-Wallis por ciudad, comparaciones posteriores, corrección Holm, efecto e IC 95 % con empates y muestras degeneradas en `tests/unit/test_room_type_statistics.py`
+- [X] T049 [P] [US2] Escribir pruebas de segmento frente al resto de la misma ciudad/tipología, corrección Benjamini-Hochberg por ciudad y agrupación por host en `tests/unit/test_segment_statistics.py`
+- [X] T050 [P] [US2] Escribir pruebas de Spearman intra-ciudad para precio/estancia mínima, sus 12 correcciones y casos con datos insuficientes en `tests/unit/test_correlations.py`
 - [X] T051 [P] [US2] Escribir pruebas del modelo ajustado en dos partes, intervalos, diagnósticos y variantes de sensibilidad en `tests/unit/test_sensitivity_models.py`
 - [X] T052 [P] [US2] Escribir pruebas de elegibilidad (`n>=30`, positivos `>=10`) y de `candidate` (`probability_superiority>=0.56`, `q<0.05`, IC 95 % excluye ausencia de diferencia, sensibilidades robustas y cuota de tipología del barrio inferior a la ciudad), además de `consolidated`, `watch` e `insufficient_evidence`, sin puntuación opaca, en `tests/unit/test_opportunity.py`
-- [ ] T053 [P] [US2] Escribir pruebas de títulos/leyendas seguros, ausencia de PII, comparaciones monetarias solo intra-ciudad y exportación de Plotly autocontenida en `tests/unit/test_visualization.py`
+- [X] T053 [P] [US2] Escribir pruebas de títulos/leyendas seguros, ausencia de PII, comparaciones monetarias solo intra-ciudad y exportación de Plotly autocontenida en `tests/unit/test_visualization.py`
 - [X] T054 [US2] Escribir la prueba de integración que reconcilia resultados estadísticos, matriz de oportunidad y figuras con el dataset canónico en `tests/integration/test_full_analysis.py`
 
 ### Implementación para US2
 
-- [ ] T055 [US2] Implementar utilidades comunes de remuestreo agrupado por host, probabilidad de superioridad, IC 95 %, tamaños de efecto, diagnósticos y multiplicidad en `src/airbnb_supply_analysis/statistics.py`
+- [X] T055 [US2] Implementar utilidades comunes de remuestreo agrupado por host, probabilidad de superioridad, IC 95 %, tamaños de efecto, diagnósticos y multiplicidad en `src/airbnb_supply_analysis/statistics.py`
 - [X] T056 [US2] Implementar Kruskal-Wallis y comparaciones post hoc de actividad por `room_type` dentro de cada ciudad con corrección Holm en `src/airbnb_supply_analysis/statistics.py`
 - [X] T057 [US2] Implementar comparaciones de cada barrio-tipología contra el resto equivalente de su ciudad con Benjamini-Hochberg en `src/airbnb_supply_analysis/statistics.py`
 - [X] T058 [US2] Implementar correlaciones Spearman intra-ciudad de actividad con precio publicado y noches mínimas, sin interpretarlas causalmente, en `src/airbnb_supply_analysis/statistics.py`
@@ -131,12 +131,12 @@
 - [X] T061 [US2] Implementar la matriz por ciudad+barrio+tipología y sus etiquetas transparentes usando todos los criterios bloqueados en `src/airbnb_supply_analysis/opportunity.py`
 - [X] T062 [P] [US2] Implementar gráficos Matplotlib/Seaborn y Plotly para distribución, outliers, segmentación, efectos, correlaciones y oportunidades en `src/airbnb_supply_analysis/visualization.py`
 - [X] T063 [US2] Publicar `statistical_results.parquet`, `opportunity_segments.parquet` y el resumen analítico con esquema/metadatos estables en `src/airbnb_supply_analysis/exports.py`
-- [ ] T064 [US2] Completar `analyze` con prerrequisitos, familias de pruebas, sensibilidades, guardas terminológicas y códigos de salida contractuales en `src/airbnb_supply_analysis/cli.py`
+- [X] T064 [US2] Completar `analyze` con prerrequisitos, familias de pruebas, sensibilidades, guardas terminológicas y códigos de salida contractuales en `src/airbnb_supply_analysis/cli.py`
 - [X] T065 [US2] Crear el notebook ejecutivo completo, con EDA uni/bivariada, segmentación, outliers, estadística, gráficos interactivos y cierre de evidencia/limitaciones/decisión en `notebooks/03_executive_eda.ipynb`
 - [X] T066 [US2] Generar y versionar el índice reproducible de figuras estáticas e interactivas en `artifacts/figures/manifest.json`
-- [ ] T067 [P] [US2] Redactar hallazgos provisionales y recomendaciones de captación, citando métricas y evitando demanda, liquidez, ocupación, margen, actualidad o causalidad, en `docs/analysis/executive-findings.md`
-- [ ] T068 [US2] Validar automáticamente que toda conclusión inferencial tenga prueba/efecto/IC/corrección y documentar el resultado en `docs/acceptance/statistical-rigor.md`
-- [ ] T069 [US2] Ejecutar la prueba independiente de US2, enlazar evidencias al issue/PR y registrar segmentos seleccionados y cautelas en `docs/acceptance/us2-opportunity-analysis.md`
+- [X] T067 [P] [US2] Redactar hallazgos provisionales y recomendaciones de captación, citando métricas y evitando demanda, liquidez, ocupación, margen, actualidad o causalidad, en `docs/analysis/executive-findings.md`
+- [X] T068 [US2] Validar automáticamente que toda conclusión inferencial tenga prueba/efecto/IC/corrección y documentar el resultado en `docs/acceptance/statistical-rigor.md`
+- [X] T069 [US2] Ejecutar la prueba independiente de US2, enlazar evidencias al issue/PR y registrar segmentos seleccionados y cautelas en `docs/acceptance/us2-opportunity-analysis.md`
 
 **Punto de control**: US2 responde la decisión principal con evidencia estadística y sin sobreinterpretar las fuentes.
 

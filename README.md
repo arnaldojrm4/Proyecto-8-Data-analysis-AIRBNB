@@ -30,5 +30,8 @@ forman parte del compromiso actual.
 - [Tareas](specs/001-supply-opportunity-analysis/tasks.md)
 - [Guía reproducible](specs/001-supply-opportunity-analysis/quickstart.md)
 - [Gestión y trazabilidad](docs/project-management.md)
+- [Hallazgos ejecutivos US2](docs/analysis/executive-findings.md)
+- [Guía de estudio](docs/study-guide.md)
+- [Próximos bloques de trabajo](docs/next-work-blocks.md)
 
 Los comandos ejecutables se documentarán al cerrar la infraestructura y el flujo Esencial.

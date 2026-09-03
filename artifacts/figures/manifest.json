@@ -13,6 +13,10 @@
       "type": "png"
     },
     {
+      "path": "artifacts/figures/association_effects.png",
+      "type": "png"
+    },
+    {
       "path": "artifacts/figures/opportunity_scatter.html",
       "type": "html"
     }
