@@ -3,7 +3,7 @@
 **Fecha**: 2026-09-03  
 **Build**: `FDAAB53F8317CAD7`  
 **Issue**: [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4)  
-**PR**: [#1](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/1)
+**PR**: [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7)
 
 ## Prueba independiente
 

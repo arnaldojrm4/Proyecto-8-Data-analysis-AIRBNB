@@ -15,14 +15,14 @@ orden, `Backlog`, `Ready`, `In Progress`, `Review` y `Done`.
 
 | Nivel | Fase | Issue | Rama | PR | Estado |
 |---|---|---|---|---|---|
-| Esencial | Preparación y fundamentos | [#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) | `feat/essential-foundation` | [#1](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/1) | Review |
-| Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#1](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/1) | Review |
-| Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-foundation`¹ | [#1](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/1) | In Progress |
+| Esencial | Preparación y fundamentos | [#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) | `feat/essential-foundation` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
+| Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
+| Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
 | Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | Pendiente | Backlog |
 | Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | Pendiente | Backlog |
 
-¹ US1 y la parte implementada de US2 se consolidaron en la rama autorizada
-`feat/essential-foundation`; se conserva la desviación para no fingir ramas retrospectivas.
+¹ US1 se construyó en la rama autorizada `feat/essential-foundation`; sus commits son la base de la
+rama específica de US2. Se conserva la desviación para no fingir una rama retrospectiva.
 
 ## Incidencias de entorno
 
@@ -34,11 +34,11 @@ orden, `Backlog`, `Ready`, `In Progress`, `Review` y `Done`.
 
 ## Estado de sincronización (2026-09-03)
 
-- Trabajo local y remoto consolidado en `feat/essential-foundation`.
-- Pull request borrador [#1](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/1)
-  abierta y enlazada con los issues #2 a #6.
+- Trabajo de US2 local y remoto consolidado en `feat/essential-opportunity-analysis`.
+- Pull request [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) abierta
+  contra `main` y enlazada con los issues #2 a #6. La PR borrador #1 fue cerrada por solapamiento.
 - `tasks.md` refleja 57 tareas terminadas y 53 pendientes; no se cierran tareas sin toda su
   evidencia.
-- La suite acumulada aprobó 36 pruebas y Ruff terminó sin incidencias antes de publicar.
+- La suite acumulada aprobó 49 pruebas y Ruff terminó sin incidencias antes de publicar.
 - El tablero GitHub Projects es el único elemento remoto pendiente por alcance insuficiente del
   token; los issues, la rama y la PR sí están sincronizados.
