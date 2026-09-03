@@ -16,5 +16,6 @@
 La infraestructura local y los contratos base están disponibles. La rama remota, el issue
 [#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) y la pull request
 [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) están publicados. El
-tablero remoto continúa pendiente porque el token no dispone del alcance `project`; esta dependencia
-permanece visible en `docs/project-management.md` y T001 no se cierra.
+[Project #2](https://github.com/users/arnaldojrm4/projects/2) está vinculado al repositorio y refleja
+el estado de las fases. T001 permanece abierta únicamente porque la rama ejecutada no coincide con
+el nombre histórico previsto por esa tarea.
