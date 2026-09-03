@@ -151,10 +151,10 @@
 ### Pruebas para US3 — escribir primero y comprobar el fallo esperado
 
 - [ ] T070 [US3] Crear la rama `feat/essential-reproducibility` desde US2 aceptada y registrar issue, rama y PR de US3 en `docs/project-management.md`
-- [ ] T071 [P] [US3] Escribir pruebas NBClient de ejecución en kernels frescos, orden y contrato de bloques Markdown/conclusión en `tests/integration/test_notebooks.py`
-- [ ] T072 [P] [US3] Escribir la prueba de integración del orden, idempotencia, fallo cerrado y no publicación parcial del comando `all` en `tests/integration/test_cli_all.py`
-- [ ] T073 [P] [US3] Escribir pruebas de documentación, español visible, términos prohibidos, enlaces locales y ausencia de PII en `tests/contract/test_documentation.py`
-- [ ] T074 [P] [US3] Escribir la prueba full-data de presupuestos ETL ≤60 s, flujo completo ≤5 min y RSS pico ≤2 GB en 2 vCPU/4 GB en `tests/integration/test_performance.py`
+- [X] T071 [P] [US3] Escribir pruebas NBClient de ejecución en kernels frescos, orden y contrato de bloques Markdown/conclusión en `tests/integration/test_notebooks.py`
+- [X] T072 [P] [US3] Escribir la prueba de integración del orden, idempotencia, fallo cerrado y no publicación parcial del comando `all` en `tests/integration/test_cli_all.py`
+- [X] T073 [P] [US3] Escribir pruebas de documentación, español visible, términos prohibidos, enlaces locales y ausencia de PII en `tests/contract/test_documentation.py`
+- [X] T074 [P] [US3] Escribir la prueba full-data de presupuestos ETL ≤60 s, flujo completo ≤5 min y RSS pico ≤2 GB en 2 vCPU/4 GB en `tests/integration/test_performance.py`
 
 ### Implementación para US3
 
