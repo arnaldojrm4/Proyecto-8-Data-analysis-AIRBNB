@@ -26,7 +26,7 @@ GitHub (`Todo`, `In Progress`, `Done`).
 | Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
 | Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
 | Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) | Done |
-| Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | Pendiente | Backlog |
+| Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) | In Progress |
 
 ¹ US1 se construyó en la rama autorizada `feat/essential-foundation`; sus commits son la base de la
 rama específica de US2. Se conserva la desviación para no fingir una rama retrospectiva.
@@ -47,5 +47,8 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - La suite Docker aprobó 65 pruebas, omitió una comprobación Docker anidada y no tuvo fallos. Ruff y
   las 67 pruebas locales también aprobaron.
 - Los issues #2–#5 y los PR #7–#8 están cerrados y conciliados con `Done` en GitHub Projects.
-- US4 deja de estar bloqueada por la puerta Esencial; el issue #6 permanece en `Backlog` hasta iniciar
-  T086 y crear su rama de trabajo.
+- T086 inició US4 desde `origin/main` en la rama `feat/medium-powerbi-report` y abrió el PR borrador
+  [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10).
+- La línea base de la rama aprobó Ruff y 67 pruebas en 290,18 s antes de cualquier cambio funcional.
+- El issue #6 y el PR #10 permanecen en `In Progress`; T087 es la próxima tarea y todavía no se ha
+  iniciado.
