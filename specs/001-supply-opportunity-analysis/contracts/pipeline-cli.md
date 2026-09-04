@@ -141,6 +141,10 @@ Runs `inventory -> audit -> build -> analyze -> export -> test --suite all -> no
 It is the mandatory Essential acceptance entry point. Partial success never publishes a new accepted
 build.
 
+The embedded test stage excludes tests marked `full_data`, because the same `all` invocation has
+already exercised those data-intensive stages. The independent `test --suite all` acceptance run
+MUST execute the complete suite, including `full_data`, before the final `all` run.
+
 ## Completion output
 
 Every command emits a final machine-readable summary containing:

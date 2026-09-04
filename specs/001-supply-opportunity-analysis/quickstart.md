@@ -1,6 +1,6 @@
 # Quickstart Validation Guide: Supply Opportunity Analysis
 
-**Purpose**: Prove the planned feature end to end after implementation.
+**Propósito**: reproducir y validar el flujo Esencial implementado de extremo a extremo.
 
 **Feature**: [spec.md](spec.md)
 
@@ -20,7 +20,15 @@ implementation must provide.
 - Enough local resources for the reference workflow: 2 vCPU, 4 GB RAM, and space for raw, processed,
   report, and execution artifacts.
 
-The Python toolchain is provided by the locked container. A host Python installation is optional.
+La ruta Docker usa el contenedor bloqueado. La ruta host requiere Python 3.13 y `uv`; ambas invocan
+el mismo entry point y no requieren rutas absolutas personales.
+
+### Ruta host equivalente
+
+```powershell
+uv sync --locked --group dev
+uv run --locked airbnb-supply all --log-format json
+```
 
 ## 1. Confirm repository and feature state
 
@@ -118,6 +126,10 @@ Acceptance budgets on the reference machine:
 
 The run fails if a mandatory validation fails. Failed outputs must not replace the latest accepted
 build.
+
+La ejecución Docker solo se acredita si `docker version` muestra una sección `Server` y el comando
+termina con código 0. Consulte el estado real en
+[docker-reproduction.md](../../docs/acceptance/docker-reproduction.md).
 
 ## 5. Validate documentation and notebook evidence
 
