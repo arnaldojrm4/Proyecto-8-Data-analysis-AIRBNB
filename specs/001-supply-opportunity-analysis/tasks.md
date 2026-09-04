@@ -168,7 +168,7 @@
 - [X] T082 [US3] Verificar el flujo completo con límites 2 vCPU/4 GB y documentar versión de Docker, comandos, duración y salidas en `docs/acceptance/docker-reproduction.md`
 - [X] T083 [US3] Medir ETL, flujo analítico y RSS pico sobre las seis fuentes y registrar evidencia o desviación explicada en `docs/acceptance/performance.md`
 - [X] T084 [US3] Conciliar GitHub Projects con issues, estados, ramas, commits atómicos, PR y criterios de Done de las fases Esenciales en `docs/project-management.md`
-- [ ] T085 [US3] Ejecutar `airbnb-supply all`, revisar manualmente notebooks/documentación, cerrar la puerta Esencial y enlazar toda evidencia en `docs/acceptance/essential-level.md`
+- [X] T085 [US3] Ejecutar `airbnb-supply all`, revisar manualmente notebooks/documentación, cerrar la puerta Esencial y enlazar toda evidencia en `docs/acceptance/essential-level.md`
 
 **Punto de control obligatorio — NIVEL ESENCIAL**: US1, US2 y US3 están completas, probadas, documentadas, fusionadas y en `Done`. No comenzar US4 antes de este punto.
 

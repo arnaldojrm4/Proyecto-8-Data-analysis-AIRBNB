@@ -22,10 +22,10 @@ GitHub (`Todo`, `In Progress`, `Done`).
 
 | Nivel | Fase | Issue | Rama | PR | Estado |
 |---|---|---|---|---|---|
-| Esencial | Preparación y fundamentos | [#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) | `feat/essential-foundation` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
-| Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
-| Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Review |
-| Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) | Review |
+| Esencial | Preparación y fundamentos | [#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) | `feat/essential-foundation` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
+| Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
+| Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
+| Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) | Done |
 | Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | Pendiente | Backlog |
 
 ¹ US1 se construyó en la rama autorizada `feat/essential-foundation`; sus commits son la base de la
@@ -38,17 +38,14 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - 2026-09-04: Docker Desktop quedó accesible; T082 aprobó con Engine 29.7.2 y Compose 5.5.0.
 - 2026-09-02: Power BI Desktop no se detectó en la ruta de instalación estándar.
 
-## Estado de sincronización (2026-09-03)
+## Estado de sincronización (2026-09-04)
 
-- Trabajo de US2 local y remoto consolidado en `feat/essential-opportunity-analysis`.
-- Pull request [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) abierta
-  contra `main` y enlazada con los issues #2 a #6. La PR borrador #1 fue cerrada por solapamiento.
-- `tasks.md` refleja T070–T084 como terminadas; T085 espera la integración formal en `main`.
-- La suite Docker acumulada aprobó 65 pruebas, omitió una comprobación Docker anidada y Ruff terminó
-  sin incidencias. El flujo completo aprobó el
-  contrato de 5 minutos y 2 GB de RSS mediante aislamiento de etapas.
-- T080–T084 están documentadas y verificadas. T085 no puede cerrar el Nivel Esencial hasta revisar e
-  integrar las PR #7 y #8.
-- El tablero contiene los issues #2–#6 y la PR #7. Preparación, US1, US2 y la PR están en `Review`;
-  El bloque T070–T079 de US3 está en `Review` mediante la PR #8; la historia US3 sigue abierta y US4
-  permanece en `Backlog` hasta cerrar el Nivel Esencial.
+- Los PR [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) y
+  [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) están integrados en
+  `main`; el árbol final coincide con el árbol verificado de US3.
+- `tasks.md` refleja T070–T085 terminadas y la puerta Esencial aprobada.
+- La suite Docker aprobó 65 pruebas, omitió una comprobación Docker anidada y no tuvo fallos. Ruff y
+  las 67 pruebas locales también aprobaron.
+- Los issues #2–#5 y los PR #7–#8 están cerrados y conciliados con `Done` en GitHub Projects.
+- US4 deja de estar bloqueada por la puerta Esencial; el issue #6 permanece en `Backlog` hasta iniciar
+  T086 y crear su rama de trabajo.
