@@ -59,14 +59,16 @@ def audit_notebook() -> None:
         code(
             """
             import json
+            import os
             from pathlib import Path
             import pandas as pd
 
             ROOT = Path("..").resolve()
-            inventory_path = ROOT / "artifacts/quality/source-inventory.json"
+            ARTIFACTS = Path(os.environ.get("AIRBNB_SUPPLY_ARTIFACTS_DIR", ROOT / "artifacts"))
+            inventory_path = ARTIFACTS / "quality/source-inventory.json"
             inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
-            profile = pd.read_parquet(ROOT / "artifacts/quality/source-profile.parquet")
-            findings = pd.read_parquet(ROOT / "artifacts/quality/findings.parquet")
+            profile = pd.read_parquet(ARTIFACTS / "quality/source-profile.parquet")
+            findings = pd.read_parquet(ARTIFACTS / "quality/findings.parquet")
             inventory_table = pd.DataFrame(inventory["sources"])[
                 ["city_key", "file_name", "parsed_row_count", "byte_size", "identity_status"]
             ]
@@ -144,13 +146,16 @@ def etl_notebook() -> None:
         code(
             """
             import json
+            import os
             from pathlib import Path
             import pandas as pd
 
             ROOT = Path("..").resolve()
-            listings = pd.read_parquet(ROOT / "data/processed/listings.parquet")
-            transformations = pd.read_parquet(ROOT / "artifacts/quality/transformations.parquet")
-            reconciliation_path = ROOT / "artifacts/quality/row-reconciliation.json"
+            PROCESSED = Path(os.environ.get("AIRBNB_SUPPLY_PROCESSED_DIR", ROOT / "data/processed"))
+            ARTIFACTS = Path(os.environ.get("AIRBNB_SUPPLY_ARTIFACTS_DIR", ROOT / "artifacts"))
+            listings = pd.read_parquet(PROCESSED / "listings.parquet")
+            transformations = pd.read_parquet(ARTIFACTS / "quality/transformations.parquet")
+            reconciliation_path = ARTIFACTS / "quality/row-reconciliation.json"
             reconciliation = json.loads(reconciliation_path.read_text(encoding="utf-8"))
             reconciliation
             """
@@ -249,6 +254,7 @@ def executive_eda_notebook() -> None:
         code(
             """
             from pathlib import Path
+            import os
             import pandas as pd
             from IPython.display import display
             from airbnb_supply_analysis.visualization import (
@@ -258,9 +264,10 @@ def executive_eda_notebook() -> None:
             )
 
             ROOT = Path("..").resolve()
-            listings = pd.read_parquet(ROOT / "data/processed/listings.parquet")
-            results = pd.read_parquet(ROOT / "data/processed/statistical_results.parquet")
-            segments = pd.read_parquet(ROOT / "data/processed/opportunity_segments.parquet")
+            PROCESSED = Path(os.environ.get("AIRBNB_SUPPLY_PROCESSED_DIR", ROOT / "data/processed"))
+            listings = pd.read_parquet(PROCESSED / "listings.parquet")
+            results = pd.read_parquet(PROCESSED / "statistical_results.parquet")
+            segments = pd.read_parquet(PROCESSED / "opportunity_segments.parquet")
             {"anuncios": len(listings), "segmentos": len(segments), "resultados": len(results)}
             """
         ),

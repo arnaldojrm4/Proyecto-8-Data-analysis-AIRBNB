@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import errno
 import hashlib
 import json
 import os
@@ -316,10 +317,15 @@ def _test(args: argparse.Namespace) -> dict[str, Any]:
     """Ejecuta la selección pytest solicitada y expone un resumen estable."""
     suite = args.suite
     environment = os.environ.copy()
-    if getattr(args, "in_all", False):
+    in_all = getattr(args, "in_all", False)
+    if in_all:
         environment["AIRBNB_SUPPLY_IN_ALL"] = "1"
+    command = [sys.executable, "-m", "pytest", "-q"]
+    if in_all and suite == "all":
+        command.extend(("-m", "not full_data"))
+    command.append(TEST_PATHS[suite])
     result = subprocess.run(
-        [sys.executable, "-m", "pytest", "-q", TEST_PATHS[suite]],
+        command,
         text=True,
         capture_output=True,
         check=False,
@@ -339,7 +345,22 @@ def _notebooks(args: argparse.Namespace) -> dict[str, Any]:
     """Ejecuta notebooks y bloquea su publicación si falla la narrativa."""
     source_directory = Path("notebooks").resolve()
     output_directory = Path(args.artifacts_dir).resolve() / "executed_notebooks"
-    outputs = execute_notebooks(source_directory, output_directory)
+    path_environment = {
+        "AIRBNB_SUPPLY_PROCESSED_DIR": str(
+            Path(getattr(args, "processed_dir", "data/processed")).resolve()
+        ),
+        "AIRBNB_SUPPLY_ARTIFACTS_DIR": str(Path(args.artifacts_dir).resolve()),
+    }
+    previous_environment = {name: os.environ.get(name) for name in path_environment}
+    os.environ.update(path_environment)
+    try:
+        outputs = execute_notebooks(source_directory, output_directory)
+    finally:
+        for name, previous in previous_environment.items():
+            if previous is None:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = previous
     issues = {
         source.name: result
         for source in (source_directory / filename for filename in NOTEBOOK_ORDER)
@@ -573,9 +594,16 @@ def _publish_staged_outputs(staging: Path, args: argparse.Namespace) -> None:
         backup = destination.with_name(f".{destination.name}.previous")
         if backup.exists():
             shutil.rmtree(backup)
-        try:
-            if destination.exists():
+        if destination.exists():
+            try:
                 destination.replace(backup)
+            except OSError as error:
+                if error.errno not in {errno.EACCES, errno.EBUSY, errno.EPERM}:
+                    raise
+                _publish_into_mounted_directory(source, destination)
+                (destination / ".gitkeep").touch(exist_ok=True)
+                continue
+        try:
             source.replace(destination)
         except BaseException:
             if backup.exists() and not destination.exists():
@@ -585,6 +613,43 @@ def _publish_staged_outputs(staging: Path, args: argparse.Namespace) -> None:
             if backup.exists():
                 shutil.rmtree(backup)
             (destination / ".gitkeep").touch(exist_ok=True)
+
+
+def _publish_into_mounted_directory(source: Path, destination: Path) -> None:
+    """Publica con rollback cuando el destino es la raíz no renombrable de un volumen."""
+    transaction = destination / ".airbnb-supply-publish"
+    if transaction.exists():
+        shutil.rmtree(transaction)
+    incoming = transaction / "incoming"
+    backup = transaction / "backup"
+    shutil.copytree(source, incoming)
+    backup.mkdir(parents=True)
+    published: list[Path] = []
+    try:
+        for current in sorted(destination.iterdir()):
+            if current == transaction:
+                continue
+            current.replace(backup / current.name)
+        for staged in sorted(incoming.iterdir()):
+            published_path = destination / staged.name
+            staged.replace(published_path)
+            published.append(published_path)
+    except BaseException:
+        for path in published:
+            _remove_path(path)
+        for previous in sorted(backup.iterdir()):
+            previous.replace(destination / previous.name)
+        raise
+    finally:
+        if transaction.exists():
+            shutil.rmtree(transaction)
+
+
+def _remove_path(path: Path) -> None:
+    if path.is_dir():
+        shutil.rmtree(path)
+    elif path.exists():
+        path.unlink()
 
 
 def main(argv: Sequence[str] | None = None) -> int:

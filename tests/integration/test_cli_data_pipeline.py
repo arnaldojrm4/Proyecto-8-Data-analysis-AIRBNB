@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import shutil
 import subprocess
 import sys
 
@@ -51,10 +50,29 @@ def test_cli_inventory_audit_and_build_publish_reconciled_outputs(project_root, 
 def test_cli_analyze_publishes_statistics_opportunities_and_summary(project_root, tmp_path) -> None:
     processed = tmp_path / "processed"
     artifacts = tmp_path / "artifacts"
-    processed.mkdir()
-    shutil.copyfile(
-        project_root / "data/processed/listings.parquet", processed / "listings.parquet"
+    build = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "airbnb_supply_analysis.cli",
+            "build",
+            "--raw-dir",
+            str(project_root / "data/raw"),
+            "--source-manifest",
+            str(project_root / "config/source-manifest.json"),
+            "--processed-dir",
+            str(processed),
+            "--artifacts-dir",
+            str(artifacts),
+            "--log-format",
+            "json",
+        ],
+        cwd=project_root,
+        text=True,
+        capture_output=True,
+        check=False,
     )
+    assert build.returncode == 0, build.stderr or build.stdout
     result = subprocess.run(
         [
             sys.executable,
