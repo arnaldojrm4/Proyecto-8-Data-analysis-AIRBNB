@@ -13,18 +13,23 @@ docker compose run --rm pipeline all --log-format json
 La aceptación requiere código 0, resumen JSON exitoso, notebooks ejecutados y publicación solo tras
 validación.
 
-## Evidencia de esta sesión — bloqueada
+## Evidencia aprobada — 2026-09-04
 
-El 2026-09-03, `docker version --format '{{.Server.Version}}'` no pudo acceder a
-`C:\Users\Arnal\.docker\config.json` ni al daemon `npipe:////./pipe/docker_engine`. No hay versión
-de servidor, duración ni salida de contenedor que pueda afirmarse como válida.
+- Docker Desktop 4.89.0, Engine 29.7.2, API 1.55 y Compose 5.5.0 sobre Linux/WSL2.
+- Configuración efectiva: 2 vCPU, 4 GB y `data/raw/` en solo lectura.
+- Suite independiente: 65 aprobadas, 1 omitida y 0 fallos en 495,91 s. La prueba omitida comprueba
+  Docker desde host y no es aplicable dentro del propio contenedor.
+- Test de presupuesto `all`: aprobado en 203,21 s; verificó duración <=300 s y RSS <=2 GB.
+- Ejecución final `all`: código 0, `status=success`, build `FDAAB53F8317CAD7` y 201,34 s.
+- Publicación: 3 Parquet procesados, 8 CSV/control para Power BI, 5 visualizaciones, 7 archivos de
+  calidad y 3 notebooks ejecutados sin salidas de error.
+- Limpieza transaccional: 0 directorios `.airbnb-supply-publish` residuales.
 
-## Acción para desbloquear
+La sesión Codex creó los directorios de salida del worktree con ACL incompatibles con Docker
+Desktop. Para aislar esa incidencia del entorno se usó un override temporal que mantuvo los mismos
+destinos internos y límites, redirigiendo únicamente los tres bind mounts de salida a un directorio
+temporal accesible. El código validado soporta tanto el renombrado atómico de host como el reemplazo
+con rollback requerido por raíces de volumen no renombrables.
 
-1. Iniciar Docker Desktop y confirmar que el daemon está disponible.
-2. Ejecutar `docker version` y registrar Client y Server.
-3. Ejecutar los comandos del contrato desde la raíz.
-4. Registrar duración, resumen JSON y código de salida.
-5. Sustituir este bloqueo por evidencia aprobada y cerrar T082.
-
-US4 permanece bloqueada mientras falte esta evidencia.
+T082 queda aprobada. La puerta Esencial conserva pendiente únicamente la integración formal de los
+PR y el cierre de T085.

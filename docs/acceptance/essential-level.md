@@ -2,8 +2,8 @@
 
 ## Estado
 
-**Pendiente de aceptación formal.** US1, US2 y T070–T081, T083–T084 disponen de evidencia local.
-Docker T082 y la integración de PR en `main` siguen pendientes; US4 no puede comenzar.
+**Pendiente de integración formal.** US1, US2 y T070–T084 disponen de evidencia reproducible.
+Docker T082 está aprobado; la integración de los PR en `main` sigue pendiente y US4 no comienza.
 
 ## Checklist
 
@@ -12,7 +12,7 @@ Docker T082 y la integración de PR en `main` siguen pendientes; US4 no puede co
 - [X] US3 técnico: [us3-reproducibility-contracts.md](us3-reproducibility-contracts.md).
 - [X] Rendimiento host: [performance.md](performance.md).
 - [X] README, guía y gobernanza actualizados.
-- [ ] Docker `all` aprobado: [docker-reproduction.md](docker-reproduction.md).
+- [X] Docker `all` aprobado: [docker-reproduction.md](docker-reproduction.md).
 - [ ] PR #7 y PR #8 integradas en `main`.
 - [ ] Issues Esenciales en `Done` con evidencia final.
 

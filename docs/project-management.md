@@ -35,7 +35,7 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 
 - 2026-09-03: se renovó la autorización de GitHub CLI con alcance `project`; se creó y vinculó el
   Project #2 sin modificar el Project #1, que pertenece a otro repositorio.
-- 2026-09-02: Docker CLI está instalado, pero el daemon no permite conexión desde la sesión actual.
+- 2026-09-04: Docker Desktop quedó accesible; T082 aprobó con Engine 29.7.2 y Compose 5.5.0.
 - 2026-09-02: Power BI Desktop no se detectó en la ruta de instalación estándar.
 
 ## Estado de sincronización (2026-09-03)
@@ -43,13 +43,12 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - Trabajo de US2 local y remoto consolidado en `feat/essential-opportunity-analysis`.
 - Pull request [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) abierta
   contra `main` y enlazada con los issues #2 a #6. La PR borrador #1 fue cerrada por solapamiento.
-- `tasks.md` refleja T070–T081 y T083–T084 como terminadas; no se cierran T082 ni T085 sin toda su
-  evidencia.
-- La suite acumulada aprobó 64 pruebas y Ruff terminó sin incidencias. El flujo completo aprobó el
+- `tasks.md` refleja T070–T084 como terminadas; T085 espera la integración formal en `main`.
+- La suite Docker acumulada aprobó 65 pruebas, omitió una comprobación Docker anidada y Ruff terminó
+  sin incidencias. El flujo completo aprobó el
   contrato de 5 minutos y 2 GB de RSS mediante aislamiento de etapas.
-- T080, T081, T083 y T084 están documentadas y verificadas. T082 permanece bloqueada: Docker CLI no
-  accede al daemon ni a su configuración en esta sesión. T085 no puede cerrar el Nivel Esencial hasta
-  resolver T082 y revisar e integrar las PR #7 y #8.
+- T080–T084 están documentadas y verificadas. T085 no puede cerrar el Nivel Esencial hasta revisar e
+  integrar las PR #7 y #8.
 - El tablero contiene los issues #2–#6 y la PR #7. Preparación, US1, US2 y la PR están en `Review`;
   El bloque T070–T079 de US3 está en `Review` mediante la PR #8; la historia US3 sigue abierta y US4
   permanece en `Backlog` hasta cerrar el Nivel Esencial.
