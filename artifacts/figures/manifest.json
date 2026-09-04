@@ -1,0 +1,25 @@
+{
+  "artifacts": [
+    {
+      "path": "artifacts/figures/activity_by_room_type.png",
+      "type": "png"
+    },
+    {
+      "path": "artifacts/figures/room_type_mix_by_city.png",
+      "type": "png"
+    },
+    {
+      "path": "artifacts/figures/top_neighborhood_activity.png",
+      "type": "png"
+    },
+    {
+      "path": "artifacts/figures/association_effects.png",
+      "type": "png"
+    },
+    {
+      "path": "artifacts/figures/opportunity_scatter.html",
+      "type": "html"
+    }
+  ],
+  "build_id": "FDAAB53F8317CAD7"
+}
