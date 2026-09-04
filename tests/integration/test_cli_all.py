@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import errno
 import importlib
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 STAGE_ORDER = (
     "inventory",
@@ -119,3 +121,39 @@ def test_staged_figure_manifest_does_not_publish_temporary_paths(tmp_path: Path)
 
     payload = json.loads(manifest.read_text(encoding="utf-8"))
     assert payload["artifacts"][0]["path"] == "artifacts/figures/chart.png"
+
+
+def test_publish_staged_outputs_supports_non_renamable_mount_roots(
+    tmp_path: Path, monkeypatch
+) -> None:
+    cli = importlib.import_module("airbnb_supply_analysis.cli")
+    staging = tmp_path / "staging"
+    destinations = {
+        name: tmp_path / "mounted" / name for name in ("processed", "powerbi", "artifacts")
+    }
+    for name, destination in destinations.items():
+        (staging / name).mkdir(parents=True)
+        (staging / name / "new.txt").write_text(name, encoding="utf-8")
+        destination.mkdir(parents=True)
+        (destination / "old.txt").write_text("old", encoding="utf-8")
+
+    original_replace = Path.replace
+
+    def reject_mount_root_replace(path: Path, target: Path):
+        if path in destinations.values():
+            raise OSError(errno.EBUSY, "mounted directory")
+        return original_replace(path, target)
+
+    monkeypatch.setattr(Path, "replace", reject_mount_root_replace)
+    args = SimpleNamespace(
+        processed_dir=str(destinations["processed"]),
+        powerbi_dir=str(destinations["powerbi"]),
+        artifacts_dir=str(destinations["artifacts"]),
+    )
+
+    cli._publish_staged_outputs(staging, args)
+
+    for name, destination in destinations.items():
+        assert (destination / "new.txt").read_text(encoding="utf-8") == name
+        assert not (destination / "old.txt").exists()
+        assert (destination / ".gitkeep").exists()

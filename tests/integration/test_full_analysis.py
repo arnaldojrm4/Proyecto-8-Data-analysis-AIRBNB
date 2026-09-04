@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import subprocess
+import sys
+
 import pandas as pd
 import pytest
 
@@ -8,8 +11,34 @@ from airbnb_supply_analysis.statistics import run_statistical_analysis
 
 
 @pytest.mark.full_data
-def test_full_analysis_produces_traceable_and_rule_compliant_opportunities(project_root) -> None:
-    listings = pd.read_parquet(project_root / "data/processed/listings.parquet")
+def test_full_analysis_produces_traceable_and_rule_compliant_opportunities(
+    project_root, tmp_path
+) -> None:
+    processed = tmp_path / "processed"
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "airbnb_supply_analysis.cli",
+            "build",
+            "--raw-dir",
+            str(project_root / "data/raw"),
+            "--source-manifest",
+            str(project_root / "config/source-manifest.json"),
+            "--processed-dir",
+            str(processed),
+            "--artifacts-dir",
+            str(tmp_path / "artifacts"),
+            "--log-format",
+            "json",
+        ],
+        cwd=project_root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr or result.stdout
+    listings = pd.read_parquet(processed / "listings.parquet")
 
     results = run_statistical_analysis(listings, "test-build")
     segment_results = results.loc[results["analysis_family"].eq("segment")]
@@ -26,6 +55,4 @@ def test_full_analysis_produces_traceable_and_rule_compliant_opportunities(proje
     assert candidates["effect_ci_low"].gt(0.5).all()
     assert candidates["q_value"].lt(0.05).all()
     assert candidates["sensitivity_status"].eq("robust").all()
-    assert (
-        candidates["neighborhood_room_type_share"] < candidates["room_type_city_share"]
-    ).all()
+    assert (candidates["neighborhood_room_type_share"] < candidates["room_type_city_share"]).all()

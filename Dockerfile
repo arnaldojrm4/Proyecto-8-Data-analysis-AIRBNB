@@ -13,7 +13,11 @@ COPY src ./src
 RUN uv sync --locked --no-dev
 
 COPY config ./config
+COPY docs ./docs
 COPY notebooks ./notebooks
+COPY compose.yaml ./compose.yaml
+COPY scripts ./scripts
+COPY specs ./specs
 COPY tests ./tests
 
 ENTRYPOINT ["uv", "run", "--locked", "airbnb-supply"]

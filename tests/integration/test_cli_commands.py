@@ -33,6 +33,28 @@ def test_test_command_runs_selected_suite_and_reports_pytest_counts(monkeypatch)
     }
 
 
+def test_test_command_excludes_redundant_full_data_checks_inside_all(monkeypatch) -> None:
+    cli = importlib.import_module("airbnb_supply_analysis.cli")
+    command: list[str] = []
+
+    class Completed:
+        returncode = 0
+        stdout = "10 passed, 5 deselected in 0.10s\n"
+        stderr = ""
+
+    def fake_run(arguments, **kwargs):
+        nonlocal command
+        del kwargs
+        command = arguments
+        return Completed()
+
+    monkeypatch.setattr(cli.subprocess, "run", fake_run)
+    result = cli._test(SimpleNamespace(suite="all", in_all=True))
+
+    assert command[-3:] == ["-m", "not full_data", "tests"]
+    assert result["status"] == "success"
+
+
 def test_notebooks_command_writes_contract_outputs_and_rejects_bad_narrative(
     tmp_path: Path, monkeypatch
 ) -> None:
