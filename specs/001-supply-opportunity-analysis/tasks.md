@@ -182,7 +182,7 @@
 
 ### Pruebas para US4 — escribir primero y comprobar el fallo esperado
 
-- [ ] T086 [US4] Crear la rama `feat/medium-powerbi-report` solo después del cierre Esencial y registrar issue, rama y PR de US4 en `docs/project-management.md`
+- [X] T086 [US4] Crear la rama `feat/medium-powerbi-report` solo después del cierre Esencial y registrar issue, rama y PR de US4 en `docs/project-management.md`
 - [ ] T087 [P] [US4] Ampliar el contrato automatizado de las ocho tablas estrella, sus claves, tipos, orden, formato CSV y versión de esquema en `tests/contract/test_powerbi_exports.py`
 - [ ] T088 [P] [US4] Escribir pruebas de exclusión de nombres, IDs crudos, coordenadas por anuncio y claves técnicas visibles en `tests/contract/test_powerbi_privacy.py`
 - [ ] T089 [P] [US4] Escribir pruebas de filas, hashes, relaciones y control de build sin diferencias inexplicadas en `tests/integration/test_powerbi_reconciliation.py`
