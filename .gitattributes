@@ -1,0 +1,4 @@
+* text=auto eol=lf
+
+# Las fuentes raw son instantáneas inmutables: Git no debe alterar sus bytes.
+data/raw/*.csv -text

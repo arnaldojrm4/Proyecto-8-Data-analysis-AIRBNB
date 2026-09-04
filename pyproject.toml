@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "airbnb-supply-opportunity-analysis"
+version = "0.1.0"
+description = "Pipeline reproducible para analizar oportunidades de captación de oferta Airbnb."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "jupyter>=1.1,<2",
+  "matplotlib>=3.9,<4",
+  "nbclient>=0.10,<0.11",
+  "nbformat>=5.10,<6",
+  "numpy>=2.1,<3",
+  "pandas>=2.2,<3",
+  "pandera[pandas]>=0.23,<0.29",
+  "plotly>=6,<7",
+  "psutil>=6,<8",
+  "pyarrow>=19,<24",
+  "pyyaml>=6,<7",
+  "scipy>=1.15,<2",
+  "seaborn>=0.13,<0.14",
+  "statsmodels>=0.14,<0.15",
+]
+
+[project.scripts]
+airbnb-supply = "airbnb_supply_analysis.cli:main"
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.11,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/airbnb_supply_analysis"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --basetemp=.pytest-tmp"
+testpaths = ["tests"]
+markers = [
+  "full_data: requiere las seis fuentes completas",
+  "docker: requiere Docker Desktop operativo",
+  "powerbi: valida contratos de exportación para Power BI",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

@@ -1,0 +1,15 @@
+services:
+  pipeline:
+    build:
+      context: .
+    working_dir: /workspace
+    volumes:
+      - ./data/raw:/workspace/data/raw:ro
+      - ./data/processed:/workspace/data/processed
+      - ./data/powerbi:/workspace/data/powerbi
+      - ./artifacts:/workspace/artifacts
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4G

@@ -1,0 +1,4 @@
+id,name,host_id,host_name,neighbourhood,latitude,longitude,room_type,price,minimum_nights,number_of_reviews,last_review,reviews_per_month
+1,,10,,Centro,40.4,-3.7,Private room,50,1,0,,
+2,A,20,H,Centro,40.5,-3.6,Entire home/apt,-1,0,4,,
+3,B,30,H,Centro,95,-3.5,Shared room,1000,365,8,2020-01-01,1.5
