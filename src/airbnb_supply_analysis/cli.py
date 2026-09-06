@@ -23,7 +23,7 @@ import pandas as pd
 from airbnb_supply_analysis import __version__
 from airbnb_supply_analysis.config import SCHEMA_VERSION, load_yaml
 from airbnb_supply_analysis.etl import build_canonical
-from airbnb_supply_analysis.exports import write_parquet, write_stable_csv
+from airbnb_supply_analysis.exports import export_powerbi_dataset, write_parquet
 from airbnb_supply_analysis.io import (
     atomic_write_json,
     inventory_sources,
@@ -375,70 +375,30 @@ def _notebooks(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _export(args: argparse.Namespace) -> dict[str, Any]:
-    """Publica la dependencia CSV mínima y segura requerida por la puerta Esencial."""
+    """Publica las tablas estrella seguras para Power BI Desktop."""
     paths = _paths(args)
     listings = pd.read_parquet(paths.processed / "listings.parquet")
     opportunities = pd.read_parquet(paths.processed / "opportunity_segments.parquet")
     statistical = pd.read_parquet(paths.processed / "statistical_results.parquet")
     quality = pd.read_parquet(paths.artifacts / "quality" / "findings.parquet")
     build_id = args.build_id or _build_id(paths.manifest, paths.config)
-    exports = {
-        "dim_city.csv": listings[["city_key"]].drop_duplicates(),
-        "dim_neighborhood.csv": listings[
-            ["city_key", "neighborhood_key", "neighborhood"]
-        ].drop_duplicates(),
-        "dim_room_type.csv": listings[["room_type"]].drop_duplicates(),
-        "fact_listings.csv": listings[
-            [
-                "listing_key",
-                "city_key",
-                "neighborhood_key",
-                "room_type",
-                "price",
-                "minimum_nights",
-                "number_of_reviews",
-                "reviews_per_month_observed",
-                "activity_proxy",
-                "activity_proxy_derived_zero",
-                "activity_proxy_is_analyzable",
-            ]
-        ],
-        "fact_opportunity_segments.csv": opportunities.drop(
-            columns=["centroid_latitude", "centroid_longitude"], errors="ignore"
-        ),
-        "fact_statistical_results.csv": statistical,
-        "fact_quality_summary.csv": quality,
-    }
-    for filename, frame in exports.items():
-        _validate_export_columns(frame)
-        write_stable_csv(frame, paths.powerbi / filename)
-    control = pd.DataFrame(
-        [
-            {
-                "build_id": build_id,
-                "schema_version": SCHEMA_VERSION,
-                "source_file_count": 6,
-                "source_row_count": len(listings),
-                "canonical_row_count": len(listings),
-                "distinct_listing_key_count": int(listings["listing_key"].nunique()),
-                "output_file": filename,
-                "output_row_count": len(frame),
-                "output_sha256": _sha256(paths.powerbi / filename),
-                "release_gate_status": "pass",
-            }
-            for filename, frame in exports.items()
-        ]
+    exports = export_powerbi_dataset(
+        listings,
+        opportunities,
+        statistical,
+        quality,
+        paths.powerbi,
+        build_id=build_id,
+        schema_version=SCHEMA_VERSION,
+        source_manifest_path=paths.manifest,
+        analysis_config_path=paths.config,
     )
-    control_path = paths.powerbi / "build_control.csv"
-    write_stable_csv(control, control_path)
     return _summary(
         "export",
         build_id=build_id,
         input_rows=len(listings),
-        output_rows=sum(len(frame) for frame in exports.values()) + len(control),
-        artifact_paths=[
-            str(paths.powerbi / filename) for filename in (*exports, "build_control.csv")
-        ],
+        output_rows=sum(len(frame) for frame in exports.values()),
+        artifact_paths=[str(paths.powerbi / filename) for filename in exports],
     )
 
 
