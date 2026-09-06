@@ -50,5 +50,8 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - T086 inició US4 desde `origin/main` en la rama `feat/medium-powerbi-report` y abrió el PR borrador
   [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10).
 - La línea base de la rama aprobó Ruff y 67 pruebas en 290,18 s antes de cualquier cambio funcional.
-- El issue #6 y el PR #10 permanecen en `In Progress`; T087 es la próxima tarea y todavía no se ha
-  iniciado.
+- T087–T090 fijaron los contratos de exportación, privacidad y conciliación, además del checklist
+  manual. La ejecución inicial registró 7 fallos esperados y 2 pruebas aprobadas, sin modificar
+  producción; la evidencia está en
+  [powerbi-contracts-red.md](acceptance/powerbi-contracts-red.md).
+- El issue #6 y el PR #10 permanecen en `In Progress`; T091 es la próxima tarea.
