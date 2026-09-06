@@ -190,7 +190,7 @@
 
 ### Implementación para US4
 
-- [ ] T091 [US4] Implementar dimensiones, hechos, claves sustitutas, privacidad, orden estable y `build_control.csv` en `src/airbnb_supply_analysis/exports.py`
+- [X] T091 [US4] Implementar dimensiones, hechos, claves sustitutas, privacidad, orden estable y `build_control.csv` en `src/airbnb_supply_analysis/exports.py`
 - [ ] T092 [US4] Completar `export` y conectar su validación con `validate` y `all` en `src/airbnb_supply_analysis/cli.py`
 - [ ] T093 [P] [US4] Documentar Power BI Desktop gratuito, versión mínima probada, parámetro `DataRoot`, refresh, modelo, limitaciones y resolución de errores en `powerbi/README.md`
 - [ ] T094 [P] [US4] Crear el tema accesible con contraste ≥4,5:1 y estados diferenciados también por texto/icono en `powerbi/theme.json`
