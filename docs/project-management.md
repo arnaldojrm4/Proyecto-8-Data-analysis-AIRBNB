@@ -38,7 +38,7 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - 2026-09-04: Docker Desktop quedó accesible; T082 aprobó con Engine 29.7.2 y Compose 5.5.0.
 - 2026-09-02: Power BI Desktop no se detectó en la ruta de instalación estándar.
 
-## Estado de sincronización (2026-09-04)
+## Estado de sincronización (2026-09-07)
 
 - Los PR [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) y
   [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) están integrados en
@@ -54,4 +54,8 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
   manual. La ejecución inicial registró 7 fallos esperados y 2 pruebas aprobadas, sin modificar
   producción; la evidencia está en
   [powerbi-contracts-red.md](acceptance/powerbi-contracts-red.md).
-- El issue #6 y el PR #10 permanecen en `In Progress`; T091 es la próxima tarea.
+- T091 implementó las siete tablas del modelo estrella y `build_control.csv`, con claves
+  sustitutas, privacidad, geografía agregada, orden estable, hashes y conteos conciliables.
+- Ruff, los 9 contratos Power BI y la exportación real de 220.031 anuncios aprobaron; la regresión
+  completa terminó con 76 pruebas aprobadas en 276,85 s.
+- El issue #6 y el PR #10 permanecen en `In Progress`; T092 es la próxima tarea.
