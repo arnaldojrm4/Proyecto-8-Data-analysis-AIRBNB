@@ -155,8 +155,8 @@ def powerbi_export_fixture(tmp_path: Path) -> SimpleNamespace:
             "severity": ["warning"],
             "failed_count": [0],
             "evaluated_count": [2],
-            "failure_rate": [0.0],
-            "status": ["pass"],
+            "failed_rate": [0.0],
+            "disposition": ["accepted_valid"],
             "impact": ["Afecta al contexto local de precio."],
             "rationale": ["La regla no encontró incumplimientos."],
         }
