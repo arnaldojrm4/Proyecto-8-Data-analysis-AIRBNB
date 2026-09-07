@@ -20,7 +20,7 @@
 
 **Propósito**: inicializar el repositorio, el entorno reproducible y la gobernanza mínima antes de desarrollar la solución.
 
-- [ ] T001 Crear la rama corta `feat/setup-foundation`, vincularla a su issue de GitHub Projects y registrar issue, rama y PR previstos en `docs/project-management.md`
+- [X] T001 Crear la rama corta `feat/setup-foundation`, vincularla a su issue de GitHub Projects y registrar issue, rama y PR previstos en `docs/project-management.md`
 - [X] T002 Definir Python `>=3.13,<3.14`, dependencias obligatorias, grupos de desarrollo, entry point `airbnb-supply` y configuración de pytest en `pyproject.toml`
 - [X] T003 [P] Fijar Python 3.13 para herramientas locales en `.python-version`
 - [X] T004 [P] Crear el paquete instalable y exponer su versión inicial en `src/airbnb_supply_analysis/__init__.py`
@@ -73,7 +73,7 @@
 
 ### Pruebas para US1 — escribir primero y comprobar el fallo esperado
 
-- [ ] T025 [US1] Crear la rama `feat/essential-data-foundation` desde la base estable y registrar issue, rama y PR de US1 en `docs/project-management.md`
+- [X] T025 [US1] Crear la rama `feat/essential-data-foundation` desde la base estable y registrar issue, rama y PR de US1 en `docs/project-management.md`
 - [X] T026 [P] [US1] Escribir pruebas de presencia, nombre, cabecera ordenada, tamaño, SHA-256, delimitador, codificación y filas del inventario en `tests/contract/test_source_inventory.py`
 - [X] T027 [P] [US1] Escribir pruebas de esquemas permisivos por ciudad, columnas ausentes explícitas, dominios y clave candidata `city + listing_id` en `tests/unit/test_raw_schemas.py`
 - [X] T028 [P] [US1] Escribir pruebas de perfilado de nulos, duplicados, rangos, reglas cruzadas, outliers y severidades bloqueantes en `tests/unit/test_quality.py`
@@ -218,7 +218,7 @@
 - [X] T107 [P] Revisar que decisiones, supuestos, incidentes, alternativas rechazadas, resultados y limitaciones estén contemporáneamente enlazados desde `README.md`
 - [X] T108 Ejecutar todos los comandos de `specs/001-supply-opportunity-analysis/quickstart.md` en un checkout limpio y registrar cualquier corrección en `docs/acceptance/quickstart-validation.md`
 - [X] T109 Ejecutar pruebas unitarias, contractuales e integración, notebooks y validaciones Power BI en Docker; archivar el resumen final en `docs/acceptance/final-release.md`
-- [ ] T110 Conciliar GitHub Projects con `main`, confirmar PR integradas y elementos en `Done`, y registrar la instantánea final y el historial de release en `docs/project-management.md`
+- [X] T110 Conciliar GitHub Projects con `main`, confirmar PR integradas y elementos en `Done`, y registrar la instantánea final y el historial de release en `docs/project-management.md`
 
 ---
 

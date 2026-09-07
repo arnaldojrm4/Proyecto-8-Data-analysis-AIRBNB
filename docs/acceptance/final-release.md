@@ -18,6 +18,9 @@ los seis datasets originales.
 | Validador PBIR oficial | 0 errores, 0 advertencias |
 | Binarios Power BI | `.pbix` y `.pbit` válidos; plantilla sin datos importados |
 
+La última ejecución unificada sobre el HEAD del PR #10 terminó con **94 aprobadas, 1 omitida y 0
+fallos**. Se ejecutó después de cerrar las instancias de Power BI que producían contención.
+
 ## Rendimiento
 
 El primer pase del test de flujo completo midió 302,99 s y falló el límite de 300 s durante varias
@@ -47,3 +50,7 @@ declara 2 vCPU y 4 GB, y el test mantiene el RSS por debajo de 2 GB.
 
 Las conclusiones siguen limitadas a actividad histórica de reseñas y oferta relativa. No convierten
 el proxy en demanda, reservas, ocupación, liquidez, ingreso, margen o causalidad.
+
+El PR [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) fue integrado en
+`main` mediante `12466b3abd73d13f685546183aafbb0ad21f8c01`; el issue #6 y ambos elementos del
+Project #2 quedaron en `Done`.
