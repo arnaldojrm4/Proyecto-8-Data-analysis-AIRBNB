@@ -56,6 +56,9 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
   [powerbi-contracts-red.md](acceptance/powerbi-contracts-red.md).
 - T091 implementó las siete tablas del modelo estrella y `build_control.csv`, con claves
   sustitutas, privacidad, geografía agregada, orden estable, hashes y conteos conciliables.
-- Ruff, los 9 contratos Power BI y la exportación real de 220.031 anuncios aprobaron; la regresión
-  completa terminó con 76 pruebas aprobadas en 276,85 s.
-- El issue #6 y el PR #10 permanecen en `In Progress`; T092 es la próxima tarea.
+- T092 conectó una única puerta de archivos, esquemas, claves, relaciones, privacidad, conteos,
+  hashes, identidad de build y versión con `export`, `validate` y `all`; `export` conserva la entrega
+  previa ante cualquier fallo.
+- Ruff y 17 pruebas específicas aprobaron. La regresión completa terminó con 81 pruebas aprobadas en
+  290,82 s, y la exportación real validó 8 archivos y 222.834 filas desde 220.031 anuncios.
+- El issue #6 y el PR #10 permanecen en `In Progress`; T093 es la próxima tarea.

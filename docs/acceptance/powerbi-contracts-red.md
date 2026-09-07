@@ -68,5 +68,19 @@ regresión completa detectó que el fixture de calidad no representaba los campo
 La exportación real posterior publicó los ocho CSV desde **220.031 anuncios**, y la regresión final
 aprobó **76 pruebas en 276,85 s**.
 
-T092 es la siguiente tarea: completar las puertas de validación de `export`, `validate` y `all` sin
-alterar el contrato de datos aprobado en T091.
+## Puerta de publicación GREEN — T092
+
+**Validación integrada el 2026-09-07.** `export` publica de forma transaccional: construye en una
+ruta temporal, aplica el contrato completo y conserva la versión aceptada anterior si encuentra una
+diferencia. `validate` reutiliza la misma comprobación sin reconstruir datos y `all` mantiene esa
+puerta dentro de su publicación integral.
+
+Las pruebas RED demostraron cinco bloqueos: hash manipulado, relación huérfana, sustitución no
+transaccional, conteos de fuente discordantes y mezcla de `build_id`. Tras la implementación, Ruff y
+**17 pruebas específicas** aprobaron. La regresión completa aprobó **81 pruebas en 290,82 s**, dentro
+del presupuesto de 300 s, y una ejecución independiente de `export` validó **8 archivos y 222.834
+filas exportadas** desde 220.031 anuncios. Después de ejecutar los tres notebooks en kernels limpios,
+el comando independiente `validate` también terminó con estado `success` sobre esos artefactos.
+
+T093 es la siguiente tarea: documentar el uso local y gratuito de Power BI Desktop y su parámetro
+portable `DataRoot`.
