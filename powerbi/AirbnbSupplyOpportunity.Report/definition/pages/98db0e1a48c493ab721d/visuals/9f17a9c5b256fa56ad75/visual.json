@@ -1,0 +1,79 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "9f17a9c5b256fa56ad75",
+  "position": {
+    "x": 640,
+    "y": 112,
+    "z": 12000,
+    "height": 110,
+    "width": 620,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Recomendación provisional"
+                }
+              },
+              "queryRef": "_Measures.Recomendación provisional",
+              "nativeQueryRef": "Recomendación provisional"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Disponibilidad de candidatos"
+                }
+              },
+              "queryRef": "_Measures.Disponibilidad de candidatos",
+              "nativeQueryRef": "Disponibilidad de candidatos"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Recomendación provisional y disponibilidad de hasta tres candidatos; exige validación comercial, regulatoria y operativa.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "791be33e9c4023ea3409",
+  "position": {
+    "x": 540,
+    "y": 242,
+    "z": 22000,
+    "height": 260,
+    "width": 720,
+    "tabOrder": 21
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "method"
+                }
+              },
+              "queryRef": "Fact Statistical Results.method",
+              "nativeQueryRef": "method"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "sample_size"
+                }
+              },
+              "queryRef": "Fact Statistical Results.sample_size",
+              "nativeQueryRef": "sample_size"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "estimate"
+                }
+              },
+              "queryRef": "Fact Statistical Results.estimate",
+              "nativeQueryRef": "estimate"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "ci_low"
+                }
+              },
+              "queryRef": "Fact Statistical Results.ci_low",
+              "nativeQueryRef": "ci_low"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "ci_high"
+                }
+              },
+              "queryRef": "Fact Statistical Results.ci_high",
+              "nativeQueryRef": "ci_high"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "p_value_adjusted"
+                }
+              },
+              "queryRef": "Fact Statistical Results.p_value_adjusted",
+              "nativeQueryRef": "p_value_adjusted"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "correction_method"
+                }
+              },
+              "queryRef": "Fact Statistical Results.correction_method",
+              "nativeQueryRef": "correction_method"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Statistical Results"
+                    }
+                  },
+                  "Property": "sensitivity_status"
+                }
+              },
+              "queryRef": "Fact Statistical Results.sensitivity_status",
+              "nativeQueryRef": "sensitivity_status"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Método, muestra, efecto, intervalo, valor ajustado, corrección y sensibilidad de la evidencia estadística.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

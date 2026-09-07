@@ -1,0 +1,29 @@
+/// Ruta absoluta a data/powerbi; obligatoria al abrir la plantilla.
+expression DataRoot = "" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 997b081d-8a6f-49c3-8159-36838a2b2736
+
+expression CsvFromRoot =
+		(fileName as text, typeMap as list) as table =>
+		let
+		    Root = if Text.Trim(DataRoot) = "" then error Error.Record("DataRoot requerido", "Indica la ruta absoluta a data/powerbi.", [Parameter="DataRoot"]) else DataRoot,
+		    Files = Folder.Contents(Root),
+		    Matches = Table.SelectRows(Files, each [Name] = fileName and [Attributes]?[Directory]? <> true),
+		    Binary = if Table.RowCount(Matches) = 1 then Matches{0}[Content] else error Error.Record("Contrato de archivo incumplido", "Debe existir exactamente un CSV contractual en DataRoot.", [File=fileName, Matches=Table.RowCount(Matches)]),
+		    Raw = Csv.Document(Binary, [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+		    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+		    Typed = Table.TransformColumnTypes(Headers, typeMap, "en-US")
+		in
+		    Typed
+	lineageTag: c2750526-2f13-4c6b-935a-218d98511d11
+
+expression BuildGuard =
+		let
+		    Control = CsvFromRoot("build_control.csv", {{"build_id", type text}, {"schema_version", type text}, {"generated_at_utc", type text}, {"source_manifest_hash", type text}, {"analysis_config_hash", type text}, {"source_file_count", Int64.Type}, {"source_row_count", Int64.Type}, {"canonical_row_count", Int64.Type}, {"distinct_listing_key_count", Int64.Type}, {"segment_count", Int64.Type}, {"output_file", type text}, {"output_row_count", Int64.Type}, {"output_sha256", type text}, {"release_gate_status", type text}}),
+		    MajorCompatible = List.AllTrue(List.Transform(Control[schema_version], each Text.BeforeDelimiter(_, ".") = "1")),
+		    GatePassed = List.AllTrue(List.Transform(Control[release_gate_status], each _ = "pass")),
+		    OneBuild = List.Count(List.Distinct(Control[build_id])) = 1,
+		    Checked = if not MajorCompatible or not GatePassed or not OneBuild then error Error.Record("Release bloqueada", "Schema major incompatible, gate distinto de pass o build mezclado.", [ExpectedSchemaMajor=1]) else Control
+		in
+		    Checked
+	lineageTag: ac37d877-3e85-4784-a141-1b943ec88ffc
+

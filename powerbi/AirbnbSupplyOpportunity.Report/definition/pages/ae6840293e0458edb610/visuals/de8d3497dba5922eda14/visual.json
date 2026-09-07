@@ -1,0 +1,137 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "de8d3497dba5922eda14",
+  "position": {
+    "x": 640,
+    "y": 118,
+    "z": 12000,
+    "height": 300,
+    "width": 620,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "azureMap",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Neighborhood"
+                    }
+                  },
+                  "Property": "neighborhood_label"
+                }
+              },
+              "queryRef": "Dim Neighborhood.neighborhood_label",
+              "nativeQueryRef": "neighborhood_label"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Neighborhood"
+                    }
+                  },
+                  "Property": "centroid_latitude"
+                }
+              },
+              "queryRef": "Dim Neighborhood.centroid_latitude",
+              "nativeQueryRef": "centroid_latitude"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Neighborhood"
+                    }
+                  },
+                  "Property": "centroid_longitude"
+                }
+              },
+              "queryRef": "Dim Neighborhood.centroid_longitude",
+              "nativeQueryRef": "centroid_longitude"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Opportunity Segments"
+                    }
+                  },
+                  "Property": "opportunity_label"
+                }
+              },
+              "queryRef": "Fact Opportunity Segments.opportunity_label",
+              "nativeQueryRef": "opportunity_label"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Anuncios en segmentos"
+                }
+              },
+              "queryRef": "_Measures.Anuncios en segmentos",
+              "nativeQueryRef": "Anuncios en segmentos"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Mapa opcional de centroides agregados por barrio; la tabla y ranking son el fallback sin red.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

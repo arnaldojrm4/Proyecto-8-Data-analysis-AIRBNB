@@ -1,0 +1,272 @@
+/// Tabla contractual importada desde fact_opportunity_segments.csv.
+table 'Fact Opportunity Segments'
+	lineageTag: 7680b2f6-da80-4f13-ae83-d6b9dc8b6682
+
+	column segment_key
+		dataType: string
+		isHidden
+		isUnique
+		isKey
+		lineageTag: e105b7fa-32c1-4737-b909-7f985d05e6e8
+		summarizeBy: none
+		sourceColumn: segment_key
+
+	column city_key
+		dataType: string
+		isHidden
+		lineageTag: a30efb19-b039-4eee-8ed4-1600aa082be7
+		summarizeBy: none
+		sourceColumn: city_key
+
+	column neighborhood_key
+		dataType: string
+		isHidden
+		lineageTag: eff190a6-28c7-493a-89db-ea77eaf32714
+		summarizeBy: none
+		sourceColumn: neighborhood_key
+
+	column room_type_key
+		dataType: string
+		isHidden
+		lineageTag: a757d2a7-18d0-44d9-83f4-497052e65744
+		summarizeBy: none
+		sourceColumn: room_type_key
+
+	column build_id
+		dataType: string
+		isHidden
+		lineageTag: 49db3a67-8295-4da8-830d-c24ca62d792a
+		summarizeBy: none
+		sourceColumn: build_id
+
+	column listing_count
+		dataType: int64
+		lineageTag: 7d8304dd-cc69-423f-914e-be29ccd29546
+		summarizeBy: none
+		sourceColumn: listing_count
+
+	column city_supply_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 3def2839-9102-4aec-bf1d-4392c4295018
+		summarizeBy: none
+		sourceColumn: city_supply_share
+
+	column neighborhood_supply_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 043071db-1c50-4d73-9fae-d24d69912e24
+		summarizeBy: none
+		sourceColumn: neighborhood_supply_share
+
+	column neighborhood_room_type_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 31fa0266-8cc2-4d50-b881-2c0c44ee80d4
+		summarizeBy: none
+		sourceColumn: neighborhood_room_type_share
+
+	column room_type_city_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 06f5c67e-8483-4364-9b3c-9aedfe53608c
+		summarizeBy: none
+		sourceColumn: room_type_city_share
+
+	column activity_analyzable_count
+		dataType: int64
+		lineageTag: 1946d01f-dca1-4874-9295-5a5bdde0de0c
+		summarizeBy: none
+		sourceColumn: activity_analyzable_count
+
+	column positive_activity_count
+		dataType: int64
+		lineageTag: 48894de0-ce1b-4c36-ba4b-7eef527b96d6
+		summarizeBy: none
+		sourceColumn: positive_activity_count
+
+	column active_listing_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ddf0835d-2fa0-4ae3-9210-f99c4800b523
+		summarizeBy: none
+		sourceColumn: active_listing_share
+
+	column activity_median
+		dataType: double
+		lineageTag: 75d833ea-ca61-4639-a1bc-9a64782fcd54
+		summarizeBy: none
+		sourceColumn: activity_median
+
+	column activity_iqr
+		dataType: double
+		lineageTag: 598b25c7-ba7b-4910-b0c6-9c93ccb0043a
+		summarizeBy: none
+		sourceColumn: activity_iqr
+
+	column positive_activity_median
+		dataType: double
+		lineageTag: 132f50c2-2a7f-42ad-9e4d-99c17e28e34a
+		summarizeBy: none
+		sourceColumn: positive_activity_median
+
+	column activity_p90
+		dataType: double
+		lineageTag: 4580637e-eb18-4b67-a5d2-e203ea1f0ad0
+		summarizeBy: none
+		sourceColumn: activity_p90
+
+	column activity_p99
+		dataType: double
+		lineageTag: 9140e756-0643-40be-bb81-496f33792a18
+		summarizeBy: none
+		sourceColumn: activity_p99
+
+	column valid_price_count
+		dataType: int64
+		lineageTag: 7167dd58-9b94-40a8-a11c-ee06c0e670bc
+		summarizeBy: none
+		sourceColumn: valid_price_count
+
+	column price_median
+		dataType: double
+		lineageTag: a448e0e7-b97f-49fb-b5a0-47c0a73d8dd8
+		summarizeBy: none
+		sourceColumn: price_median
+
+	column price_iqr
+		dataType: double
+		lineageTag: 739ec51f-a01f-4928-a1ef-5e7a1f97ac7a
+		summarizeBy: none
+		sourceColumn: price_iqr
+
+	column valid_minimum_nights_count
+		dataType: int64
+		lineageTag: 1fe1f6ff-37e9-4ca2-9871-29e0c443c626
+		summarizeBy: none
+		sourceColumn: valid_minimum_nights_count
+
+	column minimum_nights_median
+		dataType: double
+		lineageTag: e67c0a5b-954e-4087-a050-e0349c21dedb
+		summarizeBy: none
+		sourceColumn: minimum_nights_median
+
+	column minimum_nights_p90
+		dataType: double
+		lineageTag: 061c3634-7b0e-4b56-82f5-5a30f9fe8b0e
+		summarizeBy: none
+		sourceColumn: minimum_nights_p90
+
+	column probability_superiority
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 0fde8025-23ff-4804-8671-8daf57bc4bbd
+		summarizeBy: none
+		sourceColumn: probability_superiority
+
+	column effect_ci_low
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 1e8fb7df-1a9e-415e-bf80-8128f5693256
+		summarizeBy: none
+		sourceColumn: effect_ci_low
+
+	column effect_ci_high
+		dataType: double
+		formatString: 0.0%
+		lineageTag: e2c4d1cc-0229-496a-95d6-9b16c0fd0f75
+		summarizeBy: none
+		sourceColumn: effect_ci_high
+
+	column median_difference
+		dataType: double
+		lineageTag: da01e947-3ffe-4fda-b5c1-6e0f9beae12e
+		summarizeBy: none
+		sourceColumn: median_difference
+
+	column p_value_raw
+		dataType: double
+		lineageTag: 91fc37d1-ad13-4ed2-862f-2ed1216fbf14
+		summarizeBy: none
+		sourceColumn: p_value_raw
+
+	column q_value
+		dataType: double
+		lineageTag: a472db4e-8308-4b5f-990a-ee6c29519877
+		summarizeBy: none
+		sourceColumn: q_value
+
+	column sensitivity_status
+		dataType: string
+		lineageTag: 78b4e358-bfac-4d5d-9587-5f7f23b77a95
+		summarizeBy: none
+		sourceColumn: sensitivity_status
+
+	column centroid_latitude
+		dataType: double
+		lineageTag: 0d1c10d8-d62f-4f44-a3eb-3d1d3c5b6bf1
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: centroid_latitude
+
+	column centroid_longitude
+		dataType: double
+		lineageTag: 5770c368-f109-414e-8cad-68ce78a51875
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: centroid_longitude
+
+	column coordinate_coverage
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 8d939a76-70b2-4693-a517-6461ae3037bd
+		summarizeBy: none
+		sourceColumn: coordinate_coverage
+
+	column quality_flag_count
+		dataType: int64
+		lineageTag: 23de4b39-b938-4a9a-b777-86af1a92a21d
+		summarizeBy: none
+		sourceColumn: quality_flag_count
+
+	column price_position_percentile_within_city_room_type
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 3719cf28-f598-4b72-a563-e2c8a154163c
+		summarizeBy: none
+		sourceColumn: price_position_percentile_within_city_room_type
+
+	column eligibility_status
+		dataType: string
+		lineageTag: 06c714c5-f53b-413e-804b-3f9c90e5efd1
+		summarizeBy: none
+		sourceColumn: eligibility_status
+
+	column eligibility_reason
+		dataType: string
+		lineageTag: 794a2bc9-c11b-4e72-9ad4-92386a2303ab
+		summarizeBy: none
+		sourceColumn: eligibility_reason
+
+	column opportunity_label
+		dataType: string
+		lineageTag: 839b46e5-df0f-4231-ad17-b8bc44b4505a
+		summarizeBy: none
+		sourceColumn: opportunity_label
+
+	column candidate_rank
+		dataType: int64
+		lineageTag: ff3b75c0-b57e-420c-bbef-33cab24d12bd
+		summarizeBy: none
+		sourceColumn: candidate_rank
+
+	partition 'Fact Opportunity Segments' = m
+		mode: import
+		source =
+				let
+				    GuardRows = Table.RowCount(BuildGuard),
+				    Output = CsvFromRoot("fact_opportunity_segments.csv", {{"segment_key", type text}, {"city_key", type text}, {"neighborhood_key", type text}, {"room_type_key", type text}, {"build_id", type text}, {"listing_count", Int64.Type}, {"city_supply_share", type number}, {"neighborhood_supply_share", type number}, {"neighborhood_room_type_share", type number}, {"room_type_city_share", type number}, {"activity_analyzable_count", Int64.Type}, {"positive_activity_count", Int64.Type}, {"active_listing_share", type number}, {"activity_median", type number}, {"activity_iqr", type number}, {"positive_activity_median", type number}, {"activity_p90", type number}, {"activity_p99", type number}, {"valid_price_count", Int64.Type}, {"price_median", type number}, {"price_iqr", type number}, {"valid_minimum_nights_count", Int64.Type}, {"minimum_nights_median", type number}, {"minimum_nights_p90", type number}, {"probability_superiority", type number}, {"effect_ci_low", type number}, {"effect_ci_high", type number}, {"median_difference", type number}, {"p_value_raw", type number}, {"q_value", type number}, {"sensitivity_status", type text}, {"centroid_latitude", type number}, {"centroid_longitude", type number}, {"coordinate_coverage", type number}, {"quality_flag_count", Int64.Type}, {"price_position_percentile_within_city_room_type", type number}, {"eligibility_status", type text}, {"eligibility_reason", type text}, {"opportunity_label", type text}, {"candidate_rank", Int64.Type}})
+				in
+				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
+
