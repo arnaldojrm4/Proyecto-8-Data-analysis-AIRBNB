@@ -1,7 +1,8 @@
 # Checklist de aceptación manual — Power BI Nivel Medio
 
-Ejecución cerrada el 2026-09-07 (Europe/Madrid) conforme al
-[contrato Power BI](../specs/001-supply-opportunity-analysis/contracts/powerbi-report.md).
+Ejecución cerrada el 2026-09-07 (Europe/Madrid) conforme a la
+[guía Power BI](README.md) y la
+[aceptación del Nivel Medio](../docs/acceptance/medium-level.md).
 
 | Campo | Valor |
 |---|---|

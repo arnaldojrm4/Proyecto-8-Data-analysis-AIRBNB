@@ -167,9 +167,9 @@ haya aprobado el pipeline continúa siendo la autorizada.
 ## Aceptación y referencias
 
 - [Checklist manual](acceptance-checklist.md)
-- [Contrato del informe](../specs/001-supply-opportunity-analysis/contracts/powerbi-report.md)
-- [Contrato de salidas](../specs/001-supply-opportunity-analysis/contracts/analytical-outputs.md)
-- [Guía reproducible](../specs/001-supply-opportunity-analysis/quickstart.md)
+- [Aceptación del Nivel Medio](../docs/acceptance/medium-level.md)
+- [Conciliación del informe](../docs/acceptance/powerbi-reconciliation.md)
+- [Validación reproducible](../docs/acceptance/quickstart-validation.md)
 - [Evidencia contractual T087–T092](../docs/acceptance/powerbi-contracts-red.md)
 - [Conciliación T103](../docs/acceptance/powerbi-reconciliation.md)
 - [UAT y accesibilidad T104](../docs/acceptance/powerbi-uat.md)
