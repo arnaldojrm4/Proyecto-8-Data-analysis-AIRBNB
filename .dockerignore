@@ -14,5 +14,3 @@ htmlcov/
 data/processed/
 data/powerbi/
 artifacts/
-powerbi/*.pbix
-powerbi/*.pbit

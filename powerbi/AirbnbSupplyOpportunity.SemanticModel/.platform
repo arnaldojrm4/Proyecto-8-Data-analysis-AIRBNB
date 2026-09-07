@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Airbnb Supply Opportunity",
+    "description": "Modelo semántico local y reproducible para el análisis de captación."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "386b16f2-6bad-504b-8dfb-c71dc9d44018"
+  }
+}

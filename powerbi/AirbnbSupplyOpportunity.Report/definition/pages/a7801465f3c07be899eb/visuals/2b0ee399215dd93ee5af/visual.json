@@ -1,0 +1,157 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "2b0ee399215dd93ee5af",
+  "position": {
+    "x": 20,
+    "y": 518,
+    "z": 31000,
+    "height": 132,
+    "width": 600,
+    "tabOrder": 30
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Quality Summary"
+                    }
+                  },
+                  "Property": "quality_metric"
+                }
+              },
+              "queryRef": "Fact Quality Summary.quality_metric",
+              "nativeQueryRef": "quality_metric"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Quality Summary"
+                    }
+                  },
+                  "Property": "field"
+                }
+              },
+              "queryRef": "Fact Quality Summary.field",
+              "nativeQueryRef": "field"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Quality Summary"
+                    }
+                  },
+                  "Property": "failed_count"
+                }
+              },
+              "queryRef": "Fact Quality Summary.failed_count",
+              "nativeQueryRef": "failed_count"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Quality Summary"
+                    }
+                  },
+                  "Property": "failure_rate"
+                }
+              },
+              "queryRef": "Fact Quality Summary.failure_rate",
+              "nativeQueryRef": "failure_rate"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Quality Summary"
+                    }
+                  },
+                  "Property": "severity"
+                }
+              },
+              "queryRef": "Fact Quality Summary.severity",
+              "nativeQueryRef": "severity"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Quality Summary"
+                    }
+                  },
+                  "Property": "status"
+                }
+              },
+              "queryRef": "Fact Quality Summary.status",
+              "nativeQueryRef": "status"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Indicadores de calidad, exclusiones y tasas de fallo para la ciudad seleccionada.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

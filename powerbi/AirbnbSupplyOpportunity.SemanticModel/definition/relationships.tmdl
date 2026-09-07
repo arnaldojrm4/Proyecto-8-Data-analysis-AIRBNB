@@ -1,0 +1,33 @@
+relationship NeighborhoodToCity
+	fromColumn: 'Dim Neighborhood'.city_key
+	toColumn: 'Dim City'.city_key
+
+relationship ListingsToNeighborhood
+	fromColumn: 'Fact Listings'.neighborhood_key
+	toColumn: 'Dim Neighborhood'.neighborhood_key
+
+relationship ListingsToRoomType
+	fromColumn: 'Fact Listings'.room_type_key
+	toColumn: 'Dim Room Type'.room_type_key
+
+relationship OpportunityToNeighborhood
+	fromColumn: 'Fact Opportunity Segments'.neighborhood_key
+	toColumn: 'Dim Neighborhood'.neighborhood_key
+
+relationship OpportunityToRoomType
+	fromColumn: 'Fact Opportunity Segments'.room_type_key
+	toColumn: 'Dim Room Type'.room_type_key
+
+relationship StatisticsToOpportunity
+	fromColumn: 'Fact Statistical Results'.segment_key
+	toColumn: 'Fact Opportunity Segments'.segment_key
+
+relationship QualityToCity
+	fromColumn: 'Fact Quality Summary'.source_id
+	toColumn: 'Dim City'.city_key
+
+relationship StatisticsToCity
+	isActive: false
+	fromColumn: 'Fact Statistical Results'.city_key
+	toColumn: 'Dim City'.city_key
+

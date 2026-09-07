@@ -1,0 +1,137 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ac65fd7bbe5d1c5d80c1",
+  "position": {
+    "x": 20,
+    "y": 242,
+    "z": 21000,
+    "height": 260,
+    "width": 500,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Neighborhood"
+                    }
+                  },
+                  "Property": "neighborhood_label"
+                }
+              },
+              "queryRef": "Dim Neighborhood.neighborhood_label",
+              "nativeQueryRef": "neighborhood_label"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Opportunity Segments"
+                    }
+                  },
+                  "Property": "opportunity_label"
+                }
+              },
+              "queryRef": "Fact Opportunity Segments.opportunity_label",
+              "nativeQueryRef": "opportunity_label"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Posición de precio local"
+                }
+              },
+              "queryRef": "_Measures.Posición de precio local",
+              "nativeQueryRef": "Posición de precio local"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Efecto de actividad"
+                }
+              },
+              "queryRef": "_Measures.Efecto de actividad",
+              "nativeQueryRef": "Efecto de actividad"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Anuncios del segmento"
+                }
+              },
+              "queryRef": "_Measures.Anuncios del segmento",
+              "nativeQueryRef": "Anuncios del segmento"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dispersión entre posición de precio local y efecto de actividad; tamaño según anuncios analizables y estado con texto en tablas.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

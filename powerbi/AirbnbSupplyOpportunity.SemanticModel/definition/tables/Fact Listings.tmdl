@@ -1,0 +1,103 @@
+/// Tabla contractual importada desde fact_listings.csv.
+table 'Fact Listings'
+	lineageTag: 0c7ce584-6a48-4e06-904f-d4a99e19bf0b
+
+	column listing_key
+		dataType: string
+		isHidden
+		isUnique
+		isKey
+		lineageTag: 33c10d30-50eb-4279-81aa-5fad62ff8911
+		summarizeBy: none
+		sourceColumn: listing_key
+
+	column city_key
+		dataType: string
+		isHidden
+		lineageTag: 1d2b95f0-407a-40fa-b4a8-f5679a8df67d
+		summarizeBy: none
+		sourceColumn: city_key
+
+	column neighborhood_key
+		dataType: string
+		isHidden
+		lineageTag: a5fc1b56-3cfb-45cb-8427-83c4ce5f5281
+		summarizeBy: none
+		sourceColumn: neighborhood_key
+
+	column room_type_key
+		dataType: string
+		isHidden
+		lineageTag: e474fd29-a73a-4f7e-a065-4af757ed0a5e
+		summarizeBy: none
+		sourceColumn: room_type_key
+
+	column price
+		dataType: double
+		lineageTag: 93047f4c-248b-45d4-b712-2381065f11ae
+		summarizeBy: none
+		sourceColumn: price
+
+	column minimum_nights
+		dataType: int64
+		lineageTag: a7d0b974-e033-403b-810e-5c21da5f5f27
+		summarizeBy: none
+		sourceColumn: minimum_nights
+
+	column number_of_reviews
+		dataType: int64
+		lineageTag: 22f929a9-0404-4d37-91d7-46dcc948629d
+		summarizeBy: none
+		sourceColumn: number_of_reviews
+
+	column reviews_per_month_observed
+		dataType: double
+		lineageTag: 342608eb-2b2f-4ada-8ea9-db75c605bc52
+		summarizeBy: none
+		sourceColumn: reviews_per_month_observed
+
+	column activity_proxy
+		dataType: double
+		lineageTag: f8c04c04-8d92-4058-a1b1-70db892c36cc
+		summarizeBy: none
+		sourceColumn: activity_proxy
+
+	column activity_proxy_derived_zero
+		dataType: boolean
+		lineageTag: d9e7ccd4-6846-45e3-9810-b50dd36f7c81
+		summarizeBy: none
+		sourceColumn: activity_proxy_derived_zero
+
+	column activity_proxy_is_analyzable
+		dataType: boolean
+		lineageTag: 9b0596fa-730e-4fd5-b9a9-7ab384466c9d
+		summarizeBy: none
+		sourceColumn: activity_proxy_is_analyzable
+
+	column price_is_valid
+		dataType: boolean
+		lineageTag: bf68a471-4a88-43eb-842b-fc0573833d75
+		summarizeBy: none
+		sourceColumn: price_is_valid
+
+	column minimum_nights_is_valid
+		dataType: boolean
+		lineageTag: e5ccc98d-48a9-46e7-a05a-2c03f9837509
+		summarizeBy: none
+		sourceColumn: minimum_nights_is_valid
+
+	column coordinate_is_valid
+		dataType: boolean
+		lineageTag: ee61290b-56f9-4f28-bdef-1b9c5b02268e
+		summarizeBy: none
+		sourceColumn: coordinate_is_valid
+
+	partition 'Fact Listings' = m
+		mode: import
+		source =
+				let
+				    GuardRows = Table.RowCount(BuildGuard),
+				    Output = CsvFromRoot("fact_listings.csv", {{"listing_key", type text}, {"city_key", type text}, {"neighborhood_key", type text}, {"room_type_key", type text}, {"price", type number}, {"minimum_nights", Int64.Type}, {"number_of_reviews", Int64.Type}, {"reviews_per_month_observed", type number}, {"activity_proxy", type number}, {"activity_proxy_derived_zero", type logical}, {"activity_proxy_is_analyzable", type logical}, {"price_is_valid", type logical}, {"minimum_nights_is_valid", type logical}, {"coordinate_is_valid", type logical}})
+				in
+				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
+

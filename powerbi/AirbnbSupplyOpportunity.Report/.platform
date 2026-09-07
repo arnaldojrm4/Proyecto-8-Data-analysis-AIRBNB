@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Airbnb Supply Opportunity",
+    "description": "Informe ejecutivo de oportunidades aparentes de captación."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "537f70f7-c325-551f-97ff-58acf4aee235"
+  }
+}

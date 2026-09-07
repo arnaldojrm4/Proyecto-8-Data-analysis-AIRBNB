@@ -1,0 +1,145 @@
+/// Tabla contractual importada desde fact_statistical_results.csv.
+table 'Fact Statistical Results'
+	lineageTag: 8fe5939e-0450-44bc-b6d7-3ce4131c2ad6
+
+	column result_id
+		dataType: string
+		isHidden
+		isUnique
+		isKey
+		lineageTag: a0710c6b-4a98-4368-928b-009f847436ac
+		summarizeBy: none
+		sourceColumn: result_id
+
+	column build_id
+		dataType: string
+		isHidden
+		lineageTag: 4f06151a-6546-43c9-bc8c-ef36791155eb
+		summarizeBy: none
+		sourceColumn: build_id
+
+	column analysis_family
+		dataType: string
+		lineageTag: 3c18c6fd-cf03-4d86-96f5-61017b134746
+		summarizeBy: none
+		sourceColumn: analysis_family
+
+	column city_key
+		dataType: string
+		isHidden
+		lineageTag: 31df3275-f782-4550-81ed-e6c345780941
+		summarizeBy: none
+		sourceColumn: city_key
+
+	column segment_key
+		dataType: string
+		isHidden
+		lineageTag: a3fc72f3-3bf3-44cb-bd3c-8ca633ae8609
+		summarizeBy: none
+		sourceColumn: segment_key
+
+	column metric
+		dataType: string
+		lineageTag: c484fb85-3ff4-4f38-b175-9d5871935e6f
+		summarizeBy: none
+		sourceColumn: metric
+
+	column comparison
+		dataType: string
+		lineageTag: ad16565a-f187-4b96-8b85-ce05b1008385
+		summarizeBy: none
+		sourceColumn: comparison
+
+	column method
+		dataType: string
+		lineageTag: 79a1d7db-dcfd-44fd-bf9e-9f04a0d51fc1
+		summarizeBy: none
+		sourceColumn: method
+
+	column sample_size
+		dataType: int64
+		lineageTag: 5daa3a42-a3e5-4206-957b-fae2acd3eb8a
+		summarizeBy: none
+		sourceColumn: sample_size
+
+	column positive_sample_size
+		dataType: int64
+		lineageTag: 7c1ca460-4ba0-45fc-b7df-d40fc1a52b2e
+		summarizeBy: none
+		sourceColumn: positive_sample_size
+
+	column estimate
+		dataType: double
+		lineageTag: a1800516-fd4b-4d51-ae39-8735689499f5
+		summarizeBy: none
+		sourceColumn: estimate
+
+	column effect_type
+		dataType: string
+		lineageTag: 805996ae-43a8-49d1-8df7-0296711949c0
+		summarizeBy: none
+		sourceColumn: effect_type
+
+	column median_difference
+		dataType: double
+		lineageTag: e266143b-d53b-4eb1-ba6f-9e72ce553eb8
+		summarizeBy: none
+		sourceColumn: median_difference
+
+	column ci_low
+		dataType: double
+		lineageTag: 1e2b8701-ebc1-46a5-9a8a-a48d4125bd66
+		summarizeBy: none
+		sourceColumn: ci_low
+
+	column ci_high
+		dataType: double
+		lineageTag: 138e820a-31a2-4b70-aee1-0b8547d42447
+		summarizeBy: none
+		sourceColumn: ci_high
+
+	column p_value_raw
+		dataType: double
+		lineageTag: a13b2e43-7f9f-4606-84be-a9805d30f4c6
+		summarizeBy: none
+		sourceColumn: p_value_raw
+
+	column p_value_adjusted
+		dataType: double
+		lineageTag: 4bdb0cf4-7f7f-467c-b9cd-4475344e4cd8
+		summarizeBy: none
+		sourceColumn: p_value_adjusted
+
+	column correction_method
+		dataType: string
+		lineageTag: 6fba018f-7424-48cc-9c04-3af14e1cc6e1
+		summarizeBy: none
+		sourceColumn: correction_method
+
+	column assumption_status
+		dataType: string
+		lineageTag: 918d3b39-04f8-4cd2-8034-feac2c4d0631
+		summarizeBy: none
+		sourceColumn: assumption_status
+
+	column sensitivity_status
+		dataType: string
+		lineageTag: 8b2a7e24-fc62-4055-a306-da26e295551c
+		summarizeBy: none
+		sourceColumn: sensitivity_status
+
+	column interpretation_es
+		dataType: string
+		lineageTag: 6cddbd24-8fbe-41e5-93ac-88144bf93850
+		summarizeBy: none
+		sourceColumn: interpretation_es
+
+	partition 'Fact Statistical Results' = m
+		mode: import
+		source =
+				let
+				    GuardRows = Table.RowCount(BuildGuard),
+				    Output = CsvFromRoot("fact_statistical_results.csv", {{"result_id", type text}, {"build_id", type text}, {"analysis_family", type text}, {"city_key", type text}, {"segment_key", type text}, {"metric", type text}, {"comparison", type text}, {"method", type text}, {"sample_size", Int64.Type}, {"positive_sample_size", Int64.Type}, {"estimate", type number}, {"effect_type", type text}, {"median_difference", type number}, {"ci_low", type number}, {"ci_high", type number}, {"p_value_raw", type number}, {"p_value_adjusted", type number}, {"correction_method", type text}, {"assumption_status", type text}, {"sensitivity_status", type text}, {"interpretation_es", type text}})
+				in
+				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
+
