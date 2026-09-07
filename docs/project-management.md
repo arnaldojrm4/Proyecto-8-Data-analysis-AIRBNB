@@ -61,4 +61,7 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
   previa ante cualquier fallo.
 - Ruff y 17 pruebas específicas aprobaron. La regresión completa terminó con 81 pruebas aprobadas en
   290,82 s, y la exportación real validó 8 archivos y 222.834 filas desde 220.031 anuncios.
-- El issue #6 y el PR #10 permanecen en `In Progress`; T093 es la próxima tarea.
+- T093 documentó Power BI Desktop gratuito, el entorno x64 `2.157.879.0 (26.08)` detectado,
+  `DataRoot`, refresh, modelo estrella, límites y resolución de errores. La compatibilidad mínima
+  real del informe queda explícitamente pendiente de la prueba de refresh de T103.
+- El issue #6 y el PR #10 permanecen en `In Progress`; T094 es la próxima tarea.
