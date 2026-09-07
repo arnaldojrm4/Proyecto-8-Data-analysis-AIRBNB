@@ -1,0 +1,41 @@
+/// Tabla contractual importada desde dim_room_type.csv.
+table 'Dim Room Type'
+	lineageTag: 30a3168d-0cc3-4840-91fc-07d1cf921e1e
+
+	column room_type_key
+		dataType: string
+		isHidden
+		isUnique
+		isKey
+		lineageTag: d3d47248-3405-4bac-a78b-0fc75b5dbbc7
+		summarizeBy: none
+		sourceColumn: room_type_key
+
+	column room_type
+		dataType: string
+		isHidden
+		lineageTag: de9366ec-2006-443e-a66c-893bc2a55d4c
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column room_type_label_es
+		dataType: string
+		lineageTag: 06d292b5-7a37-4626-8654-a6243b1af30b
+		summarizeBy: none
+		sourceColumn: room_type_label_es
+
+	column sort_order
+		dataType: int64
+		lineageTag: d99d53c8-ab9e-4d79-9cf5-9b1d1f7cb7d5
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	partition 'Dim Room Type' = m
+		mode: import
+		source =
+				let
+				    GuardRows = Table.RowCount(BuildGuard),
+				    Output = CsvFromRoot("dim_room_type.csv", {{"room_type_key", type text}, {"room_type", type text}, {"room_type_label_es", type text}, {"sort_order", Int64.Type}})
+				in
+				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
+

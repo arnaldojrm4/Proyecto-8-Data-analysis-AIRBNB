@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU06",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.1.0"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "AirbnbAccessible-e785ad6.json",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.1.0"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "AirbnbAccessible-e785ad6.json",
+          "path": "AirbnbAccessible-e785ad6.json",
+          "type": "CustomTheme"
+        }
+      ]
+    }
+  ],
+  "annotations": [
+    {
+      "name": "defaultPage",
+      "value": "98db0e1a48c493ab721d"
+    }
+  ]
+}

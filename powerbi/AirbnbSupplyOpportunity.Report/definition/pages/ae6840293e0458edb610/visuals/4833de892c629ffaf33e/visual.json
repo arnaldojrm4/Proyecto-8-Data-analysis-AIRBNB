@@ -1,0 +1,185 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "4833de892c629ffaf33e",
+  "position": {
+    "x": 20,
+    "y": 438,
+    "z": 21000,
+    "height": 174,
+    "width": 1240,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim City"
+                    }
+                  },
+                  "Property": "city_label_es"
+                }
+              },
+              "queryRef": "Dim City.city_label_es",
+              "nativeQueryRef": "city_label_es"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Neighborhood"
+                    }
+                  },
+                  "Property": "neighborhood_label"
+                }
+              },
+              "queryRef": "Dim Neighborhood.neighborhood_label",
+              "nativeQueryRef": "neighborhood_label"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Room Type"
+                    }
+                  },
+                  "Property": "room_type_label_es"
+                }
+              },
+              "queryRef": "Dim Room Type.room_type_label_es",
+              "nativeQueryRef": "room_type_label_es"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Estado de evidencia"
+                }
+              },
+              "queryRef": "_Measures.Estado de evidencia",
+              "nativeQueryRef": "Estado de evidencia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Anuncios del segmento"
+                }
+              },
+              "queryRef": "_Measures.Anuncios del segmento",
+              "nativeQueryRef": "Anuncios del segmento"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Cuota de oferta"
+                }
+              },
+              "queryRef": "_Measures.Cuota de oferta",
+              "nativeQueryRef": "Cuota de oferta"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Efecto de actividad"
+                }
+              },
+              "queryRef": "_Measures.Efecto de actividad",
+              "nativeQueryRef": "Efecto de actividad"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Posición de precio local"
+                }
+              },
+              "queryRef": "_Measures.Posición de precio local",
+              "nativeQueryRef": "Posición de precio local"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ranking tabular accesible y exportable; clic derecho en un barrio para acceder al detalle y confianza.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

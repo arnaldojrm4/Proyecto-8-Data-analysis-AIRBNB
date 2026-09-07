@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "6ba8bb5dc72cdf0c291b",
+  "position": {
+    "x": 20,
+    "y": 112,
+    "z": 11000,
+    "height": 110,
+    "width": 600,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Segmentos candidatos"
+                }
+              },
+              "queryRef": "_Measures.Segmentos candidatos",
+              "nativeQueryRef": "Segmentos candidatos"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Anuncios analizables"
+                }
+              },
+              "queryRef": "_Measures.Anuncios analizables",
+              "nativeQueryRef": "Anuncios analizables"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Cuota activa histórica"
+                }
+              },
+              "queryRef": "_Measures.Cuota activa histórica",
+              "nativeQueryRef": "Cuota activa histórica"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Indicadores del contexto: candidatos, anuncios analizables y cuota activa histórica.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

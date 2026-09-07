@@ -1,0 +1,56 @@
+/// Tabla contractual importada desde dim_neighborhood.csv.
+table 'Dim Neighborhood'
+	lineageTag: c84dea51-22a4-4511-9316-31bf8b8a6767
+
+	column neighborhood_key
+		dataType: string
+		isHidden
+		isUnique
+		isKey
+		lineageTag: d6c7e730-8e5b-4be5-bc5d-919a7920bcc2
+		summarizeBy: none
+		sourceColumn: neighborhood_key
+
+	column city_key
+		dataType: string
+		isHidden
+		lineageTag: 679a6ae3-9f42-48b5-ab8a-e5123dac9183
+		summarizeBy: none
+		sourceColumn: city_key
+
+	column neighborhood_label
+		dataType: string
+		lineageTag: 423ecb47-814a-4152-b0a0-6804ca212529
+		summarizeBy: none
+		sourceColumn: neighborhood_label
+
+	column centroid_latitude
+		dataType: double
+		lineageTag: 3b71815f-0721-4b70-abca-2cada20fdce3
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: centroid_latitude
+
+	column centroid_longitude
+		dataType: double
+		lineageTag: 82ec2758-b922-46cd-be58-22df16c1c35d
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: centroid_longitude
+
+	column coordinate_coverage
+		dataType: double
+		formatString: 0.0%
+		lineageTag: b99c3283-1d98-4ee2-aa9e-6f2d8c183416
+		summarizeBy: none
+		sourceColumn: coordinate_coverage
+
+	partition 'Dim Neighborhood' = m
+		mode: import
+		source =
+				let
+				    GuardRows = Table.RowCount(BuildGuard),
+				    Output = CsvFromRoot("dim_neighborhood.csv", {{"neighborhood_key", type text}, {"city_key", type text}, {"neighborhood_label", type text}, {"centroid_latitude", type number}, {"centroid_longitude", type number}, {"coordinate_coverage", type number}})
+				in
+				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
+

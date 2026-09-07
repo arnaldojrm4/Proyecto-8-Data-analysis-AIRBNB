@@ -1,0 +1,135 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a399ab46be6524f7680c",
+  "position": {
+    "x": 640,
+    "y": 518,
+    "z": 32000,
+    "height": 132,
+    "width": 620,
+    "tabOrder": 31
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Build ID"
+                }
+              },
+              "queryRef": "_Measures.Build ID",
+              "nativeQueryRef": "Build ID"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Versión de schema"
+                }
+              },
+              "queryRef": "_Measures.Versión de schema",
+              "nativeQueryRef": "Versión de schema"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Generado UTC"
+                }
+              },
+              "queryRef": "_Measures.Generado UTC",
+              "nativeQueryRef": "Generado UTC"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Filas fuente"
+                }
+              },
+              "queryRef": "_Measures.Filas fuente",
+              "nativeQueryRef": "Filas fuente"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Filas importadas"
+                }
+              },
+              "queryRef": "_Measures.Filas importadas",
+              "nativeQueryRef": "Filas importadas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Diferencia de conciliación"
+                }
+              },
+              "queryRef": "_Measures.Diferencia de conciliación",
+              "nativeQueryRef": "Diferencia de conciliación"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Control del build: identidad, schema, hora, filas fuente e importadas; la diferencia debe ser cero.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+/// Tabla contractual importada desde fact_quality_summary.csv.
+table 'Fact Quality Summary'
+	lineageTag: 801865c5-3d96-498c-9adf-f3920e4c5337
+
+	column build_id
+		dataType: string
+		isHidden
+		lineageTag: cdc02770-fa5d-4975-8fe1-2a3dd63e32cb
+		summarizeBy: none
+		sourceColumn: build_id
+
+	column source_id
+		dataType: string
+		isHidden
+		lineageTag: 67779a3f-03de-41d8-889f-bfb8b3ee0751
+		summarizeBy: none
+		sourceColumn: source_id
+
+	column quality_metric
+		dataType: string
+		lineageTag: 78f96feb-80de-44f9-8417-d10adfe99ba3
+		summarizeBy: none
+		sourceColumn: quality_metric
+
+	column field
+		dataType: string
+		lineageTag: 41db0c1a-7fa2-4570-90f7-ff5277a4006b
+		summarizeBy: none
+		sourceColumn: field
+
+	column evaluated_count
+		dataType: int64
+		lineageTag: af6fc66c-5fb0-40e5-8acd-9bf88459f5ba
+		summarizeBy: none
+		sourceColumn: evaluated_count
+
+	column failed_count
+		dataType: int64
+		lineageTag: 3facdd09-4bf7-434d-8eac-2d3d0a711eff
+		summarizeBy: none
+		sourceColumn: failed_count
+
+	column failure_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 7c817a0e-df46-4e17-9424-1f14d942afd5
+		summarizeBy: none
+		sourceColumn: failure_rate
+
+	column severity
+		dataType: string
+		lineageTag: 4bbe6606-421b-4cb0-845b-5f5fb0669464
+		summarizeBy: none
+		sourceColumn: severity
+
+	column status
+		dataType: string
+		lineageTag: 15cd89cb-a155-4ea4-b53e-9941825aca61
+		summarizeBy: none
+		sourceColumn: status
+
+	column interpretation_es
+		dataType: string
+		lineageTag: 91be0238-35c4-4bee-b417-c1c73665b5c3
+		summarizeBy: none
+		sourceColumn: interpretation_es
+
+	partition 'Fact Quality Summary' = m
+		mode: import
+		source =
+				let
+				    GuardRows = Table.RowCount(BuildGuard),
+				    Output = CsvFromRoot("fact_quality_summary.csv", {{"build_id", type text}, {"source_id", type text}, {"quality_metric", type text}, {"field", type text}, {"evaluated_count", Int64.Type}, {"failed_count", Int64.Type}, {"failure_rate", type number}, {"severity", type text}, {"status", type text}, {"interpretation_es", type text}})
+				in
+				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
+
