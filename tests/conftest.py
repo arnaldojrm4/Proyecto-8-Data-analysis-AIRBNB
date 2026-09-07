@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -165,6 +166,27 @@ def powerbi_export_fixture(tmp_path: Path) -> SimpleNamespace:
     opportunities.to_parquet(processed / "opportunity_segments.parquet", index=False)
     statistical.to_parquet(processed / "statistical_results.parquet", index=False)
     quality.to_parquet(artifacts / "quality" / "findings.parquet", index=False)
+    source_manifest = tmp_path / "source-manifest.json"
+    source_manifest.write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0.0",
+                "sources": [
+                    {
+                        "source_id": "madrid",
+                        "city_key": "madrid",
+                        "display_city_es": "Madrid",
+                        "parsed_row_count": len(listings),
+                        "snapshot_date": None,
+                        "currency": None,
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    analysis_config = tmp_path / "analysis.yml"
+    analysis_config.write_text("schema_version: 1.0.0\n", encoding="utf-8")
 
     exit_code = cli.main(
         [
@@ -175,6 +197,10 @@ def powerbi_export_fixture(tmp_path: Path) -> SimpleNamespace:
             str(artifacts),
             "--powerbi-dir",
             str(powerbi),
+            "--source-manifest",
+            str(source_manifest),
+            "--config",
+            str(analysis_config),
             "--build-id",
             "TESTBUILD",
             "--log-format",
@@ -184,6 +210,10 @@ def powerbi_export_fixture(tmp_path: Path) -> SimpleNamespace:
     assert exit_code == 0
     return SimpleNamespace(
         directory=powerbi,
+        processed=processed,
+        artifacts=artifacts,
+        source_manifest=source_manifest,
+        analysis_config=analysis_config,
         listings=listings,
         opportunities=opportunities,
         raw_listing_ids=raw_listing_ids,

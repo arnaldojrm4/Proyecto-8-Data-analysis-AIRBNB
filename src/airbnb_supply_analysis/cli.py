@@ -44,6 +44,7 @@ from airbnb_supply_analysis.statistics import (
 from airbnb_supply_analysis.validation import (
     DocumentationContractError,
     validate_documentation_tree,
+    validate_powerbi_exports,
     validate_release_artifacts,
 )
 from airbnb_supply_analysis.visualization import save_core_figures
@@ -382,17 +383,26 @@ def _export(args: argparse.Namespace) -> dict[str, Any]:
     statistical = pd.read_parquet(paths.processed / "statistical_results.parquet")
     quality = pd.read_parquet(paths.artifacts / "quality" / "findings.parquet")
     build_id = args.build_id or _build_id(paths.manifest, paths.config)
-    exports = export_powerbi_dataset(
-        listings,
-        opportunities,
-        statistical,
-        quality,
-        paths.powerbi,
-        build_id=build_id,
-        schema_version=SCHEMA_VERSION,
-        source_manifest_path=paths.manifest,
-        analysis_config_path=paths.config,
-    )
+    with tempfile.TemporaryDirectory(prefix="airbnb-supply-export-") as temporary:
+        staged_powerbi = Path(temporary) / "powerbi"
+        exports = export_powerbi_dataset(
+            listings,
+            opportunities,
+            statistical,
+            quality,
+            staged_powerbi,
+            build_id=build_id,
+            schema_version=SCHEMA_VERSION,
+            source_manifest_path=paths.manifest,
+            analysis_config_path=paths.config,
+        )
+        validate_powerbi_exports(
+            staged_powerbi,
+            paths.processed,
+            source_manifest_path=paths.manifest,
+            analysis_config_path=paths.config,
+        )
+        _publish_staged_directory(staged_powerbi, paths.powerbi)
     return _summary(
         "export",
         build_id=build_id,
@@ -406,7 +416,13 @@ def _validate(args: argparse.Namespace) -> dict[str, Any]:
     """Valida artefactos existentes y documentación sin reconstruir el flujo."""
     paths = _paths(args)
     documentation = validate_documentation_tree(Path.cwd())
-    artifacts = validate_release_artifacts(paths.processed, paths.powerbi, paths.artifacts)
+    artifacts = validate_release_artifacts(
+        paths.processed,
+        paths.powerbi,
+        paths.artifacts,
+        source_manifest_path=paths.manifest,
+        analysis_config_path=paths.config,
+    )
     return _summary(
         "validate",
         build_id=args.build_id or _build_id(paths.manifest, paths.config),
@@ -527,10 +543,6 @@ def _validate_export_columns(frame: pd.DataFrame) -> None:
         raise ValueError(f"Campos restringidos en exportación: {', '.join(sorted(present))}")
 
 
-def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
 def _stage_exit_code(stage: str) -> int:
     if stage == "analyze":
         return 5
@@ -547,32 +559,35 @@ def _publish_staged_outputs(staging: Path, args: argparse.Namespace) -> None:
         ("powerbi", Path(args.powerbi_dir).resolve()),
         ("artifacts", Path(args.artifacts_dir).resolve()),
     ):
-        source = staging / name
-        if not source.exists():
-            continue
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        backup = destination.with_name(f".{destination.name}.previous")
+        _publish_staged_directory(staging / name, destination)
+
+
+def _publish_staged_directory(source: Path, destination: Path) -> None:
+    if not source.exists():
+        return
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    backup = destination.with_name(f".{destination.name}.previous")
+    if backup.exists():
+        shutil.rmtree(backup)
+    if destination.exists():
+        try:
+            destination.replace(backup)
+        except OSError as error:
+            if error.errno not in {errno.EACCES, errno.EBUSY, errno.EPERM}:
+                raise
+            _publish_into_mounted_directory(source, destination)
+            (destination / ".gitkeep").touch(exist_ok=True)
+            return
+    try:
+        source.replace(destination)
+    except BaseException:
+        if backup.exists() and not destination.exists():
+            backup.replace(destination)
+        raise
+    else:
         if backup.exists():
             shutil.rmtree(backup)
-        if destination.exists():
-            try:
-                destination.replace(backup)
-            except OSError as error:
-                if error.errno not in {errno.EACCES, errno.EBUSY, errno.EPERM}:
-                    raise
-                _publish_into_mounted_directory(source, destination)
-                (destination / ".gitkeep").touch(exist_ok=True)
-                continue
-        try:
-            source.replace(destination)
-        except BaseException:
-            if backup.exists() and not destination.exists():
-                backup.replace(destination)
-            raise
-        else:
-            if backup.exists():
-                shutil.rmtree(backup)
-            (destination / ".gitkeep").touch(exist_ok=True)
+        (destination / ".gitkeep").touch(exist_ok=True)
 
 
 def _publish_into_mounted_directory(source: Path, destination: Path) -> None:
@@ -661,7 +676,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 3
         if args.command == "analyze":
             return 5
-        return 4
+        return _stage_exit_code(args.command)
     print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
     return 0
 
