@@ -14,10 +14,9 @@ quedan fuera del alcance.
 
 - **Entorno detectado el 2026-09-07**: Power BI Desktop x64 `2.157.879.0 (26.08)`.
 - **Versión base para construir el informe**: `2.157.879.0 (26.08)` o posterior.
-- **Versión mínima compatible verificada mediante refresh**: pendiente de T103.
+- **Versión mínima compatible verificada mediante refresh**: `2.157.879.0 (26.08)`.
 
-La última línea no puede declararse aprobada antes de disponer del `.pbix` y refrescarlo desde una
-ruta limpia. T103 reemplazará el estado pendiente por la versión realmente comprobada. Microsoft
+El `.pbix` se abrió y refrescó desde un `DataRoot` limpio con esa versión. Microsoft
 publica Power BI Desktop mensualmente y solo soporta la versión más reciente; ante un problema no
 reproducible se debe volver a probar con la versión x64 actual.
 
@@ -29,10 +28,10 @@ Consulta la [descarga y requisitos oficiales](https://learn.microsoft.com/es-es/
 
 | Artefacto | Contenido | Estado actual |
 |---|---|---|
-| `airbnb-supply-opportunity.pbix` | Informe editable con datos importados | Pendiente de T095–T100 |
-| `airbnb-supply-opportunity.pbit` | Plantilla sin datos importados | Pendiente de T101 |
+| `airbnb-supply-opportunity.pbix` | Informe editable con datos importados | Completo (T095–T100) |
+| `airbnb-supply-opportunity.pbit` | Plantilla sin datos importados | Completo (T101) |
 | `theme.json` | Tema accesible validado con el esquema oficial 2.157 | Completo (T094) |
-| `acceptance-checklist.md` | Lista de aceptación manual | Preparada; bloqueada hasta T095–T101 |
+| `acceptance-checklist.md` | Lista de aceptación manual | PASS (T103–T105) |
 
 Una plantilla `.pbit` conserva consultas, parámetros, modelo, medidas, páginas y formato, pero no
 incluye los datos importados. Al abrirla, Power BI Desktop solicita los parámetros y crea un informe
@@ -172,6 +171,9 @@ haya aprobado el pipeline continúa siendo la autorizada.
 - [Contrato de salidas](../specs/001-supply-opportunity-analysis/contracts/analytical-outputs.md)
 - [Guía reproducible](../specs/001-supply-opportunity-analysis/quickstart.md)
 - [Evidencia contractual T087–T092](../docs/acceptance/powerbi-contracts-red.md)
+- [Conciliación T103](../docs/acceptance/powerbi-reconciliation.md)
+- [UAT y accesibilidad T104](../docs/acceptance/powerbi-uat.md)
+- [Aceptación Nivel Medio T105](../docs/acceptance/medium-level.md)
 
-T095–T101 construirán el informe y la plantilla. T103 actualizará esta guía con la versión mínima
-que haya abierto y refrescado realmente el informe desde un `DataRoot` limpio.
+El informe, la plantilla y la fuente PBIP se aceptaron con build `FDAAB53F8317CAD7`, schema `1.0.0`
+y diferencia de conciliación cero.

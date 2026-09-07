@@ -194,17 +194,17 @@
 - [X] T092 [US4] Completar `export` y conectar su validación con `validate` y `all` en `src/airbnb_supply_analysis/cli.py`
 - [X] T093 [P] [US4] Documentar Power BI Desktop gratuito, versión mínima probada, parámetro `DataRoot`, refresh, modelo, limitaciones y resolución de errores en `powerbi/README.md`
 - [X] T094 [P] [US4] Crear el tema accesible con contraste ≥4,5:1 y estados diferenciados también por texto/icono en `powerbi/theme.json`
-- [ ] T095 [US4] Construir en `powerbi/airbnb-supply-opportunity.pbix` las consultas parametrizadas por `DataRoot`, validación de release gate y modelo estrella con relaciones uno-a-muchos unidireccionales
-- [ ] T096 [US4] Crear en `powerbi/airbnb-supply-opportunity.pbix` las medidas explícitas requeridas, denominadores, tooltips explicativos y `Diferencia de conciliación`
-- [ ] T097 [US4] Construir la página 1 `Resumen ejecutivo` con hasta tres candidatos, evidencia separada, recomendación provisional y avisos visibles en `powerbi/airbnb-supply-opportunity.pbix`
-- [ ] T098 [US4] Construir la página 2 `Oportunidades de captación` con slicers globales, ranking siempre disponible, mapa agregado opcional y drillthrough en `powerbi/airbnb-supply-opportunity.pbix`
-- [ ] T099 [US4] Construir la página 3 `Detalle y confianza` con muestra, dispersión, efecto, IC, valores ajustados, sensibilidad, calidad, control de build y retorno en `powerbi/airbnb-supply-opportunity.pbix`
-- [ ] T100 [US4] Configurar sincronización limitada de filtros, reset, navegación, orden de tabulación, alt text dinámico y ocultación de claves técnicas en `powerbi/airbnb-supply-opportunity.pbix`
-- [ ] T101 [US4] Exportar la plantilla sin datos y comprobar que solicita `DataRoot` en la primera apertura en `powerbi/airbnb-supply-opportunity.pbit`
-- [ ] T102 [US4] Implementar verificación externa de archivos, schema major, hashes, filas, privacidad y diferencia de conciliación en `scripts/verify_powerbi.ps1`
-- [ ] T103 [US4] Refrescar `.pbix` desde una ruta limpia, cotejar una muestra de medidas con Parquet/CSV y registrar capturas y resultados en `docs/acceptance/powerbi-reconciliation.md`
-- [ ] T104 [US4] Realizar la prueba no asistida de tres minutos y la revisión de accesibilidad/fallback, registrando incidencias y correcciones en `docs/acceptance/powerbi-uat.md`
-- [ ] T105 [US4] Ejecutar la aceptación independiente, cerrar la puerta Medio y enlazar exportaciones, `.pbix`, `.pbit`, pruebas, issue y PR en `docs/acceptance/medium-level.md`
+- [X] T095 [US4] Construir en `powerbi/airbnb-supply-opportunity.pbix` las consultas parametrizadas por `DataRoot`, validación de release gate y modelo estrella con relaciones uno-a-muchos unidireccionales
+- [X] T096 [US4] Crear en `powerbi/airbnb-supply-opportunity.pbix` las medidas explícitas requeridas, denominadores, tooltips explicativos y `Diferencia de conciliación`
+- [X] T097 [US4] Construir la página 1 `Resumen ejecutivo` con hasta tres candidatos, evidencia separada, recomendación provisional y avisos visibles en `powerbi/airbnb-supply-opportunity.pbix`
+- [X] T098 [US4] Construir la página 2 `Oportunidades de captación` con slicers globales, ranking siempre disponible, mapa agregado opcional y drillthrough en `powerbi/airbnb-supply-opportunity.pbix`
+- [X] T099 [US4] Construir la página 3 `Detalle y confianza` con muestra, dispersión, efecto, IC, valores ajustados, sensibilidad, calidad, control de build y retorno en `powerbi/airbnb-supply-opportunity.pbix`
+- [X] T100 [US4] Configurar sincronización limitada de filtros, reset, navegación, orden de tabulación, alt text dinámico y ocultación de claves técnicas en `powerbi/airbnb-supply-opportunity.pbix`
+- [X] T101 [US4] Exportar la plantilla sin datos y comprobar que solicita `DataRoot` en la primera apertura en `powerbi/airbnb-supply-opportunity.pbit`
+- [X] T102 [US4] Implementar verificación externa de archivos, schema major, hashes, filas, privacidad y diferencia de conciliación en `scripts/verify_powerbi.ps1`
+- [X] T103 [US4] Refrescar `.pbix` desde una ruta limpia, cotejar una muestra de medidas con Parquet/CSV y registrar capturas y resultados en `docs/acceptance/powerbi-reconciliation.md`
+- [X] T104 [US4] Realizar la prueba no asistida de tres minutos y la revisión de accesibilidad/fallback, registrando incidencias y correcciones en `docs/acceptance/powerbi-uat.md`
+- [X] T105 [US4] Ejecutar la aceptación independiente, cerrar la puerta Medio y enlazar exportaciones, `.pbix`, `.pbit`, pruebas, issue y PR en `docs/acceptance/medium-level.md`
 
 **Punto de control — NIVEL MEDIO**: informe funcional, interactivo, accesible, conciliado, reproducible localmente y sin licencia de pago.
 
@@ -214,8 +214,8 @@
 
 **Propósito**: comprobar coherencia final sin ampliar el alcance comprometido.
 
-- [ ] T106 [P] Documentar únicamente como backlog posterior las opciones Avanzado/Experto —modelos, clustering, datos externos y publicación— en `docs/roadmap.md`
-- [ ] T107 [P] Revisar que decisiones, supuestos, incidentes, alternativas rechazadas, resultados y limitaciones estén contemporáneamente enlazados desde `README.md`
+- [X] T106 [P] Documentar únicamente como backlog posterior las opciones Avanzado/Experto —modelos, clustering, datos externos y publicación— en `docs/roadmap.md`
+- [X] T107 [P] Revisar que decisiones, supuestos, incidentes, alternativas rechazadas, resultados y limitaciones estén contemporáneamente enlazados desde `README.md`
 - [ ] T108 Ejecutar todos los comandos de `specs/001-supply-opportunity-analysis/quickstart.md` en un checkout limpio y registrar cualquier corrección en `docs/acceptance/quickstart-validation.md`
 - [ ] T109 Ejecutar pruebas unitarias, contractuales e integración, notebooks y validaciones Power BI en Docker; archivar el resumen final en `docs/acceptance/final-release.md`
 - [ ] T110 Conciliar GitHub Projects con `main`, confirmar PR integradas y elementos en `Done`, y registrar la instantánea final y el historial de release en `docs/project-management.md`

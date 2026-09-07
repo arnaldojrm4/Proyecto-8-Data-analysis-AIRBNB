@@ -1,4 +1,7 @@
-# Bloques de trabajo posteriores a US2
+# Bloques de trabajo del release
+
+**Estado al 2026-09-07:** los bloques 1–6 están completados. El bloque 7 se cierra con T106–T110;
+las ideas posteriores viven en `docs/roadmap.md` y no amplían el alcance comprometido.
 
 Cada bloque usa una rama corta, commits atómicos, pruebas antes de implementación y una PR contra
 `main`. No se inicia Power BI hasta aceptar por completo el Nivel Esencial.
