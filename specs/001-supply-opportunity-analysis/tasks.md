@@ -217,7 +217,7 @@
 - [X] T106 [P] Documentar únicamente como backlog posterior las opciones Avanzado/Experto —modelos, clustering, datos externos y publicación— en `docs/roadmap.md`
 - [X] T107 [P] Revisar que decisiones, supuestos, incidentes, alternativas rechazadas, resultados y limitaciones estén contemporáneamente enlazados desde `README.md`
 - [X] T108 Ejecutar todos los comandos de `specs/001-supply-opportunity-analysis/quickstart.md` en un checkout limpio y registrar cualquier corrección en `docs/acceptance/quickstart-validation.md`
-- [ ] T109 Ejecutar pruebas unitarias, contractuales e integración, notebooks y validaciones Power BI en Docker; archivar el resumen final en `docs/acceptance/final-release.md`
+- [X] T109 Ejecutar pruebas unitarias, contractuales e integración, notebooks y validaciones Power BI en Docker; archivar el resumen final en `docs/acceptance/final-release.md`
 - [ ] T110 Conciliar GitHub Projects con `main`, confirmar PR integradas y elementos en `Done`, y registrar la instantánea final y el historial de release en `docs/project-management.md`
 
 ---
