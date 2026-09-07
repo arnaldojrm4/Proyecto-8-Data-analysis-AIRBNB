@@ -193,7 +193,7 @@
 - [X] T091 [US4] Implementar dimensiones, hechos, claves sustitutas, privacidad, orden estable y `build_control.csv` en `src/airbnb_supply_analysis/exports.py`
 - [X] T092 [US4] Completar `export` y conectar su validación con `validate` y `all` en `src/airbnb_supply_analysis/cli.py`
 - [X] T093 [P] [US4] Documentar Power BI Desktop gratuito, versión mínima probada, parámetro `DataRoot`, refresh, modelo, limitaciones y resolución de errores en `powerbi/README.md`
-- [ ] T094 [P] [US4] Crear el tema accesible con contraste ≥4,5:1 y estados diferenciados también por texto/icono en `powerbi/theme.json`
+- [X] T094 [P] [US4] Crear el tema accesible con contraste ≥4,5:1 y estados diferenciados también por texto/icono en `powerbi/theme.json`
 - [ ] T095 [US4] Construir en `powerbi/airbnb-supply-opportunity.pbix` las consultas parametrizadas por `DataRoot`, validación de release gate y modelo estrella con relaciones uno-a-muchos unidireccionales
 - [ ] T096 [US4] Crear en `powerbi/airbnb-supply-opportunity.pbix` las medidas explícitas requeridas, denominadores, tooltips explicativos y `Diferencia de conciliación`
 - [ ] T097 [US4] Construir la página 1 `Resumen ejecutivo` con hasta tres candidatos, evidencia separada, recomendación provisional y avisos visibles en `powerbi/airbnb-supply-opportunity.pbix`
