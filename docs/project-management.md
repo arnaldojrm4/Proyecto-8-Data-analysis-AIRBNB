@@ -26,7 +26,7 @@ GitHub (`Todo`, `In Progress`, `Done`).
 | Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
 | Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
 | Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) | Done |
-| Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) | In Progress |
+| Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) | Done |
 
 ¹ US1 se construyó en la rama autorizada `feat/essential-foundation`; sus commits son la base de la
 rama específica de US2. Se conserva la desviación para no fingir una rama retrospectiva.
@@ -37,6 +37,13 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
   Project #2 sin modificar el Project #1, que pertenece a otro repositorio.
 - 2026-09-04: Docker Desktop quedó accesible; T082 aprobó con Engine 29.7.2 y Compose 5.5.0.
 - 2026-09-02: Power BI Desktop no se detectó en la ruta de instalación estándar.
+- 2026-09-07: Power BI Desktop x64 `2.157.879.0 (26.08)` quedó disponible y permitió construir,
+  refrescar y validar localmente el informe sin Power BI Service ni licencia de pago.
+- 2026-09-07: el checkout limpio reveló que Docker no empaquetaba `powerbi/`, `.pbix` ni `.pbit`;
+  los commits `048bcb1` y `706c96d` corrigieron las dos causas y 43/43 contratos aprobaron.
+- 2026-09-07: un pase de rendimiento midió 302,99 s bajo contención de varias instancias Desktop;
+  tras cerrarlas con autorización, el test aislado aprobó en 298,37 s y la suite final completa
+  aprobó sin ampliar el límite.
 
 ## Estado de sincronización (2026-09-07)
 
@@ -64,4 +71,28 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 - T093 documentó Power BI Desktop gratuito, el entorno x64 `2.157.879.0 (26.08)` detectado,
   `DataRoot`, refresh, modelo estrella, límites y resolución de errores. La compatibilidad mínima
   real del informe queda explícitamente pendiente de la prueba de refresh de T103.
-- El issue #6 y el PR #10 permanecen en `In Progress`; T094 es la próxima tarea.
+- T094–T109 completaron tema, informe, plantilla, aceptación, quickstart limpio y release técnico;
+  su integración final se registra a continuación.
+
+## Instantánea final (2026-09-07)
+
+- El PR [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) se integró en
+  `main` mediante merge commit `12466b3abd73d13f685546183aafbb0ad21f8c01`.
+- El issue [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) está cerrado.
+- Issue #6 y PR #10 figuran `Done` tanto en `Estado Kanban` como en el campo nativo `Status` del
+  [Project #2](https://github.com/users/arnaldojrm4/projects/2).
+- La suite del HEAD integrado aprobó 94 pruebas, omitió únicamente el smoke de Docker anidado y no
+  tuvo fallos. Ruff, tres notebooks, `all`, `validate`, el verificador Power BI y el validador PBIR
+  también aprobaron.
+- T001–T110 quedan completadas. Esencial y Medio están cerrados; Avanzado/Experto permanecen solo
+  como backlog en `docs/roadmap.md`.
+
+## Historial de release
+
+| Hito | Referencia | Resultado |
+|---|---|---|
+| Fundación, US1 y US2 | PR #7 | Integrado |
+| Reproducibilidad US3 | PR #8 | Integrado |
+| Cierre Esencial | PR #9 | Integrado |
+| Informe Power BI US4 | PR #10 / merge `12466b3` | Integrado |
+| Reconciliación final | `docs/final-release-reconciliation` | Esta actualización |
