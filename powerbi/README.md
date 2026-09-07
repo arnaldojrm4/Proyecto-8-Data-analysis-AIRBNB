@@ -31,13 +31,20 @@ Consulta la [descarga y requisitos oficiales](https://learn.microsoft.com/es-es/
 |---|---|---|
 | `airbnb-supply-opportunity.pbix` | Informe editable con datos importados | Pendiente de T095–T100 |
 | `airbnb-supply-opportunity.pbit` | Plantilla sin datos importados | Pendiente de T101 |
-| `theme.json` | Tema accesible | Pendiente de T094 |
+| `theme.json` | Tema accesible validado con el esquema oficial 2.157 | Completo (T094) |
 | `acceptance-checklist.md` | Lista de aceptación manual | Preparada; bloqueada hasta T095–T101 |
 
 Una plantilla `.pbit` conserva consultas, parámetros, modelo, medidas, páginas y formato, pero no
 incluye los datos importados. Al abrirla, Power BI Desktop solicita los parámetros y crea un informe
 que se guarda como `.pbix`. Véase la guía oficial para
 [crear y usar plantillas](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-templates).
+
+El tema reserva los cuatro primeros colores y sus iconos para `candidate`, `consolidated`, `watch`
+y `insufficient`. Todos superan un contraste 4,5:1 sobre blanco. Cada visual debe conservar también
+las etiquetas `Candidato`, `Consolidado`, `En observación` o `Evidencia insuficiente`; el color nunca
+es la única señal. El contrato automatizado está en
+`tests/contract/test_powerbi_theme.py` y el archivo referencia el esquema oficial de la versión
+Desktop probada.
 
 ## Preparar los datos
 
