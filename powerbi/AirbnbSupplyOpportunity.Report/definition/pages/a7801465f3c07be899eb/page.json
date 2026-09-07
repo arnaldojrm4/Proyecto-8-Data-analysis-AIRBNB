@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "a7801465f3c07be899eb",
+  "displayName": "Detalle y confianza",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "FilterDrillthrough000001",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim Neighborhood"
+              }
+            },
+            "Property": "neighborhood_label"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "FilterDrillthrough000002",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim Room Type"
+              }
+            },
+            "Property": "room_type_label_es"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "Pod",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "Param_FilterDrillthrough000001",
+        "boundFilter": "FilterDrillthrough000001",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim Neighborhood"
+              }
+            },
+            "Property": "neighborhood_label"
+          }
+        }
+      },
+      {
+        "name": "Param_FilterDrillthrough000002",
+        "boundFilter": "FilterDrillthrough000002",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim Room Type"
+              }
+            },
+            "Property": "room_type_label_es"
+          }
+        }
+      }
+    ]
+  }
+}

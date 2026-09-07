@@ -1,0 +1,77 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.157.json",
+  "name": "Airbnb — oportunidades de captación accesibles",
+  "dataColors": [
+    "#005A9C",
+    "#6B5B00",
+    "#A15C00",
+    "#5A5A5A",
+    "#6B3FA0",
+    "#007A78",
+    "#9B2C61",
+    "#334E68"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1A1A1A",
+  "tableAccent": "#005A9C",
+  "good": "#0B6E4F",
+  "neutral": "#6B5B00",
+  "bad": "#A4262C",
+  "maximum": "#005A9C",
+  "center": "#6B5B00",
+  "minimum": "#5A5A5A",
+  "null": "#767676",
+  "hyperlink": "#005A9C",
+  "visitedHyperlink": "#6B3FA0",
+  "icons": {
+    "candidate": {
+      "description": "★ Candidato",
+      "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23005A9C' d='m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2l-5-4.9 6.9-1z'/></svg>"
+    },
+    "consolidated": {
+      "description": "◆ Consolidado",
+      "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%236B5B00' d='M12 2 22 12 12 22 2 12z'/></svg>"
+    },
+    "watch": {
+      "description": "▲ En observación",
+      "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23A15C00' d='M12 2 23 22H1z'/></svg>"
+    },
+    "insufficient": {
+      "description": "○ Evidencia insuficiente",
+      "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='8' fill='none' stroke='%235A5A5A' stroke-width='3'/></svg>"
+    }
+  },
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 16,
+      "color": "#1A1A1A"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 12,
+      "color": "#1A1A1A"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 11,
+      "color": "#333333"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 24,
+      "color": "#1A1A1A"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "visualHeader": [
+          {
+            "show": true
+          }
+        ]
+      }
+    }
+  }
+}

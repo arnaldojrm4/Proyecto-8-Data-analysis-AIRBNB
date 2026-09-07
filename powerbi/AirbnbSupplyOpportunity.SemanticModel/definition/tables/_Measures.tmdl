@@ -1,0 +1,164 @@
+/// Tabla desconectada para todas las medidas explícitas del informe.
+table _Measures
+	lineageTag: a590d8cf-c6c1-4628-b8c0-92df4b2d91bd
+
+	/// Población: segmentos precalculados visibles. Denominador: filas del segmento. Exclusiones: las del pipeline. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'Anuncios en segmentos' = SUM('Fact Opportunity Segments'[listing_count])
+		formatString: #,##0
+		displayFolder: 01 Resumen
+		lineageTag: 7b9160af-1796-4fb3-8b8e-53bf2d48853e
+
+	/// Población: anuncios anonimizados. Denominador: filas visibles. Exclusiones: proxy no analizable. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'Anuncios analizables' = CALCULATE(COUNTROWS('Fact Listings'), KEEPFILTERS('Fact Listings'[activity_proxy_is_analyzable] = TRUE()))
+		formatString: #,##0
+		displayFolder: 01 Resumen
+		lineageTag: 9d5e2f6f-3f85-4d54-bb63-e4cfae3e8ce6
+
+	/// Población: segmentos precalculados. Denominador: segmentos visibles. Exclusiones: no elegibles. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'Segmentos candidatos' = CALCULATE(COUNTROWS('Fact Opportunity Segments'), KEEPFILTERS('Fact Opportunity Segments'[eligibility_status] = "eligible"), KEEPFILTERS('Fact Opportunity Segments'[opportunity_label] = "candidate"))
+		formatString: #,##0
+		displayFolder: 01 Resumen
+		lineageTag: f625dfc1-4ee9-4c46-9478-e13590027c2f
+
+	/// Población: anuncios analizables. Denominador: muestra analizable visible. Exclusiones: actividad desconocida. Limitación: las reseñas aproximan actividad histórica, no reservas, demanda u ocupación.
+	measure 'Cuota activa histórica' = DIVIDE(SUM('Fact Opportunity Segments'[positive_activity_count]), SUM('Fact Opportunity Segments'[activity_analyzable_count]))
+		formatString: 0.0%
+		displayFolder: 02 Actividad
+		lineageTag: c9b8bdfc-4db1-4a8d-b34e-ed7930c90712
+
+	/// Población: anuncios con proxy analizable. Denominador: anuncios visibles. Exclusiones: proxy desconocido. Limitación: las reseñas mensuales no miden demanda ni ocupación.
+	measure 'Actividad histórica mediana' = CALCULATE(MEDIAN('Fact Listings'[activity_proxy]), KEEPFILTERS('Fact Listings'[activity_proxy_is_analyzable] = TRUE()))
+		formatString: 0.00
+		displayFolder: 02 Actividad
+		lineageTag: 57090f11-2677-4f7c-8baa-d607406600b9
+
+	/// Población: precios publicados válidos en la ciudad. Denominador: precios visibles válidos. Exclusiones: nulos o no positivos. Limitación: moneda y fecha desconocidas; no comparar importes entre ciudades ni interpretar como ingreso.
+	measure 'Precio local mediano' = CALCULATE(MEDIAN('Fact Listings'[price]), KEEPFILTERS('Fact Listings'[price_is_valid] = TRUE()))
+		formatString: #,##0.00
+		displayFolder: 03 Precio
+		lineageTag: 8ea2874b-4dae-4c34-becf-4643e1bc1418
+
+	/// Población: anuncios de segmentos visibles. Denominador: inventario de igual ciudad y tipología sin filtro de barrio/estado/ranking. Exclusiones: las del pipeline. Limitación: oferta observada, no cuota de mercado futura.
+	measure 'Cuota de oferta' = VAR _selected = SUM('Fact Opportunity Segments'[listing_count]) VAR _denominator = CALCULATE(SUM('Fact Opportunity Segments'[listing_count]), REMOVEFILTERS('Dim Neighborhood'), REMOVEFILTERS('Fact Opportunity Segments'[opportunity_label]), REMOVEFILTERS('Fact Opportunity Segments'[eligibility_status]), REMOVEFILTERS('Fact Opportunity Segments'[candidate_rank])) RETURN DIVIDE(_selected, _denominator)
+		formatString: 0.0%
+		displayFolder: 04 Oferta
+		lineageTag: eb3a8a92-e9e8-40a6-bd98-3ddaceef3427
+
+	/// Población: un segmento frente a referencia local. Denominador: comparaciones válidas. Exclusiones: selección múltiple. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'Efecto de actividad' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), MAX('Fact Opportunity Segments'[probability_superiority]), BLANK())
+		formatString: 0.0%
+		displayFolder: 05 Evidencia
+		lineageTag: 5e30fcba-e8a7-459f-9075-c04873dd5ce8
+
+	/// Población: un segmento visible. Denominador: no aplica. Exclusiones: selección múltiple. Limitación: escala observada del inventario publicado.
+	measure 'Anuncios del segmento' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), MAX('Fact Opportunity Segments'[listing_count]), BLANK())
+		formatString: #,##0
+		displayFolder: 05 Evidencia
+		lineageTag: 49032b45-aeca-4c20-946d-b85562ae9c8c
+
+	/// Población: un segmento visible. Denominador: anuncios analizables del segmento. Exclusiones: selección múltiple. Limitación: reseñas como proxy de actividad histórica.
+	measure 'Cuota activa del segmento' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), MAX('Fact Opportunity Segments'[active_listing_share]), BLANK())
+		formatString: 0.0%
+		displayFolder: 05 Evidencia
+		lineageTag: 1b57bc26-8b9a-4acb-a6a1-95234aac8456
+
+	/// Población: un segmento visible. Denominador: distribución de precios de igual ciudad y tipología. Exclusiones: selección múltiple. Limitación: moneda y fecha fuente desconocidas.
+	measure 'Posición de precio local' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), MAX('Fact Opportunity Segments'[price_position_percentile_within_city_room_type]), BLANK())
+		formatString: 0.0%
+		displayFolder: 05 Evidencia
+		lineageTag: 0fc12295-9cd8-47a5-a05d-826240a0e497
+
+	/// Población: un segmento candidato. Denominador: no aplica. Exclusiones: selección múltiple. Limitación: orden precalculado dentro de cada ciudad.
+	measure 'Ranking candidato' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), MAX('Fact Opportunity Segments'[candidate_rank]), BLANK())
+		formatString: #,##0
+		displayFolder: 05 Evidencia
+		lineageTag: 73c9dd4c-b987-4ac3-bc94-9a777cf03ca1
+
+	/// Población: un segmento visible. Denominador: no aplica. Exclusiones: selección múltiple. Limitación: resume la comprobación de sensibilidad precalculada.
+	measure 'Sensibilidad del segmento' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), SELECTEDVALUE('Fact Opportunity Segments'[sensitivity_status]), BLANK())
+		formatString: @
+		displayFolder: 05 Evidencia
+		lineageTag: 6ebda3ad-38af-4275-a5ed-9c287195a207
+
+	/// Población: segmento visible. Denominador: no aplica. Exclusiones: selección múltiple declarada. Limitación: estado precalculado; texto e icono acompañan siempre al color.
+	measure 'Estado de evidencia' = VAR _segments = COUNTROWS('Fact Opportunity Segments') VAR _state = SELECTEDVALUE('Fact Opportunity Segments'[opportunity_label]) RETURN IF(_segments = 0, BLANK(), SWITCH(_state, "candidate", "★ Candidato", "consolidated", "◆ Consolidado", "watch", "▲ En observación", "insufficient", "○ Evidencia insuficiente", "Selección múltiple"))
+		formatString: @
+		displayFolder: 05 Evidencia
+		lineageTag: bb507bf1-752e-4fba-8657-72fb9e467aef
+
+	/// Población: build completo. Denominador: no aplica. Exclusiones: filtros retirados. Limitación: debe ser cero; hashes y privacidad se verifican externamente.
+	measure 'Diferencia de conciliación' = VAR _expected = CALCULATE(MAX('Build Control'[canonical_row_count]), REMOVEFILTERS()) VAR _imported = CALCULATE(COUNTROWS('Fact Listings'), REMOVEFILTERS()) RETURN _expected - _imported
+		formatString: #,##0
+		displayFolder: 06 Control
+		lineageTag: 0b5eca4f-9698-4ba3-85da-35ab75c0d5e1
+
+	/// Población: un segmento. Denominador: anuncios analizables. Exclusiones: selección múltiple. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'Muestra del segmento' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), MAX('Fact Opportunity Segments'[activity_analyzable_count]), BLANK())
+		formatString: #,##0
+		displayFolder: 05 Evidencia
+		lineageTag: 30c332a6-155c-4880-bcdc-40f2b6df852b
+
+	/// Población: un segmento. Denominador: remuestreos válidos. Exclusiones: selección múltiple. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'IC 95% del efecto' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), FORMAT(MAX('Fact Opportunity Segments'[effect_ci_low]), "0.0%") & " – " & FORMAT(MAX('Fact Opportunity Segments'[effect_ci_high]), "0.0%"), BLANK())
+		formatString: @
+		displayFolder: 05 Evidencia
+		lineageTag: 36f5171f-573e-4bd9-bf66-310fe87dfd14
+
+	/// Población: un segmento en su familia de contrastes. Denominador: hipótesis de la familia. Exclusiones: selección múltiple. Limitación: controla multiplicidad, no expresa magnitud.
+	measure 'Valor ajustado' = IF(HASONEVALUE('Fact Opportunity Segments'[segment_key]), MAX('Fact Opportunity Segments'[q_value]), BLANK())
+		formatString: 0.0000
+		displayFolder: 05 Evidencia
+		lineageTag: c0db0606-9fe2-4602-ae70-25a1f323b3b0
+
+	/// Población: contexto filtrado. Denominador: segmentos candidatos. Exclusiones: no elegibles. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'Recomendación provisional' = IF([Segmentos candidatos] = 0, "No hay candidatos que superen todos los umbrales; revisar evidencia sin ampliar captación.", "Priorizar la investigación comercial de hasta tres candidatos; validar costes, regulación y capacidad antes de captar.")
+		formatString: @
+		displayFolder: 01 Resumen
+		lineageTag: c40c3844-2c66-40f7-bb69-d08d4311dfcd
+
+	/// Población: todo el informe. Denominador: no aplica. Exclusiones: no aplica. Limitación: aviso obligatorio y visible.
+	measure 'Aviso metodológico' = "Reseñas = proxy de actividad histórica. Precios = valores publicados locales. No representan demanda, reservas, ocupación, ingresos ni margen."
+		formatString: @
+		displayFolder: 01 Resumen
+		lineageTag: def3b8a6-34f7-4391-a56a-bdc614128a23
+
+	/// Población: build completo. Denominador: no aplica. Exclusiones: filtros retirados. Limitación: identificador de trazabilidad.
+	measure 'Build ID' = CALCULATE(SELECTEDVALUE('Build Control'[build_id]), REMOVEFILTERS())
+		formatString: @
+		displayFolder: 06 Control
+		lineageTag: d93d5125-cebb-4c97-a02a-368100817075
+
+	/// Población: build completo. Denominador: no aplica. Exclusiones: filtros retirados. Limitación: versión contractual, no versión Desktop.
+	measure 'Versión de schema' = CALCULATE(SELECTEDVALUE('Build Control'[schema_version]), REMOVEFILTERS())
+		formatString: @
+		displayFolder: 06 Control
+		lineageTag: d6981246-f113-49cb-9ae6-076c0a508718
+
+	/// Población: build completo. Denominador: no aplica. Exclusiones: filtros retirados. Limitación: hora del pipeline, no snapshot fuente.
+	measure 'Generado UTC' = CALCULATE(SELECTEDVALUE('Build Control'[generated_at_utc]), REMOVEFILTERS())
+		formatString: @
+		displayFolder: 06 Control
+		lineageTag: eda12dc1-3b25-4e9a-81cc-921b57c87c02
+
+	/// Población: fuentes registradas. Denominador: no aplica. Exclusiones: filtros retirados. Limitación: no representa inventario actual.
+	measure 'Filas fuente' = CALCULATE(MAX('Build Control'[source_row_count]), REMOVEFILTERS())
+		formatString: #,##0
+		displayFolder: 06 Control
+		lineageTag: b88c09cf-518e-4b94-8f3d-236c76153ed4
+
+	/// Población: anuncios anonimizados importados. Denominador: no aplica. Exclusiones: filtros retirados. Limitación: debe conciliar con filas canónicas.
+	measure 'Filas importadas' = CALCULATE(COUNTROWS('Fact Listings'), REMOVEFILTERS())
+		formatString: #,##0
+		displayFolder: 06 Control
+		lineageTag: 2bafbaba-e2f8-4482-b5cc-9bf2279b5324
+
+	/// Población: contexto filtrado. Denominador: segmentos candidatos. Exclusiones: no elegibles. Limitación: evidencia observacional; no demuestra causalidad ni garantiza margen.
+	measure 'Disponibilidad de candidatos' = VAR _n = [Segmentos candidatos] RETURN SWITCH(TRUE(), _n = 0, "No hay candidatos cualificados en el contexto.", _n < 3, "Solo " & FORMAT(_n, "0") & " candidato(s) supera(n) los criterios.", "Se muestran los tres candidatos mejor clasificados.")
+		formatString: @
+		displayFolder: 01 Resumen
+		lineageTag: 81b6a66d-bedd-4d80-b063-3710f79a0d9c
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW("Placeholder", BLANK())
+

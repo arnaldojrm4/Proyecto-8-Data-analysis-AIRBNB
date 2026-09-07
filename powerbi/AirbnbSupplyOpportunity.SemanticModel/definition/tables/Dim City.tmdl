@@ -1,0 +1,46 @@
+/// Tabla contractual importada desde dim_city.csv.
+table 'Dim City'
+	lineageTag: ca64e534-633a-48e3-97b7-425517bb019f
+
+	column city_key
+		dataType: string
+		isHidden
+		isUnique
+		isKey
+		lineageTag: 923e417e-c603-4ae5-9c4b-29fda0411fde
+		summarizeBy: none
+		sourceColumn: city_key
+
+	column city_label_es
+		dataType: string
+		lineageTag: d5ef3ede-a379-42ed-adad-ab2c66c85c6e
+		summarizeBy: none
+		sourceColumn: city_label_es
+
+	column source_snapshot_date_status
+		dataType: string
+		lineageTag: db4ef396-b5aa-4a97-a451-d60d003ada87
+		summarizeBy: none
+		sourceColumn: source_snapshot_date_status
+
+	column price_currency_status
+		dataType: string
+		lineageTag: 715b7728-6923-47a9-a81a-27c36b90a7f6
+		summarizeBy: none
+		sourceColumn: price_currency_status
+
+	column scope_note_es
+		dataType: string
+		lineageTag: 397651d7-2e10-425d-ac85-9bd1da08b657
+		summarizeBy: none
+		sourceColumn: scope_note_es
+
+	partition 'Dim City' = m
+		mode: import
+		source =
+				let
+				    GuardRows = Table.RowCount(BuildGuard),
+				    Output = CsvFromRoot("dim_city.csv", {{"city_key", type text}, {"city_label_es", type text}, {"source_snapshot_date_status", type text}, {"price_currency_status", type text}, {"scope_note_es", type text}})
+				in
+				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
+

@@ -1,0 +1,97 @@
+/// Tabla contractual importada desde build_control.csv.
+table 'Build Control'
+	lineageTag: c1736dd9-0c57-41bb-adee-b6a83a9640cb
+
+	column build_id
+		dataType: string
+		isHidden
+		lineageTag: 99b8f397-176a-41a0-9f4c-4a20c0179c74
+		summarizeBy: none
+		sourceColumn: build_id
+
+	column schema_version
+		dataType: string
+		lineageTag: ad1399aa-a903-488e-9eb3-4eb290fb8a32
+		summarizeBy: none
+		sourceColumn: schema_version
+
+	column generated_at_utc
+		dataType: string
+		lineageTag: 2f2508f6-f680-4cb3-80ad-0bd0d8add5ae
+		summarizeBy: none
+		sourceColumn: generated_at_utc
+
+	column source_manifest_hash
+		dataType: string
+		isHidden
+		lineageTag: 5c7bbb6d-ecab-469a-b112-e8ad6461a562
+		summarizeBy: none
+		sourceColumn: source_manifest_hash
+
+	column analysis_config_hash
+		dataType: string
+		isHidden
+		lineageTag: 4617c576-1072-4583-ac02-6ecd900bb585
+		summarizeBy: none
+		sourceColumn: analysis_config_hash
+
+	column source_file_count
+		dataType: int64
+		lineageTag: c447ff68-9343-41da-b5b4-a8ce83c9e881
+		summarizeBy: none
+		sourceColumn: source_file_count
+
+	column source_row_count
+		dataType: int64
+		lineageTag: 10d93fb9-c4d3-4bfd-980c-94413bbed4b4
+		summarizeBy: none
+		sourceColumn: source_row_count
+
+	column canonical_row_count
+		dataType: int64
+		lineageTag: 2821a2d0-fa00-4d10-912f-832a40d92afc
+		summarizeBy: none
+		sourceColumn: canonical_row_count
+
+	column distinct_listing_key_count
+		dataType: int64
+		lineageTag: 7660a81d-0e55-4379-81fb-b5a5ec6e7f1c
+		summarizeBy: none
+		sourceColumn: distinct_listing_key_count
+
+	column segment_count
+		dataType: int64
+		lineageTag: ca149a2c-0014-4d25-9389-dc5d0d92001a
+		summarizeBy: none
+		sourceColumn: segment_count
+
+	column output_file
+		dataType: string
+		isHidden
+		lineageTag: e9d272f0-22d3-4bcb-9f7b-118236957f4e
+		summarizeBy: none
+		sourceColumn: output_file
+
+	column output_row_count
+		dataType: int64
+		lineageTag: cb314d09-43c3-466a-9f4d-94176f936045
+		summarizeBy: none
+		sourceColumn: output_row_count
+
+	column output_sha256
+		dataType: string
+		isHidden
+		lineageTag: 1cba029b-831b-492e-a042-1d42c952c04d
+		summarizeBy: none
+		sourceColumn: output_sha256
+
+	column release_gate_status
+		dataType: string
+		lineageTag: 7f7de030-d13b-4be0-abce-ba84c4da9a5b
+		summarizeBy: none
+		sourceColumn: release_gate_status
+
+	partition 'Build Control' = m
+		mode: import
+		source = BuildGuard
+

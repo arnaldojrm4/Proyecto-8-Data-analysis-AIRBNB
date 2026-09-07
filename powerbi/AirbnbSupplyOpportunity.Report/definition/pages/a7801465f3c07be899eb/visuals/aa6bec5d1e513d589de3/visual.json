@@ -1,0 +1,121 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "aa6bec5d1e513d589de3",
+  "position": {
+    "x": 20,
+    "y": 112,
+    "z": 11000,
+    "height": 112,
+    "width": 1240,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Muestra del segmento"
+                }
+              },
+              "queryRef": "_Measures.Muestra del segmento",
+              "nativeQueryRef": "Muestra del segmento"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Efecto de actividad"
+                }
+              },
+              "queryRef": "_Measures.Efecto de actividad",
+              "nativeQueryRef": "Efecto de actividad"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "IC 95% del efecto"
+                }
+              },
+              "queryRef": "_Measures.IC 95% del efecto",
+              "nativeQueryRef": "IC 95% del efecto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Valor ajustado"
+                }
+              },
+              "queryRef": "_Measures.Valor ajustado",
+              "nativeQueryRef": "Valor ajustado"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Estado de evidencia"
+                }
+              },
+              "queryRef": "_Measures.Estado de evidencia",
+              "nativeQueryRef": "Estado de evidencia"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Muestra, efecto, intervalo de confianza, valor ajustado y estado del segmento seleccionado.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

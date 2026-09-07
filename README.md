@@ -9,8 +9,8 @@ técnico responsable de estrategia de oferta.
 1. **Nivel Esencial**: auditoría, ETL, EDA, estadística, notebooks, documentación, Git y Kanban.
 2. **Nivel Medio**: informe interactivo de Power BI Desktop sin licencia de pago.
 
-El Nivel Esencial debe quedar aceptado antes de iniciar Power BI. Los niveles Avanzado y Experto no
-forman parte del compromiso actual.
+Los niveles Esencial y Medio están aceptados. Los niveles Avanzado y Experto no forman parte del
+compromiso actual y se conservan únicamente como [roadmap](docs/roadmap.md).
 
 ## Advertencias de interpretación
 
@@ -32,10 +32,19 @@ forman parte del compromiso actual.
 - [Gestión y trazabilidad](docs/project-management.md)
 - [Kanban GitHub Projects](https://github.com/users/arnaldojrm4/projects/2)
 - [Hallazgos ejecutivos US2](docs/analysis/executive-findings.md)
+- [Guía del informe Power BI Desktop](powerbi/README.md)
+- [Aceptación del Nivel Medio](docs/acceptance/medium-level.md)
+- [Validación de quickstart limpio](docs/acceptance/quickstart-validation.md)
+- [Evidencia final del release](docs/acceptance/final-release.md)
+- [Conciliación Power BI](docs/acceptance/powerbi-reconciliation.md)
+- [UAT y accesibilidad](docs/acceptance/powerbi-uat.md)
+- [Decisiones y supuestos técnicos](specs/001-supply-opportunity-analysis/research.md)
 - [Guía de estudio](docs/study-guide.md)
 - [Próximos bloques de trabajo](docs/next-work-blocks.md)
+- [Roadmap no comprometido](docs/roadmap.md)
 
-Los comandos ejecutables se documentarán al cerrar la infraestructura y el flujo Esencial.
+Los comandos ejecutables, incidentes, alternativas, resultados y límites están enlazados desde las
+guías anteriores y se mantienen junto al código que validan.
 
 ## Reproducción host y Docker
 
@@ -57,8 +66,14 @@ docker compose run --rm pipeline all --log-format json
 El servicio limita el contenedor a 2 vCPU y 4 GB y monta `data/raw/` como solo lectura. Los resultados
 se publican en `data/processed/`, `data/powerbi/` y `artifacts/` solo tras validar el flujo.
 
+El comando `export` construye los ocho CSV de Power BI en una ubicación temporal, valida archivos,
+esquemas, claves, relaciones, privacidad, conteos, hashes y versión mayor, y reemplaza la exportación
+aceptada únicamente si todo aprueba. `validate` reutiliza la misma puerta sin reconstruir datos y
+`all` la ejecuta antes de publicar el build completo.
+
 La suite final aprobó 65 pruebas (una prueba Docker omitida dentro del propio contenedor); los flujos
 host y Docker aprobaron el presupuesto de cinco minutos y 2 GB de RSS.
 Esta evidencia acredita reproducción técnica, no demanda, reservas, ocupación ni rentabilidad. Consulta
 la [guía paso a paso](specs/001-supply-opportunity-analysis/quickstart.md), el
-[rendimiento](docs/acceptance/performance.md) y la [puerta Esencial](docs/acceptance/essential-level.md).
+[rendimiento](docs/acceptance/performance.md), la [puerta Esencial](docs/acceptance/essential-level.md)
+y la [puerta Medio](docs/acceptance/medium-level.md).

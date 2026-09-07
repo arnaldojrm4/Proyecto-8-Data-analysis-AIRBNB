@@ -1,4 +1,4 @@
-# Guía de estudio del proyecto hasta US2
+# Guía de estudio del proyecto — niveles Esencial y Medio
 
 ## 1. Problema de negocio
 
@@ -75,3 +75,19 @@ cuota de oferta, incertidumbre y robustez.
 La fecha, moneda, procedencia original y representatividad son desconocidas. Una reseña mensual es
 un proxy histórico, no una reserva. Las recomendaciones son hipótesis de priorización que deben
 validarse con fuentes internas vigentes.
+
+## 9. Capa Power BI
+
+Python conserva la lógica analítica y exporta ocho CSV seguros; Power BI no recalcula elegibilidad
+ni significación. El modelo estrella contiene tres dimensiones, cuatro tablas de hechos/control y
+una tabla desconectada de medidas. `DataRoot` es el único parámetro de ruta y la puerta de refresh
+comprueba schema, build y estado del release.
+
+Las tres páginas responden, en orden, qué investigar, dónde se concentra la oportunidad y con qué
+confianza. El mapa es opcional: si no carga, el ranking agregado mantiene la decisión. El build
+aceptado contiene 220.031 anuncios, 1.497 segmentos y 28 candidatos; la conciliación es cero.
+
+Para estudiar la implementación, lee `powerbi/README.md`, después los archivos TMDL de
+`powerbi/AirbnbSupplyOpportunity.SemanticModel/definition/`, y finalmente
+`scripts/generate_powerbi_project.py`. Contrasta el resultado con
+`scripts/verify_powerbi.ps1` y los contratos de `tests/contract/test_powerbi_*`.

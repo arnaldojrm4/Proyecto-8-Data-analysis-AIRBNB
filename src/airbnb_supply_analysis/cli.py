@@ -23,7 +23,7 @@ import pandas as pd
 from airbnb_supply_analysis import __version__
 from airbnb_supply_analysis.config import SCHEMA_VERSION, load_yaml
 from airbnb_supply_analysis.etl import build_canonical
-from airbnb_supply_analysis.exports import write_parquet, write_stable_csv
+from airbnb_supply_analysis.exports import export_powerbi_dataset, write_parquet
 from airbnb_supply_analysis.io import (
     atomic_write_json,
     inventory_sources,
@@ -44,6 +44,7 @@ from airbnb_supply_analysis.statistics import (
 from airbnb_supply_analysis.validation import (
     DocumentationContractError,
     validate_documentation_tree,
+    validate_powerbi_exports,
     validate_release_artifacts,
 )
 from airbnb_supply_analysis.visualization import save_core_figures
@@ -375,70 +376,39 @@ def _notebooks(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _export(args: argparse.Namespace) -> dict[str, Any]:
-    """Publica la dependencia CSV mínima y segura requerida por la puerta Esencial."""
+    """Publica las tablas estrella seguras para Power BI Desktop."""
     paths = _paths(args)
     listings = pd.read_parquet(paths.processed / "listings.parquet")
     opportunities = pd.read_parquet(paths.processed / "opportunity_segments.parquet")
     statistical = pd.read_parquet(paths.processed / "statistical_results.parquet")
     quality = pd.read_parquet(paths.artifacts / "quality" / "findings.parquet")
     build_id = args.build_id or _build_id(paths.manifest, paths.config)
-    exports = {
-        "dim_city.csv": listings[["city_key"]].drop_duplicates(),
-        "dim_neighborhood.csv": listings[
-            ["city_key", "neighborhood_key", "neighborhood"]
-        ].drop_duplicates(),
-        "dim_room_type.csv": listings[["room_type"]].drop_duplicates(),
-        "fact_listings.csv": listings[
-            [
-                "listing_key",
-                "city_key",
-                "neighborhood_key",
-                "room_type",
-                "price",
-                "minimum_nights",
-                "number_of_reviews",
-                "reviews_per_month_observed",
-                "activity_proxy",
-                "activity_proxy_derived_zero",
-                "activity_proxy_is_analyzable",
-            ]
-        ],
-        "fact_opportunity_segments.csv": opportunities.drop(
-            columns=["centroid_latitude", "centroid_longitude"], errors="ignore"
-        ),
-        "fact_statistical_results.csv": statistical,
-        "fact_quality_summary.csv": quality,
-    }
-    for filename, frame in exports.items():
-        _validate_export_columns(frame)
-        write_stable_csv(frame, paths.powerbi / filename)
-    control = pd.DataFrame(
-        [
-            {
-                "build_id": build_id,
-                "schema_version": SCHEMA_VERSION,
-                "source_file_count": 6,
-                "source_row_count": len(listings),
-                "canonical_row_count": len(listings),
-                "distinct_listing_key_count": int(listings["listing_key"].nunique()),
-                "output_file": filename,
-                "output_row_count": len(frame),
-                "output_sha256": _sha256(paths.powerbi / filename),
-                "release_gate_status": "pass",
-            }
-            for filename, frame in exports.items()
-        ]
-    )
-    control_path = paths.powerbi / "build_control.csv"
-    write_stable_csv(control, control_path)
+    with tempfile.TemporaryDirectory(prefix="airbnb-supply-export-") as temporary:
+        staged_powerbi = Path(temporary) / "powerbi"
+        exports = export_powerbi_dataset(
+            listings,
+            opportunities,
+            statistical,
+            quality,
+            staged_powerbi,
+            build_id=build_id,
+            schema_version=SCHEMA_VERSION,
+            source_manifest_path=paths.manifest,
+            analysis_config_path=paths.config,
+        )
+        validate_powerbi_exports(
+            staged_powerbi,
+            paths.processed,
+            source_manifest_path=paths.manifest,
+            analysis_config_path=paths.config,
+        )
+        _publish_staged_directory(staged_powerbi, paths.powerbi)
     return _summary(
         "export",
         build_id=build_id,
         input_rows=len(listings),
-        output_rows=sum(len(frame) for frame in exports.values()) + len(control),
-        artifact_paths=[
-            str(paths.powerbi / filename) for filename in (*exports, "build_control.csv")
-        ],
+        output_rows=sum(len(frame) for frame in exports.values()),
+        artifact_paths=[str(paths.powerbi / filename) for filename in exports],
     )
 
 
@@ -446,7 +416,13 @@ def _validate(args: argparse.Namespace) -> dict[str, Any]:
     """Valida artefactos existentes y documentación sin reconstruir el flujo."""
     paths = _paths(args)
     documentation = validate_documentation_tree(Path.cwd())
-    artifacts = validate_release_artifacts(paths.processed, paths.powerbi, paths.artifacts)
+    artifacts = validate_release_artifacts(
+        paths.processed,
+        paths.powerbi,
+        paths.artifacts,
+        source_manifest_path=paths.manifest,
+        analysis_config_path=paths.config,
+    )
     return _summary(
         "validate",
         build_id=args.build_id or _build_id(paths.manifest, paths.config),
@@ -567,10 +543,6 @@ def _validate_export_columns(frame: pd.DataFrame) -> None:
         raise ValueError(f"Campos restringidos en exportación: {', '.join(sorted(present))}")
 
 
-def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
 def _stage_exit_code(stage: str) -> int:
     if stage == "analyze":
         return 5
@@ -587,32 +559,35 @@ def _publish_staged_outputs(staging: Path, args: argparse.Namespace) -> None:
         ("powerbi", Path(args.powerbi_dir).resolve()),
         ("artifacts", Path(args.artifacts_dir).resolve()),
     ):
-        source = staging / name
-        if not source.exists():
-            continue
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        backup = destination.with_name(f".{destination.name}.previous")
+        _publish_staged_directory(staging / name, destination)
+
+
+def _publish_staged_directory(source: Path, destination: Path) -> None:
+    if not source.exists():
+        return
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    backup = destination.with_name(f".{destination.name}.previous")
+    if backup.exists():
+        shutil.rmtree(backup)
+    if destination.exists():
+        try:
+            destination.replace(backup)
+        except OSError as error:
+            if error.errno not in {errno.EACCES, errno.EBUSY, errno.EPERM}:
+                raise
+            _publish_into_mounted_directory(source, destination)
+            (destination / ".gitkeep").touch(exist_ok=True)
+            return
+    try:
+        source.replace(destination)
+    except BaseException:
+        if backup.exists() and not destination.exists():
+            backup.replace(destination)
+        raise
+    else:
         if backup.exists():
             shutil.rmtree(backup)
-        if destination.exists():
-            try:
-                destination.replace(backup)
-            except OSError as error:
-                if error.errno not in {errno.EACCES, errno.EBUSY, errno.EPERM}:
-                    raise
-                _publish_into_mounted_directory(source, destination)
-                (destination / ".gitkeep").touch(exist_ok=True)
-                continue
-        try:
-            source.replace(destination)
-        except BaseException:
-            if backup.exists() and not destination.exists():
-                backup.replace(destination)
-            raise
-        else:
-            if backup.exists():
-                shutil.rmtree(backup)
-            (destination / ".gitkeep").touch(exist_ok=True)
+        (destination / ".gitkeep").touch(exist_ok=True)
 
 
 def _publish_into_mounted_directory(source: Path, destination: Path) -> None:
@@ -701,7 +676,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 3
         if args.command == "analyze":
             return 5
-        return 4
+        return _stage_exit_code(args.command)
     print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
     return 0
 
