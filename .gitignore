@@ -1,5 +1,13 @@
 .agents/
+.specify/
+.codex/
 .venv/
+
+# Artefactos locales: SDD y material de estudio no versionable.
+specs/
+docs/superpowers/
+.local-sdd/
+study-guides/
 __pycache__/
 *.py[cod]
 *.egg-info/
