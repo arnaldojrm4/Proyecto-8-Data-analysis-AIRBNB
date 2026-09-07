@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 SCRIPT = Path("scripts/verify_powerbi.ps1")
 
 
