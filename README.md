@@ -32,6 +32,7 @@ forman parte del compromiso actual.
 - [Gestión y trazabilidad](docs/project-management.md)
 - [Kanban GitHub Projects](https://github.com/users/arnaldojrm4/projects/2)
 - [Hallazgos ejecutivos US2](docs/analysis/executive-findings.md)
+- [Guía del informe Power BI Desktop](powerbi/README.md)
 - [Guía de estudio](docs/study-guide.md)
 - [Próximos bloques de trabajo](docs/next-work-blocks.md)
 
