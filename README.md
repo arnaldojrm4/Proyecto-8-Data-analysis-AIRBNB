@@ -34,6 +34,8 @@ compromiso actual y se conservan únicamente como [roadmap](docs/roadmap.md).
 - [Hallazgos ejecutivos US2](docs/analysis/executive-findings.md)
 - [Guía del informe Power BI Desktop](powerbi/README.md)
 - [Aceptación del Nivel Medio](docs/acceptance/medium-level.md)
+- [Validación de quickstart limpio](docs/acceptance/quickstart-validation.md)
+- [Evidencia final del release](docs/acceptance/final-release.md)
 - [Conciliación Power BI](docs/acceptance/powerbi-reconciliation.md)
 - [UAT y accesibilidad](docs/acceptance/powerbi-uat.md)
 - [Decisiones y supuestos técnicos](specs/001-supply-opportunity-analysis/research.md)
