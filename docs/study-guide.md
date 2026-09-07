@@ -248,7 +248,7 @@ Antes del código, una celda Markdown debe explicar:
 
 Después del resultado debe escribirse una conclusión con cuatro piezas:
 
-> **Hallazgo:** qué patrón se observa. **Evidencia:** cifra, efecto, intervalo o test.  
+> **Hallazgo:** qué patrón se observa. **Evidencia:** cifra, efecto, intervalo o test.
 > **Implicación:** por qué importa para la decisión. **Límite:** qué no establece el análisis.
 
 Ejemplo: «Bedford-Stuyvesant - alojamiento completo presenta superioridad 0,609, IC 95 %
