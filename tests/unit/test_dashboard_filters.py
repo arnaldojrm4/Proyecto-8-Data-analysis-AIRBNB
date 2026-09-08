@@ -1,0 +1,75 @@
+from __future__ import annotations
+
+import pandas as pd
+
+
+def _cities() -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "city_key": ["madrid", "barcelona"],
+            "city_label_es": ["Madrid", "Barcelona"],
+        }
+    )
+
+
+def _listings() -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "city_key": ["madrid", "madrid", "barcelona"],
+            "room_type_key": ["private", "entire", "entire"],
+            "neighborhood_key": ["madrid:centro", "madrid:sur", "barcelona:gracia"],
+        }
+    )
+
+
+def test_initial_selection_uses_first_spanish_city_and_its_room_types() -> None:
+    from dashboard.filters import initial_selection
+
+    selection = initial_selection(_cities(), _listings())
+
+    assert selection.city_key == "barcelona"
+    assert selection.room_type_keys == ("entire",)
+    assert selection.neighborhood_keys == ()
+
+
+def test_normalize_selection_removes_values_outside_the_active_city() -> None:
+    from dashboard.filters import FilterSelection, normalize_selection
+
+    requested = FilterSelection(
+        city_key="madrid",
+        room_type_keys=("private", "missing"),
+        neighborhood_keys=("madrid:centro", "barcelona:gracia"),
+        evidence_states=("robusta", "desconocida"),
+    )
+
+    normalized = normalize_selection(requested, _cities(), _listings())
+
+    assert normalized.room_type_keys == ("private",)
+    assert normalized.neighborhood_keys == ("madrid:centro",)
+    assert normalized.evidence_states == ("robusta",)
+
+
+def test_apply_listing_filters_uses_city_room_type_and_optional_neighborhood() -> None:
+    from dashboard.filters import FilterSelection, apply_listing_filters
+
+    selection = FilterSelection(
+        city_key="madrid",
+        room_type_keys=("private", "entire"),
+        neighborhood_keys=("madrid:centro",),
+    )
+
+    filtered = apply_listing_filters(_listings(), selection)
+
+    assert filtered.index.tolist() == [0]
+
+
+def test_evidence_status_has_four_canonical_outcomes() -> None:
+    from dashboard.filters import canonical_evidence_status
+
+    assert canonical_evidence_status("robust") == "robusta"
+    assert canonical_evidence_status("fragile") == "frágil"
+    assert canonical_evidence_status("conflicting") == "conflictiva"
+    assert canonical_evidence_status("not_run") == "no evaluada"
+    assert canonical_evidence_status(None) == "no evaluada"
+    assert canonical_evidence_status("unexpected") == "no evaluada"
+

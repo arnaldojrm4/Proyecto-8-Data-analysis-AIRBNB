@@ -33,14 +33,14 @@ independientes.
 
 **⚠️ CRITICAL**: Ninguna historia puede comenzar hasta completar esta fase.
 
-- [ ] T005 [P] Escribir pruebas fallidas de modelos inmutables y estados de build en `tests/unit/test_dashboard_data.py`
-- [ ] T006 [P] Escribir pruebas contractuales fallidas de archivos, columnas y privacidad en `tests/contract/test_dashboard_contract.py`
-- [ ] T007 Implementar `DashboardDataError`, `BuildMetadata`, `DashboardDataset` y lectura sin caché en `dashboard/data.py`
-- [ ] T008 Implementar la validación de archivos, versión, estado, build, recuentos, claves y relaciones en `dashboard/data.py`
-- [ ] T009 [P] Escribir pruebas fallidas de selección normalizada y poblaciones filtradas en `tests/unit/test_dashboard_filters.py`
-- [ ] T010 Implementar `FilterSelection`, opciones dependientes y filtros puros por hecho en `dashboard/filters.py`
-- [ ] T011 [P] Escribir prueba fallida del shell, navegación y estado bloqueado mediante AppTest en `tests/integration/test_dashboard_app.py`
-- [ ] T012 Implementar configuración, carga cacheada por `build_id`, navegación y puerta global en `dashboard/app.py`
+- [X] T005 [P] Escribir pruebas fallidas de modelos inmutables y estados de build en `tests/unit/test_dashboard_data.py`
+- [X] T006 [P] Escribir pruebas contractuales fallidas de archivos, columnas y privacidad en `tests/contract/test_dashboard_contract.py`
+- [X] T007 Implementar `DashboardDataError`, `BuildMetadata`, `DashboardDataset` y lectura sin caché en `dashboard/data.py`
+- [X] T008 Implementar la validación de archivos, versión, estado, build, recuentos, claves y relaciones en `dashboard/data.py`
+- [X] T009 [P] Escribir pruebas fallidas de selección normalizada y poblaciones filtradas en `tests/unit/test_dashboard_filters.py`
+- [X] T010 Implementar `FilterSelection`, opciones dependientes y filtros puros por hecho en `dashboard/filters.py`
+- [X] T011 [P] Escribir prueba fallida del shell, navegación y estado bloqueado mediante AppTest en `tests/integration/test_dashboard_app.py`
+- [X] T012 Implementar configuración, carga cacheada por `build_id`, navegación y puerta global en `dashboard/app.py`
 
 **Checkpoint**: El panel puede cargar o rechazar un build y mantener una selección válida sin mostrar
 todavía las vistas analíticas.
