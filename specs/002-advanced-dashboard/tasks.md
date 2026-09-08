@@ -109,15 +109,15 @@ salud y detenerlo siguiendo solo el quickstart.
 
 ### Tests for User Story 3
 
-- [ ] T030 [P] [US3] Escribir prueba fallida de configuración, puerto, volumen de solo lectura, recursos y salud en `tests/integration/test_docker_smoke.py`
-- [ ] T031 [P] [US3] Escribir prueba fallida del comando host documentado en `tests/contract/test_documentation.py`
+- [X] T030 [P] [US3] Escribir prueba fallida de configuración, puerto, volumen de solo lectura, recursos y salud en `tests/integration/test_docker_smoke.py`
+- [X] T031 [P] [US3] Escribir prueba fallida del comando host documentado en `tests/contract/test_documentation.py`
 
 ### Implementation for User Story 3
 
-- [ ] T032 [US3] Adaptar la imagen única para admitir CLI y panel con usuario no privilegiado en `Dockerfile`
-- [ ] T033 [US3] Añadir servicio `dashboard`, puerto configurable, montaje de solo lectura, límite de 1 GiB y healthcheck en `compose.yaml`
-- [ ] T034 [US3] Documentar los recorridos host y Docker y la convivencia con Power BI en `README.md` y `powerbi/README.md`
-- [ ] T035 [US3] Ejecutar el recorrido contenido completo y registrar tiempos, salud y resultados en `docs/acceptance/advanced-dashboard-docker.md`
+- [X] T032 [US3] Adaptar la imagen única para admitir CLI y panel con usuario no privilegiado en `Dockerfile`
+- [X] T033 [US3] Añadir servicio `dashboard`, puerto configurable, montaje de solo lectura, límite de 1 GiB y healthcheck en `compose.yaml`
+- [X] T034 [US3] Documentar los recorridos host y Docker y la convivencia con Power BI en `README.md` y `powerbi/README.md`
+- [X] T035 [US3] Ejecutar el recorrido contenido completo y registrar tiempos, salud y resultados en `docs/acceptance/advanced-dashboard-docker.md`
 
 **Checkpoint**: US3 reproduce el panel sin rutas personales, licencias BI ni ejecución implícita del
 pipeline al iniciar la interfaz.

@@ -44,3 +44,11 @@ def test_documentation_rejects_broken_local_links(tmp_path: Path) -> None:
 
     with pytest.raises(contract_error, match="enlace"):
         validate_documentation_tree(tmp_path)
+
+
+def test_readme_documents_the_runnable_dashboard_entrypoint(project_root: Path) -> None:
+    readme = (project_root / "README.md").read_text(encoding="utf-8")
+
+    assert "uv run --locked streamlit run dashboard/app.py" in readme
+    assert "docker compose up dashboard" in readme
+    assert "http://localhost:8501" in readme
