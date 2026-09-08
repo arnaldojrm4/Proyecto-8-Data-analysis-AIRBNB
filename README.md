@@ -86,9 +86,10 @@ forzar una recomendación.
 | Sídney | Leichhardt - habitación privada | 290 | 0,589 | [0,554; 0,626] | <0,00001 |
 | Tokio | Nakano Ku - habitación privada | 55 | 0,704 | [0,629; 0,777] | 0,00243 |
 
-La probabilidad de superioridad compara cada segmento con el resto de anuncios de la misma ciudad y
-tipología. Por ejemplo, 0,609 indica que una observación de Bedford-Stuyvesant supera a una de su
-referencia aproximadamente el 60,9 % de las veces, contando los empates a medias. El intervalo, el
+La probabilidad de superioridad compara las medianas de actividad por anfitrión de cada segmento con
+las del resto de la misma ciudad y tipología. Por ejemplo, 0,609 indica superioridad aproximadamente
+el 60,9 % de las veces al comparar esos valores, contando los empates a medias. N indica anuncios,
+no anfitriones. El intervalo, el
 valor ajustado, la escala y las sensibilidades evitan interpretar ese número de forma aislada.
 
 Otros aprendizajes relevantes:
@@ -118,6 +119,15 @@ Cada bloque de código está precedido por Markdown que explica la pregunta, el 
 y seguido por conclusiones explícitas. Seaborn y Matplotlib producen distribuciones, composiciones y
 rankings comparables; Plotly genera el gráfico interactivo de actividad relativa frente a cuota local.
 
+La revisión geográfica del notebook ejecutivo conserva los 28 candidatos y añade un mapa de sus
+centroides y la brecha de cuota de los tres primeros por ciudad. Nueva York y Sídney reúnen el 89,3 %
+de los candidatos. Una menor cuota relativa no demuestra necesidades comerciales sin cubrir ni falta de oferta.
+
+La [presentación técnica actualizada](output/presentation/airbnb-desarrollo-tecnico.pptx) explica
+objetivos, desarrollo, tecnologías, metodología y nuevas conclusiones geográficas. Incluye notas
+para exponer y fuentes por diapositiva. El [guion técnico](docs/presentation/technical-presentation.md)
+permite consultar la explicación sin PowerPoint.
+
 La [guía de estudio](docs/study-guide.md) explica cómo leer y defender el análisis. Su versión lista
 para estudiar e imprimir está en [PDF](output/pdf/guia-estudio-airbnb.pdf).
 
@@ -136,6 +146,39 @@ Sus tres páginas responden, en orden:
 Los filtros de ciudad, tipología y estado de evidencia son interactivos. Si el mapa no está disponible,
 el ranking agregado conserva la lectura principal. La entrega fue conciliada contra 220.031 anuncios,
 1.497 segmentos y 28 candidatos sin diferencias entre los CSV y el modelo.
+
+## Panel web avanzado
+
+El nivel Avanzado añade un panel web complementario con las mismas tres preguntas ejecutivas y las
+mismas exportaciones seguras que Power BI. Sus filtros coordinados permiten seleccionar ciudad,
+tipología, barrio y estado de evidencia. La vista estadística explica las tres familias de hipótesis,
+el tamaño del efecto, el intervalo de confianza, el valor p ajustado y la sensibilidad sin recalcular
+pruebas sobre selecciones arbitrarias.
+
+Para ejecutarlo directamente en el entorno Python:
+
+```powershell
+uv sync --locked --group dev
+uv run --locked airbnb-supply all --log-format json
+uv run --locked streamlit run dashboard/app.py
+```
+
+Para levantar el panel portable después de generar un build aprobado:
+
+```powershell
+docker compose run --rm pipeline all --log-format json
+docker compose up dashboard
+```
+
+Abre `http://localhost:8501`. El servicio del panel solo lee `data/powerbi/`; iniciarlo no modifica los
+datos ni vuelve a ejecutar el pipeline. `AIRBNB_DASHBOARD_PORT` permite cambiar el puerto publicado.
+Esta configuración está destinada a ejecución local o dentro de una red controlada, no a exposición
+pública sin autenticación y TLS.
+
+La [guía de estudio](docs/study-guide.md#15-panel-web-avanzado-uso-y-demostración) incluye el recorrido
+de filtros y un guion de presentación. La [aceptación avanzada](docs/acceptance/advanced-level.md) y la
+[evidencia Docker](docs/acceptance/advanced-dashboard-docker.md) registran conciliación, rendimiento,
+accesibilidad y límites.
 
 ## Dónde está documentado el código
 
@@ -178,9 +221,9 @@ privacidad, conteos, hashes y versión. Consulta la
 
 El trabajo se organizó mediante ramas por fase, commits atómicos, pull requests y un
 [Kanban de GitHub Projects](https://github.com/users/arnaldojrm4/projects/2) como fuente única de
-planificación. La verificación host actual registra 95 pruebas aprobadas. En la ejecución dentro del
-contenedor se aprobaron 94 y se omitió intencionadamente la prueba que intentaría iniciar Docker desde
-el propio contenedor.
+planificación. La verificación host del Nivel Avanzado registra 138 pruebas aprobadas. En la ejecución
+dentro del contenedor se aprobaron 128, se omitieron intencionadamente 2 smoke tests que intentarían
+iniciar Docker dentro de Docker y se excluyeron las 8 pruebas de datos completos ya cubiertas en host.
 
 ## Límites de interpretación
 

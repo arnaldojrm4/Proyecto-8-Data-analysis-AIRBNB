@@ -1,5 +1,10 @@
 # Guía del informe Power BI Desktop
 
+> **Panel complementario avanzado:** el repositorio también incluye una aplicación web portable en
+> `dashboard/` que consume estos mismos ocho CSV validados. Power BI continúa siendo la entrega BI de
+> escritorio; el panel web añade despliegue Docker sin alterar el modelo ni recalcular la estadística.
+> Consulta la sección “Panel web avanzado” del README principal para ejecutarlo.
+
 Esta carpeta contiene la definición y la documentación del informe ejecutivo local para explorar
 oportunidades provisionales de captación de alojamientos. El informe consume únicamente los ocho
 CSV validados de `data/powerbi/`; las reglas estadísticas y de oportunidad pertenecen al pipeline

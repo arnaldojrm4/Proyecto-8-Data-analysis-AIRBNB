@@ -2,13 +2,18 @@
 .specify/
 .codex/
 .venv/
+venv/
+dist/
 
 # Artefactos locales: SDD y material de estudio no versionable.
-specs/
+specs/*
+!specs/002-advanced-dashboard/
+!specs/002-advanced-dashboard/**
 docs/superpowers/
 .local-sdd/
 study-guides/
 tmp/
+.chart-data-*/
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -27,6 +32,7 @@ htmlcov/
 Thumbs.db
 *.tmp
 *.swp
+*.log
 .vscode/
 .idea/
 

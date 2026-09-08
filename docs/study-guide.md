@@ -439,3 +439,62 @@ ingresos, costes, ocupación ni margen. Las asociaciones no prueban causalidad.
 Antes de una campaña real deberían incorporarse datos internos actuales, una definición comercial de
 éxito, costes de captación, valor esperado del anfitrión y un diseño de medición posterior. Esta guía
 enseña a construir una priorización responsable; no sustituye esa validación.
+
+## 15. Panel web avanzado: uso y demostración
+
+El panel Streamlit complementa Power BI: ambos consumen los mismos ocho CSV aprobados, mientras que
+el cálculo estadístico sigue perteneciendo al pipeline Python. Streamlit aporta una demostración
+portable y dockerizada; Power BI conserva el informe corporativo de escritorio.
+
+### Preparación y apertura
+
+Con Docker Desktop activo, desde la raíz del proyecto:
+
+```powershell
+docker compose run --rm pipeline all --log-format json
+docker compose up -d dashboard
+```
+
+Abre `http://localhost:8501`. Para detenerlo utiliza `docker compose down`. Si ya existe un build
+aprobado en `data/powerbi`, basta el segundo comando: abrir la interfaz no recalcula el análisis.
+
+### Cómo usar los filtros
+
+1. Elige una sola **Ciudad**; así los precios y asociaciones nunca se comparan entre monedas o fechas
+   de referencia desconocidas.
+2. Conserva todas las **Tipologías** o selecciona varias. Al cambiar de ciudad se eliminan opciones
+   que ya no son válidas.
+3. Acota por **Barrio** cuando busques un segmento concreto.
+4. Usa **Estado de evidencia** para distinguir resultados robustos, frágiles, conflictivos o no
+   evaluados.
+5. Pulsa **Restablecer filtros** para volver a una selección válida con una sola acción.
+
+El **Resumen ejecutivo** sitúa población, candidatos y cautela; **Oportunidades** aporta ranking,
+componentes separados, mapa agregado y descarga segura; **Evidencia estadística** explica H1, H2 y
+H3 con hipótesis nula, población, método, muestra, efecto, intervalo, ajuste y sensibilidad.
+
+### Cómo interpretar las hipótesis
+
+- **H1 — tipologías:** Kruskal–Wallis contrasta globalmente la igualdad de distribuciones dentro de
+  una ciudad; Mann–Whitney localiza comparaciones posteriores y Holm controla multiplicidad.
+- **H2 — segmento frente a referencia:** Mann–Whitney compara barrio-tipología con el resto de la
+  misma ciudad-tipología; la inferencia usa anfitrión como unidad y bootstrap por conglomerados.
+- **H3 — asociaciones:** Spearman cuantifica relación monotónica de precio o estancia mínima con el
+  proxy dentro de ciudad. Correlación no demuestra causalidad.
+
+Un valor p ajustado pequeño no basta: presenta también tamaño del efecto, intervalo y sensibilidad.
+Di «oportunidad provisional para investigar», no «segmento rentable» ni «mayor demanda».
+
+### Guion de demostración de cinco minutos
+
+1. Enseña el estado `healthy` con `docker compose ps` y abre el resumen.
+2. Explica que el build está aprobado y señala el número de anuncios de la selección.
+3. Cambia ciudad y tipología; muestra cómo KPIs, gráfico y candidatos se coordinan.
+4. Abre **Oportunidades**, selecciona un barrio y enseña ranking, mapa y CSV seguro.
+5. Abre **Evidencia estadística**, recorre H1–H3 y lee efecto, intervalo y valor ajustado.
+6. Restablece filtros y termina con la advertencia: proxy histórico, sin reservas, ingresos, moneda ni
+   fecha vigente confirmada.
+
+Si un build es incompatible, el estado `blocked` evita publicar métricas y muestra código, archivo y
+recuperación. `empty` significa selección válida sin segmentos; `insufficient` indica que no existe
+evidencia inferencial precalculada para la selección. Ninguno debe interpretarse como cero comercial.

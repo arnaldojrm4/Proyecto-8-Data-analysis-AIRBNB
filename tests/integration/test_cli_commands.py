@@ -24,6 +24,8 @@ def test_test_command_runs_selected_suite_and_reports_pytest_counts(monkeypatch)
     result = cli._test(SimpleNamespace(suite="unit"))
 
     assert command[-1] == "tests/unit"
+    assert "--basetemp" in command
+    assert "airbnb-supply-pytest-" in command[command.index("--basetemp") + 1]
     assert result["status"] == "success"
     assert result["test_summary"] == {
         "passed": 4,

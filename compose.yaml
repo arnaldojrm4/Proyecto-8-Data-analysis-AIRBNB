@@ -1,5 +1,6 @@
 services:
   pipeline:
+    image: airbnb-supply-analysis:advanced
     build:
       context: .
     working_dir: /workspace
@@ -13,3 +14,33 @@ services:
         limits:
           cpus: "2.0"
           memory: 4G
+
+  dashboard:
+    image: airbnb-supply-analysis:advanced
+    build:
+      context: .
+    working_dir: /workspace
+    entrypoint: ["uv", "run", "--locked", "streamlit", "run", "dashboard/app.py"]
+    command: ["--server.address=0.0.0.0", "--server.port=8501"]
+    environment:
+      AIRBNB_DASHBOARD_DATA_DIR: /workspace/data/powerbi
+      PYTHONPATH: /workspace
+    ports:
+      - "${AIRBNB_DASHBOARD_PORT:-8501}:8501"
+    volumes:
+      - ./data/powerbi:/workspace/data/powerbi:ro
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
