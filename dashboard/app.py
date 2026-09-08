@@ -17,6 +17,7 @@ from dashboard.filters import (
     initial_selection,
     normalize_selection,
 )
+from dashboard.presentation import dashboard_error_message
 from dashboard.views import evidence, opportunities, summary
 
 DEFAULT_DATA_DIR = Path("data/powerbi")
@@ -110,12 +111,10 @@ def main() -> None:
     try:
         dataset = _load_cached(str(data_dir), _control_identity(data_dir))
     except DashboardDataError as error:
-        st.error(f"No se puede abrir el panel: {error.detail}")
-        st.caption(f"Código: {error.code} · Artefacto: {error.artifact}")
-        st.info(
-            "Genera un build aprobado con "
-            "`docker compose run --rm pipeline all --log-format json`."
-        )
+        message, recovery = dashboard_error_message(error)
+        st.error(f"No se puede abrir el panel: {message}")
+        st.caption(f"Estado: blocked · Código: {error.code} · Artefacto: {error.artifact}")
+        st.info(f"{recovery} Comando: `docker compose run --rm pipeline all --log-format json`.")
         st.stop()
 
     view = st.sidebar.radio(

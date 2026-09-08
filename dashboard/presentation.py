@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-from dashboard.data import DashboardDataset
+from dashboard.data import DashboardDataError, DashboardDataset
 from dashboard.filters import canonical_evidence_status
 
 
@@ -50,16 +50,23 @@ OPPORTUNITY_COLUMNS = {
     "room_type_label_es": "Tipología",
     "listing_count": "Anuncios",
     "city_supply_share": "Cuota de oferta ciudad",
+    "neighborhood_supply_share": "Cuota de oferta barrio",
+    "neighborhood_room_type_share": "Cuota de tipología en barrio",
+    "room_type_city_share": "Cuota de tipología en ciudad",
     "active_listing_share": "Cuota con actividad",
     "activity_median": "Actividad mediana",
     "activity_iqr": "Dispersión actividad",
     "price_median": "Precio mediano local",
     "price_iqr": "Dispersión precio",
+    "minimum_nights_median": "Estancia mínima mediana",
     "probability_superiority": "Probabilidad de superioridad",
     "effect_ci_low": "Intervalo inferior",
     "effect_ci_high": "Intervalo superior",
     "q_value": "Valor p ajustado",
     "sensitivity_status": "Sensibilidad",
+    "coordinate_coverage": "Cobertura de coordenadas",
+    "quality_flag_count": "Alertas de calidad",
+    "price_position_percentile_within_city_room_type": "Percentil de precio local",
     "eligibility_status": "Elegibilidad",
     "eligibility_reason": "Motivo de elegibilidad",
     "opportunity_label": "Clasificación",
@@ -124,7 +131,11 @@ def opportunity_table(
 def opportunity_csv(table: pd.DataFrame) -> bytes:
     """Serializa exactamente la proyección visible y segura."""
 
-    return table.to_csv(index=False, lineterminator="\n").encode("utf-8")
+    return _safe_csv(
+        table,
+        allowed_columns=set(OPPORTUNITY_COLUMNS.values()),
+        filename="oportunidades_filtradas.csv",
+    )
 
 
 EVIDENCE_COLUMNS = {
@@ -216,3 +227,54 @@ def evidence_table(
     )
     columns = [column for column in EVIDENCE_COLUMNS if column in labeled]
     return labeled[columns].rename(columns=EVIDENCE_COLUMNS).reset_index(drop=True)
+
+
+def evidence_csv(table: pd.DataFrame) -> bytes:
+    """Serializa la evidencia visible sin identificadores técnicos."""
+
+    return _safe_csv(
+        table,
+        allowed_columns=set(EVIDENCE_COLUMNS.values()),
+        filename="evidencia_filtrada.csv",
+    )
+
+
+def _safe_csv(
+    table: pd.DataFrame,
+    *,
+    allowed_columns: set[str],
+    filename: str,
+) -> bytes:
+    restricted = [str(column) for column in table.columns if column not in allowed_columns]
+    if restricted:
+        raise DashboardDataError(
+            "restricted_export_field",
+            filename,
+            f"Campos fuera de la lista positiva: {restricted}",
+        )
+    return table.to_csv(index=False, lineterminator="\n").encode("utf-8")
+
+
+ERROR_MESSAGES = {
+    "missing_file": "Falta una exportación obligatoria.",
+    "unsupported_schema": "La versión o estructura de los datos no es compatible.",
+    "release_gate_failed": "El build rechazado no puede publicarse.",
+    "mixed_build": "Los archivos pertenecen a builds diferentes.",
+    "row_count_mismatch": "Los recuentos publicados no coinciden con los archivos.",
+    "duplicate_dimension_key": "Una dimensión contiene claves duplicadas o vacías.",
+    "orphan_dimension_key": "Una tabla contiene relaciones sin dimensión asociada.",
+    "restricted_export_field": "La descarga contiene un campo no autorizado.",
+}
+
+
+def dashboard_error_message(error: DashboardDataError) -> tuple[str, str]:
+    """Devuelve diagnóstico y recuperación seguros sin propagar detalles internos."""
+
+    title = ERROR_MESSAGES.get(error.code, "Los datos no superan el contrato del panel.")
+    if error.code == "restricted_export_field":
+        recovery = "Actualiza la selección y vuelve a exportar desde la tabla segura del panel."
+    elif error.code == "unsupported_schema":
+        recovery = "Actualiza el panel o genera de nuevo los CSV con el pipeline compatible."
+    else:
+        recovery = "Genera de nuevo un build aprobado con el pipeline y vuelve a cargar el panel."
+    return title, recovery

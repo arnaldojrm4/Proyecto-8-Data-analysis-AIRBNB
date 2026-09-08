@@ -133,14 +133,14 @@ recuento incorrecto, clave duplicada y relación huérfana y comprobar bloqueo s
 
 ### Tests for User Story 4
 
-- [ ] T036 [P] [US4] Completar casos contractuales fallidos para cada código de rechazo en `tests/contract/test_dashboard_contract.py`
-- [ ] T037 [P] [US4] Añadir recorridos AppTest fallidos de bloqueo, mensaje y recuperación en `tests/integration/test_dashboard_app.py`
+- [X] T036 [P] [US4] Completar casos contractuales fallidos para cada código de rechazo en `tests/contract/test_dashboard_contract.py`
+- [X] T037 [P] [US4] Añadir recorridos AppTest fallidos de bloqueo, mensaje y recuperación en `tests/integration/test_dashboard_app.py`
 
 ### Implementation for User Story 4
 
-- [ ] T038 [US4] Completar validaciones y códigos estables de `DashboardDataError` en `dashboard/data.py`
-- [ ] T039 [P] [US4] Implementar mensajes españoles seguros y pasos de recuperación por código en `dashboard/presentation.py`
-- [ ] T040 [US4] Integrar estados `blocked`, `empty` e `insufficient` sin trazas ni métricas residuales en `dashboard/app.py`
+- [X] T038 [US4] Completar validaciones y códigos estables de `DashboardDataError` en `dashboard/data.py`
+- [X] T039 [P] [US4] Implementar mensajes españoles seguros y pasos de recuperación por código en `dashboard/presentation.py`
+- [X] T040 [US4] Integrar estados `blocked`, `empty` e `insufficient` sin trazas ni métricas residuales en `dashboard/app.py`
 
 **Checkpoint**: US4 rechaza cada entrada inválida de forma visible, determinista y recuperable.
 

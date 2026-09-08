@@ -22,6 +22,30 @@ TABLE_FILES = {
     "control": "build_control.csv",
 }
 
+REQUIRED_COLUMNS = {
+    "cities": {"city_key", "city_label_es"},
+    "neighborhoods": {"neighborhood_key", "neighborhood_label"},
+    "room_types": {"room_type_key", "room_type_label_es"},
+    "listings": {
+        "city_key", "neighborhood_key", "room_type_key", "activity_proxy", "price"
+    },
+    "opportunities": {
+        "build_id", "segment_key", "city_key", "neighborhood_key", "room_type_key",
+        "listing_count", "activity_median", "price_median", "sensitivity_status",
+        "opportunity_label", "candidate_rank",
+    },
+    "statistics": {
+        "build_id", "analysis_family", "city_key", "segment_key", "comparison", "method",
+        "sample_size", "estimate", "effect_type", "ci_low", "ci_high", "p_value_adjusted",
+        "sensitivity_status",
+    },
+    "quality": {"build_id"},
+    "control": {
+        "build_id", "schema_version", "generated_at_utc", "release_gate_status",
+        "output_file", "output_row_count",
+    },
+}
+
 
 class DashboardDataError(ValueError):
     """Error publicable y estable al abrir un build del panel."""
@@ -70,6 +94,17 @@ def _read_tables(directory: Path) -> dict[str, pd.DataFrame]:
         name: pd.read_csv(directory / filename)
         for name, filename in TABLE_FILES.items()
     }
+
+
+def _validate_required_columns(tables: dict[str, pd.DataFrame]) -> None:
+    for name, required in REQUIRED_COLUMNS.items():
+        missing = required.difference(tables[name].columns)
+        if missing:
+            _fail(
+                "unsupported_schema",
+                TABLE_FILES[name],
+                f"Faltan columnas consumidas: {sorted(missing)}",
+            )
 
 
 def _build_metadata(control: pd.DataFrame) -> BuildMetadata:
@@ -179,6 +214,7 @@ def load_dashboard_dataset(directory: str | Path) -> DashboardDataset:
 
     root = Path(directory)
     tables = _read_tables(root)
+    _validate_required_columns(tables)
     build = _build_metadata(tables["control"])
     _validate_row_counts(tables)
     _validate_build_columns(tables, build.build_id)

@@ -92,3 +92,24 @@ def test_evidence_table_excludes_result_and_segment_keys(powerbi_export_fixture)
     assert "segment_key" not in table.columns
     assert not any("_key" in column.casefold() for column in table.columns)
 
+
+def test_dashboard_errors_have_safe_spanish_recovery_steps() -> None:
+    from dashboard.data import DashboardDataError
+    from dashboard.presentation import dashboard_error_message
+
+    for code in (
+        "missing_file",
+        "unsupported_schema",
+        "release_gate_failed",
+        "mixed_build",
+        "row_count_mismatch",
+        "duplicate_dimension_key",
+        "orphan_dimension_key",
+        "restricted_export_field",
+    ):
+        title, recovery = dashboard_error_message(DashboardDataError(code, "artifact.csv", "raw"))
+        assert title
+        assert recovery
+        assert "raw" not in title
+        assert "raw" not in recovery
+        assert any(word in recovery.casefold() for word in ("pipeline", "export", "actualiza"))

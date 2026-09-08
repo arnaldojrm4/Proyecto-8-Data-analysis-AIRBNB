@@ -118,3 +118,37 @@ def test_dashboard_rejects_orphan_fact_keys(powerbi_export_fixture, tmp_path: Pa
 
     assert caught.value.code == "orphan_dimension_key"
     assert caught.value.artifact == "fact_listings.csv"
+
+
+def test_dashboard_rejects_a_missing_consumed_column(
+    powerbi_export_fixture,
+    tmp_path: Path,
+) -> None:
+    from dashboard.data import DashboardDataError, load_dashboard_dataset
+
+    export_dir = _copy_exports(powerbi_export_fixture.directory, tmp_path / "schema")
+
+    def corrupt(frame: pd.DataFrame) -> None:
+        frame.drop(columns="activity_proxy", inplace=True)
+
+    _rewrite(export_dir / "fact_listings.csv", corrupt)
+
+    with pytest.raises(DashboardDataError) as caught:
+        load_dashboard_dataset(export_dir)
+
+    assert caught.value.code == "unsupported_schema"
+    assert caught.value.artifact == "fact_listings.csv"
+
+
+def test_safe_download_rejects_an_unapproved_field(powerbi_export_fixture) -> None:
+    from dashboard.data import DashboardDataError, load_dashboard_dataset
+    from dashboard.presentation import opportunity_csv, opportunity_table
+
+    table = opportunity_table(load_dashboard_dataset(powerbi_export_fixture.directory))
+    table["host_id"] = 765432100124
+
+    with pytest.raises(DashboardDataError) as caught:
+        opportunity_csv(table)
+
+    assert caught.value.code == "restricted_export_field"
+    assert caught.value.artifact == "oportunidades_filtradas.csv"

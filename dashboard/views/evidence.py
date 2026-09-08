@@ -7,7 +7,7 @@ import streamlit as st
 
 from dashboard.charts import effect_interval_chart
 from dashboard.data import DashboardDataset
-from dashboard.presentation import evidence_summary, evidence_table
+from dashboard.presentation import evidence_csv, evidence_summary, evidence_table
 
 
 def render(dataset: DashboardDataset, statistics: pd.DataFrame) -> None:
@@ -29,14 +29,23 @@ def render(dataset: DashboardDataset, statistics: pd.DataFrame) -> None:
         "demuestra demanda, ocupación o ingresos."
     )
     if statistics.empty:
-        st.info("No existe evidencia precalculada compatible con esta selección.")
+        st.info(
+            "Estado insufficient: no existe evidencia precalculada compatible con esta "
+            "selección. Amplía o restablece los filtros."
+        )
         return
     st.plotly_chart(effect_interval_chart(statistics), width="stretch")
-    st.dataframe(evidence_table(dataset, statistics), hide_index=True, width="stretch")
+    table = evidence_table(dataset, statistics)
+    st.dataframe(table, hide_index=True, width="stretch")
+    st.download_button(
+        "Descargar evidencia segura",
+        data=evidence_csv(table),
+        file_name="evidencia_filtrada.csv",
+        mime="text/csv",
+    )
     selected = st.selectbox(
         "Resultado para interpretar",
         list(statistics.index),
         format_func=lambda index: str(statistics.loc[index, "comparison"]),
     )
     st.info(evidence_summary(statistics.loc[selected]))
-

@@ -14,7 +14,10 @@ def render(dataset: DashboardDataset, opportunities: pd.DataFrame) -> None:
     st.header("Oportunidades de captación")
     st.caption("¿Dónde se concentra la oportunidad provisional?")
     if opportunities.empty:
-        st.info("No hay segmentos para esta selección. Restablece o amplía los filtros.")
+        st.info(
+            "Estado empty: no hay segmentos para esta selección. "
+            "Restablece o amplía los filtros."
+        )
         return
     display = labeled_opportunities(dataset, opportunities)
     table = opportunity_table(dataset, opportunities)
@@ -29,4 +32,3 @@ def render(dataset: DashboardDataset, opportunities: pd.DataFrame) -> None:
     st.subheader("Centroides agregados de barrios")
     st.plotly_chart(opportunity_map_chart(display), width="stretch")
     st.caption("El ranking anterior conserva la lectura completa si el mapa no está disponible.")
-
