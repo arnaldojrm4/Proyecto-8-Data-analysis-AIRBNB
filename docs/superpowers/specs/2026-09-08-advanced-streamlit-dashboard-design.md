@@ -1,8 +1,10 @@
 # Diseño del panel avanzado Streamlit dockerizado
 
-**Fecha:** 2026-09-08  
-**Estado:** aprobado para planificación  
-**Alcance:** nivel Avanzado  
+**Fecha:** 2026-09-08
+
+**Estado:** aprobado para planificación
+
+**Alcance:** nivel Avanzado
 
 ## Contexto y objetivo
 
