@@ -27,11 +27,15 @@ GitHub (`Todo`, `In Progress`, `Done`).
 | Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/7) | Done |
 | Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/8) | Done |
 | Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/6) | `feat/medium-powerbi-report` | [#10](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/10) | Done |
+| Avanzado | Panel web portable | [#15](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/15) | `002-advanced-dashboard` | Pendiente | In Progress |
 
 ¹ US1 se construyó en la rama autorizada `feat/essential-foundation`; sus commits son la base de la
 rama específica de US2. Se conserva la desviación para no fingir una rama retrospectiva.
 
 ## Incidencias de entorno
+
+- 2026-09-08: se renovó GitHub CLI con alcance `project`; el issue #15 se añadió al Project #2,
+  se clasificó como `Avanzado` / `P1` y recorrió `Ready` → `In Progress` antes de implementar.
 
 - 2026-09-03: se renovó la autorización de GitHub CLI con alcance `project`; se creó y vinculó el
   Project #2 sin modificar el Project #1, que pertenece a otro repositorio.
