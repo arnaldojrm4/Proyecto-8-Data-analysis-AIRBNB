@@ -27,8 +27,8 @@ recomendación artificial.
 - **Madrid**: el alojamiento completo presenta mayor mediana global de actividad (0,410), pero la
   oportunidad local prioritaria es la habitación privada en Justicia. Esto demuestra por qué una
   decisión de captación debe combinar tipología y barrio.
-- **Milán**: CENTRALE-alojamiento completo reúne escala y evidencia consistente; es el primer foco
-  local entre los 18 segmentos robustos con oferta ya consolidada y los candidatos detectados.
+- **Milán**: CENTRALE-alojamiento completo reúne escala y evidencia consistente. El build contiene
+  un candidato y un segmento consolidado en esta ciudad.
 - **Nueva York**: concentra 12 de los 28 candidatos. Después de Bedford-Stuyvesant destacan Hell's
   Kitchen-habitación privada y East Flatbush-alojamiento completo.
 - **Sídney**: concentra 13 candidatos. Leichhardt, Ryde y Parramatta forman el primer bloque de
@@ -73,6 +73,26 @@ actividad en las seis ciudades; la mayor magnitud aparece en Sídney (`rho=-0,33
 [-0,344; -0,326]). Son asociaciones monotónicas, no efectos causales.
 
 ## Decisión y límites
+
+### Nuevas conclusiones de la exploración geográfica
+
+La revisión del 2026-09-08 concilia **28 candidatos**, corrigiendo el recuento de 29 que figuraba
+en el resumen del notebook. Los 28 disponen de centroides. Nueva York y Sídney reúnen 25 (89,3 %).
+Esta distribución describe las fuentes analizadas y no demuestra dónde se concentra la demanda.
+
+La brecha de cuota se calcula como `100 × (cuota ciudad − cuota barrio)` para una misma tipología.
+Entre los primeros candidatos por ciudad es 10,3 puntos porcentuales en Justicia, 2,4 en CENTRALE,
+9,1 en Bedford-Stuyvesant, 6,7 en Leichhardt y 7,2 en Nakano Ku. Una brecha pequeña como la de
+CENTRALE puede coexistir con evidencia robusta. La brecha por sí sola no determina la captación.
+
+El mapa incluye todos los candidatos con coordenadas y la matriz muestra hasta tres por ciudad,
+según el rango oficial. Las combinaciones ausentes quedan vacías. Se retira el score geográfico
+ad hoc que mezclaba actividad, efecto, cuota y tamaño entre ciudades. Los segmentos `watch` no
+se presentan como candidatos y los centroides no representan inmuebles individuales.
+
+La superioridad y su IC usan medianas de actividad por anfitrión. N en la tabla cuenta anuncios.
+El rango de candidatos prioriza el número de anuncios dentro de ciudad, seguido del efecto y
+una clave de desempate. No es un ranking de rentabilidad.
 
 La acción recomendada es una investigación comercial focalizada, empezando por los cinco primeros
 segmentos de la tabla y ampliando después por el ranking de cada ciudad. Antes de ejecutar una

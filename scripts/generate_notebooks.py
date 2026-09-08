@@ -3,12 +3,37 @@
 from __future__ import annotations
 
 from pathlib import Path
-from textwrap import dedent
+from textwrap import dedent, indent
 
 import nbformat as nbf
 
 ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOKS = ROOT / "notebooks"
+
+
+def find_project_root(start: Path) -> Path:
+    """Return the nearest ancestor that identifies this repository."""
+    for candidate in (start.resolve(), *start.resolve().parents):
+        if (candidate / "pyproject.toml").is_file():
+            return candidate
+    raise FileNotFoundError("No se encontró la raíz del proyecto desde el directorio actual.")
+
+
+def notebook_project_root_setup() -> str:
+    """Emit runtime-safe root discovery for notebooks run from an IDE or nbconvert."""
+    return dedent(
+        """
+        def find_project_root(start: Path) -> Path:
+            for candidate in (start.resolve(), *start.resolve().parents):
+                if (candidate / "pyproject.toml").is_file():
+                    return candidate
+            raise FileNotFoundError(
+                "No se encontró la raíz del proyecto; abre el notebook dentro del repositorio."
+            )
+
+        ROOT = find_project_root(Path.cwd())
+        """
+    ).strip()
 
 
 def markdown(text: str):
@@ -57,13 +82,15 @@ def audit_notebook() -> None:
         ),
         markdown("### 1. Cargar evidencia de inventario y calidad"),
         code(
-            """
+            f"""
             import json
             import os
             from pathlib import Path
+
             import pandas as pd
 
-            ROOT = Path("..").resolve()
+
+            {indent(notebook_project_root_setup(), "            ").lstrip()}
             ARTIFACTS = Path(os.environ.get("AIRBNB_SUPPLY_ARTIFACTS_DIR", ROOT / "artifacts"))
             inventory_path = ARTIFACTS / "quality/source-inventory.json"
             inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
@@ -144,13 +171,15 @@ def etl_notebook() -> None:
         ),
         markdown("### 1. Cargar el build canónico y su conciliación"),
         code(
-            """
+            f"""
             import json
             import os
             from pathlib import Path
+
             import pandas as pd
 
-            ROOT = Path("..").resolve()
+
+            {indent(notebook_project_root_setup(), "            ").lstrip()}
             PROCESSED = Path(os.environ.get("AIRBNB_SUPPLY_PROCESSED_DIR", ROOT / "data/processed"))
             ARTIFACTS = Path(os.environ.get("AIRBNB_SUPPLY_ARTIFACTS_DIR", ROOT / "artifacts"))
             listings = pd.read_parquet(PROCESSED / "listings.parquet")
@@ -227,7 +256,7 @@ def executive_eda_notebook() -> None:
 
             ## tl;dr
 
-            Con los umbrales bloqueados se identifican **29 segmentos candidatos** en cinco de las
+            Con los umbrales bloqueados se identifican **28 segmentos candidatos** en cinco de las
             seis ciudades; Londres no conserva candidatos tras las sensibilidades. Son prioridades
             provisionales para investigar captación, no estimaciones de demanda, reservas, ocupación
             o margen.
@@ -252,28 +281,32 @@ def executive_eda_notebook() -> None:
         ),
         markdown("### 1. Cargar resultados aceptados"),
         code(
-            """
-            from pathlib import Path
+            f"""
             import os
+            from pathlib import Path
+
             import pandas as pd
             from IPython.display import display
+
             from airbnb_supply_analysis.visualization import (
                 activity_by_room_type,
                 association_effects,
                 opportunity_scatter,
             )
 
-            ROOT = Path("..").resolve()
+
+            {indent(notebook_project_root_setup(), "            ").lstrip()}
             PROCESSED = Path(os.environ.get("AIRBNB_SUPPLY_PROCESSED_DIR", ROOT / "data/processed"))
             listings = pd.read_parquet(PROCESSED / "listings.parquet")
             results = pd.read_parquet(PROCESSED / "statistical_results.parquet")
             segments = pd.read_parquet(PROCESSED / "opportunity_segments.parquet")
-            {"anuncios": len(listings), "segmentos": len(segments), "resultados": len(results)}
+            {{"anuncios": len(listings), "segmentos": len(segments), "resultados": len(results)}}
             """
         ),
         markdown(
             """
-            **Conclusión.** Los tres artefactos comparten build y derivan de 220.031 anuncios. La
+            **Conclusión.** Los artefactos del build FDAAB53F8317CAD7 contienen 220.031 anuncios,
+            1.497 segmentos y 690 resultados estadísticos. La
             cobertura permite comparar patrones internos, pero no garantiza representatividad del
             mercado completo.
             """
@@ -328,10 +361,13 @@ def executive_eda_notebook() -> None:
         code(
             """
             candidates = segments.query("opportunity_label == 'candidate'").copy()
-            candidate_counts = candidates.groupby("city_key", observed=True).size()
+            candidate_counts = (
+                candidates.groupby("city_key", observed=True).size()
+                .reindex(sorted(segments["city_key"].unique()), fill_value=0)
+            )
             top_columns = [
                 "city_key", "neighborhood", "room_type", "listing_count",
-                "activity_median", "probability_superiority", "effect_ci_low",
+                "activity_median", "probability_superiority", "effect_ci_low", "effect_ci_high",
                 "q_value", "neighborhood_room_type_share", "room_type_city_share",
                 "candidate_rank",
             ]
@@ -368,12 +404,130 @@ def executive_eda_notebook() -> None:
         ),
         markdown(
             """
+            ### 6. Distribución geográfica y brecha de oferta de los candidatos
+
+            Se conserva la exploración local por `ciudad + barrio + tipología`. La brecha es
+            `100 × (cuota de la tipología en la ciudad − cuota en el barrio)`, en puntos
+            porcentuales. Una brecha positiva describe menor presencia relativa, no demuestra
+            falta de oferta, saturación ni demanda insatisfecha.
+
+            La selección usa únicamente `candidate` y el rango oficial dentro de cada ciudad.
+            Se retira el score exploratorio que multiplicaba actividad, superioridad, brecha y
+            tamaño: carecía de validación y mezclaba escalas históricas entre ciudades.
+            Los estados `watch` conservan su carácter de observación y no entran en esta selección.
+            """
+        ),
+        code(
+            """
+            import matplotlib.pyplot as plt
+            import plotly.express as px
+            import seaborn as sns
+
+            local_candidates = candidates.copy()
+            local_candidates["supply_gap_pp"] = 100 * (
+                local_candidates["room_type_city_share"]
+                - local_candidates["neighborhood_room_type_share"]
+            )
+            priority_segments = (
+                local_candidates.sort_values(["city_key", "candidate_rank"])
+                .groupby("city_key", observed=True).head(3).copy()
+            )
+            display(priority_segments[[
+                "city_key", "neighborhood", "room_type", "listing_count",
+                "candidate_rank", "supply_gap_pp", "probability_superiority",
+                "effect_ci_low", "effect_ci_high", "q_value",
+            ]])
+            heatmap_source = priority_segments.assign(
+                neighborhood_label=lambda frame: (
+                    frame["city_key"].astype(str) + " / " + frame["neighborhood"].astype(str)
+                )
+            )
+            heatmap = heatmap_source.pivot(
+                index="neighborhood_label", columns="room_type", values="supply_gap_pp"
+            )
+            fig_heatmap, ax_heatmap = plt.subplots(figsize=(10, 7))
+            sns.heatmap(
+                heatmap, mask=heatmap.isna(), cmap="YlGnBu", annot=True, fmt=".1f",
+                vmin=0, linewidths=0.5,
+                cbar_kws={"label": "Brecha de cuota (puntos porcentuales)"}, ax=ax_heatmap,
+            )
+            ax_heatmap.set_title("Brecha de oferta de los tres primeros candidatos por ciudad")
+            ax_heatmap.set_xlabel("Tipología")
+            ax_heatmap.set_ylabel("Ciudad / barrio")
+            fig_heatmap.tight_layout()
+            plt.show()
+            """
+        ),
+        markdown(
+            """
+            **Conclusión.** La brecha del primer candidato es 10,3 puntos en Justicia, 2,4 en
+            CENTRALE, 9,1 en Bedford-Stuyvesant, 6,7 en Leichhardt y 7,2 en Nakano Ku.
+            CENTRALE sigue siendo candidato con una brecha pequeña porque cumple también los
+            criterios de evidencia. Las celdas vacías no representan cero, sino combinaciones
+            ausentes de esta selección. No se construye un ranking comercial entre ciudades.
+
+            ### 7. Localizar los candidatos sin perder cobertura por ciudad
+
+            Se dibujan los centroides de todos los candidatos con coordenadas válidas. El tamaño
+            refleja anuncios y el color la tipología. Son ubicaciones agregadas, no direcciones
+            de inmuebles ni áreas de demanda. El mapa interactivo requiere acceso al recurso
+            geográfico de Plotly en el navegador; la tabla anterior permite la lectura sin mapa.
+            """
+        ),
+        code(
+            """
+            geo = local_candidates.dropna(
+                subset=["centroid_latitude", "centroid_longitude"]
+            ).copy()
+            display(pd.Series({
+                "candidatos_totales": len(local_candidates),
+                "candidatos_con_coordenadas": len(geo),
+                "candidatos_sin_coordenadas": len(local_candidates) - len(geo),
+            }).to_frame("conteo"))
+            if geo.empty:
+                print("No hay candidatos con coordenadas válidas. Consulta la tabla anterior.")
+            else:
+                geo["segment_label"] = (
+                    geo["city_key"].astype(str) + " / "
+                    + geo["neighborhood"].astype(str) + " / " + geo["room_type"].astype(str)
+                )
+                fig_geo = px.scatter_geo(
+                    geo, lat="centroid_latitude", lon="centroid_longitude",
+                    color="room_type", size="listing_count", hover_name="segment_label",
+                    hover_data={
+                        "candidate_rank": True, "listing_count": True,
+                        "supply_gap_pp": ":.1f", "probability_superiority": ":.3f",
+                        "effect_ci_low": ":.3f", "effect_ci_high": ":.3f",
+                        "coordinate_coverage": ":.1%",
+                    },
+                    projection="natural earth", template="plotly_white",
+                    title="Centroides de los candidatos por barrio y tipología",
+                )
+                fig_geo.show()
+            """
+        ),
+        markdown(
+            """
+            **Conclusión.** Los 28 candidatos tienen centroides disponibles. Sídney aporta 13
+            y Nueva York 12: juntas reúnen 25 de 28 (89,3 %). Madrid, Milán y Tokio aportan uno
+            cada una. Esta concentración describe los candidatos de las fuentes, sin demostrar
+            concentración de demanda. Nakano Ku combina superioridad 0,704 con solo 55 anuncios
+            y un IC 95 % de [0,629; 0,777], por lo que el efecto debe leerse junto con su precisión.
+            """
+        ),
+        markdown(
+            """
             ## Takeaways
 
             Se recomienda investigar primero los candidatos mostrados y validar la oportunidad con
             búsquedas, reservas, ocupación, conversión, ingresos y capacidad real de captación. Los
             resultados actuales sirven para priorizar investigación comercial; no justifican una
             expansión automática ni una promesa de margen.
+
+            La exploración geográfica añade la ubicación y la brecha de oferta de cada candidato.
+            Mantiene los umbrales estadísticos y las comparaciones dentro de ciudad. Las cifras
+            narrativas corresponden al build FDAAB53F8317CAD7 y deben revisarse con cada nuevo
+            build.
             """
         ),
     ]

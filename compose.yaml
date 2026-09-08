@@ -24,6 +24,7 @@ services:
     command: ["--server.address=0.0.0.0", "--server.port=8501"]
     environment:
       AIRBNB_DASHBOARD_DATA_DIR: /workspace/data/powerbi
+      PYTHONPATH: /workspace
     ports:
       - "${AIRBNB_DASHBOARD_PORT:-8501}:8501"
     volumes:

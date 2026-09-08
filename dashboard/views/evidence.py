@@ -27,11 +27,13 @@ def render(dataset: DashboardDataset, statistics: pd.DataFrame) -> None:
         "anfitrión como unidad inferencial, bootstrap por conglomerados y ajuste "
         "Benjamini–Hochberg."
     )
-    st.subheader("H3 · ¿Se asocian precio o estancia mínima con el proxy?")
+    st.subheader("H3 · ¿Se asocian precio o estancia mínima con la actividad histórica?")
     st.markdown(
         "**H₀:** la correlación monotónica es cero. **Población de referencia:** anuncios "
-        "analizables dentro de la ciudad. Correlación de Spearman. Una asociación no implica "
-        "causalidad ni demuestra demanda, ocupación o ingresos."
+        "analizables dentro de la ciudad. La actividad es un indicio basado en reseñas, "
+        "no reservas. "
+        "Correlación de Spearman. Una asociación no implica causalidad ni demuestra demanda, "
+        "ocupación o ingresos."
     )
     if statistics.empty:
         st.info(

@@ -2,7 +2,7 @@
 
 **Feature:** `002-advanced-dashboard`  
 **Fecha de corte:** 2026-09-08  
-**Estado:** validación técnica aprobada; recorrido humano final indicado al cierre.
+**Estado:** validación técnica y recorrido humano aprobados; pendiente de integración del PR.
 
 ## Entrega y trazabilidad
 
@@ -45,12 +45,11 @@ El contrato de tema verifica WCAG AA para texto normal. Ratios calculados: texto
 texto/fondo secundario 12,49:1, primario/fondo 4,85:1 y blanco/primario 5,28:1. Se oscureció el color
 primario de `#C44A32` a `#BC432E` al detectar que el primero alcanzaba solo 4,42:1.
 
-La inspección visual controlada mediante navegador integrado no estuvo disponible en el entorno de
-ejecución. AppTest cubre orden, etiquetas, navegación, fallback, estados y ausencia de excepciones; la
-prueba humana de teclado, foco y comprensión se conserva como cierre explícito y no se sustituye por
-una afirmación automática.
+La inspección automatizada mediante navegador integrado no estuvo disponible en el entorno de
+ejecución. AppTest cubrió orden, etiquetas, navegación, fallback, estados y ausencia de excepciones;
+el usuario completó después el recorrido real descrito a continuación.
 
-## Protocolo humano pendiente (T043 y T049)
+## Resultado del protocolo humano (T043 y T049)
 
 El panel queda disponible en `http://localhost:8501`. La persona de prueba debe iniciar un cronómetro
 sin leer documentación técnica y completar este recorrido:
@@ -66,13 +65,16 @@ recorrido usando solo `Tab`, `Mayús+Tab`, flechas, `Espacio` y `Enter`; confirm
 visible. Reducir la ventana aproximadamente a 768 px y comprobar que no desaparecen controles,
 ranking ni cautelas, aunque las tablas requieran desplazamiento horizontal.
 
-Registro que debe completar el revisor antes de integrar:
+Registro completado por el usuario el 2026-09-08:
 
-- tiempo hasta identificar candidato y cautela: **pendiente**;
-- recorrido por teclado: **pendiente**;
-- foco visible: **pendiente**;
-- vista estrecha utilizable: **pendiente**;
-- observaciones o bloqueo: **pendiente**.
+- tiempo hasta identificar el primer candidato: **8 segundos**; SC-001 cumple el límite de 2 minutos;
+- candidato leído: Madrid–Justicia–Habitación privada, con 281 anuncios y rango 1;
+- recorrido por teclado: **correcto**; cambio de ciudad ejecutado sin ratón;
+- foco visible: **sí**;
+- restablecimiento: **correcto**; volvió a Londres y seleccionó todas las tipologías válidas;
+- vista estrecha: **utilizable**, sin controles o cautelas inaccesibles;
+- observación: el término «proxy» necesitó explicación. Se sustituyó por «una reseña es solo un
+  indicio de actividad; no equivale a una reserva» y se protegió mediante AppTest.
 
 ## Conciliación y limitaciones
 

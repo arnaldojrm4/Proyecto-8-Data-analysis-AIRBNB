@@ -321,17 +321,25 @@ def _test(args: argparse.Namespace) -> dict[str, Any]:
     in_all = getattr(args, "in_all", False)
     if in_all:
         environment["AIRBNB_SUPPLY_IN_ALL"] = "1"
-    command = [sys.executable, "-m", "pytest", "-q"]
-    if in_all and suite == "all":
-        command.extend(("-m", "not full_data"))
-    command.append(TEST_PATHS[suite])
-    result = subprocess.run(
-        command,
-        text=True,
-        capture_output=True,
-        check=False,
-        env=environment,
-    )
+    with tempfile.TemporaryDirectory(prefix="airbnb-supply-pytest-") as pytest_temp:
+        command = [
+            sys.executable,
+            "-m",
+            "pytest",
+            "-q",
+            "--basetemp",
+            pytest_temp,
+        ]
+        if in_all and suite == "all":
+            command.extend(("-m", "not full_data"))
+        command.append(TEST_PATHS[suite])
+        result = subprocess.run(
+            command,
+            text=True,
+            capture_output=True,
+            check=False,
+            env=environment,
+        )
     test_summary = _pytest_counts(f"{result.stdout}\n{result.stderr}")
     status = "success" if result.returncode == 0 else "failed"
     payload = _summary("test", status, error_count=int(result.returncode != 0))

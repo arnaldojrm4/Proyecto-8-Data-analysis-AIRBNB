@@ -72,6 +72,9 @@ def test_dashboard_summary_surfaces_priority_candidates(
     assert not app.exception
     assert any("Candidatos prioritarios" in item.value for item in app.subheader)
     assert app.dataframe
+    warnings = " ".join(item.value for item in app.warning)
+    assert "Una reseña es solo un indicio de actividad" in warnings
+    assert "no equivale a una reserva" in warnings
 
 
 def test_dashboard_blocks_a_rejected_build_and_recovers_without_residual_metrics(

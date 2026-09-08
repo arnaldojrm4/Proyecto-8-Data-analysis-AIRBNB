@@ -22,7 +22,7 @@ def render(
     columns[0].metric("Anuncios", f"{metrics.listing_count:,}".replace(",", "."))
     columns[1].metric("Barrios", str(metrics.neighborhood_count))
     columns[2].metric("Candidatos", str(metrics.candidate_count))
-    columns[3].metric("Actividad mediana", f"{metrics.median_activity:.2f}")
+    columns[3].metric("Actividad histórica (reseñas)", f"{metrics.median_activity:.2f}")
     columns[4].metric("Precio mediano local", f"{metrics.median_price:.2f}")
     st.subheader("Actividad histórica por tipología")
     st.plotly_chart(
@@ -49,6 +49,6 @@ def render(
         ]
         st.dataframe(priority[visible], hide_index=True, width="stretch")
     st.warning(
-        "Son oportunidades provisionales. El proxy de reseñas no demuestra demanda, "
-        "reservas, ocupación, ingresos ni rentabilidad."
+        "Son oportunidades provisionales. Una reseña es solo un indicio de actividad: "
+        "no equivale a una reserva y no demuestra demanda, ocupación, ingresos ni rentabilidad."
     )

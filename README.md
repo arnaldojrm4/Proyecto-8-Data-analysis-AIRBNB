@@ -86,9 +86,10 @@ forzar una recomendación.
 | Sídney | Leichhardt - habitación privada | 290 | 0,589 | [0,554; 0,626] | <0,00001 |
 | Tokio | Nakano Ku - habitación privada | 55 | 0,704 | [0,629; 0,777] | 0,00243 |
 
-La probabilidad de superioridad compara cada segmento con el resto de anuncios de la misma ciudad y
-tipología. Por ejemplo, 0,609 indica que una observación de Bedford-Stuyvesant supera a una de su
-referencia aproximadamente el 60,9 % de las veces, contando los empates a medias. El intervalo, el
+La probabilidad de superioridad compara las medianas de actividad por anfitrión de cada segmento con
+las del resto de la misma ciudad y tipología. Por ejemplo, 0,609 indica superioridad aproximadamente
+el 60,9 % de las veces al comparar esos valores, contando los empates a medias. N indica anuncios,
+no anfitriones. El intervalo, el
 valor ajustado, la escala y las sensibilidades evitan interpretar ese número de forma aislada.
 
 Otros aprendizajes relevantes:
@@ -117,6 +118,15 @@ Los notebooks se leen y ejecutan en orden:
 Cada bloque de código está precedido por Markdown que explica la pregunta, el método y los supuestos,
 y seguido por conclusiones explícitas. Seaborn y Matplotlib producen distribuciones, composiciones y
 rankings comparables; Plotly genera el gráfico interactivo de actividad relativa frente a cuota local.
+
+La revisión geográfica del notebook ejecutivo conserva los 28 candidatos y añade un mapa de sus
+centroides y la brecha de cuota de los tres primeros por ciudad. Nueva York y Sídney reúnen el 89,3 %
+de los candidatos. Una menor cuota relativa no demuestra necesidades comerciales sin cubrir ni falta de oferta.
+
+La [presentación técnica actualizada](output/presentation/airbnb-desarrollo-tecnico.pptx) explica
+objetivos, desarrollo, tecnologías, metodología y nuevas conclusiones geográficas. Incluye notas
+para exponer y fuentes por diapositiva. El [guion técnico](docs/presentation/technical-presentation.md)
+permite consultar la explicación sin PowerPoint.
 
 La [guía de estudio](docs/study-guide.md) explica cómo leer y defender el análisis. Su versión lista
 para estudiar e imprimir está en [PDF](output/pdf/guia-estudio-airbnb.pdf).
