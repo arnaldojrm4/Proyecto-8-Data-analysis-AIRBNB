@@ -11,7 +11,7 @@ Ejecución cerrada el 2026-09-07 (Europe/Madrid) conforme a la
 | Power BI Desktop | x64 `2.157.879.0 (26.08)` |
 | Build / schema | `FDAAB53F8317CAD7` / `1.0.0` |
 | DataRoot de prueba | Copia temporal limpia de `data/powerbi/` |
-| Issue / PR | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) / [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) |
+| Issue / PR | [#6](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/6) / [#10](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/10) |
 
 ## Preparación, modelo y conciliación
 
