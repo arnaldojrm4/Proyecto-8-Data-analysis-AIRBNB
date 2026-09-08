@@ -13,10 +13,11 @@ from dashboard.filters import (
     FilterSelection,
     apply_listing_filters,
     apply_opportunity_filters,
+    apply_statistical_filters,
     initial_selection,
     normalize_selection,
 )
-from dashboard.views import opportunities, summary
+from dashboard.views import evidence, opportunities, summary
 
 DEFAULT_DATA_DIR = Path("data/powerbi")
 
@@ -125,6 +126,11 @@ def main() -> None:
     selection = _filters(dataset)
     filtered_listings = apply_listing_filters(dataset.listings, selection)
     filtered_opportunities = apply_opportunity_filters(dataset.opportunities, selection)
+    filtered_statistics = apply_statistical_filters(
+        dataset.statistics,
+        dataset.opportunities,
+        selection,
+    )
     st.caption(
         f"Build {dataset.build.build_id} aprobado · "
         f"{len(filtered_listings):,} anuncios en la selección".replace(",", ".")
@@ -134,8 +140,7 @@ def main() -> None:
     elif view == "Oportunidades":
         opportunities.render(dataset, filtered_opportunities)
     else:
-        st.header("Evidencia estadística")
-        st.info("La vista de evidencia se incorpora en el siguiente incremento.")
+        evidence.render(dataset, filtered_statistics)
 
 
 

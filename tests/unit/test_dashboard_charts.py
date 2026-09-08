@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 
 
 def test_activity_chart_uses_hand_checked_room_type_medians() -> None:
@@ -54,3 +55,22 @@ def test_opportunity_map_only_plots_rows_with_aggregate_centroids() -> None:
     assert len(figure.data) == 1
     assert list(figure.data[0].lat) == [40.4]
 
+
+def test_effect_chart_uses_estimate_and_confidence_interval() -> None:
+    from dashboard.charts import effect_interval_chart
+
+    statistics = pd.DataFrame(
+        {
+            "comparison": ["segmento frente a referencia"],
+            "estimate": [0.62],
+            "ci_low": [0.54],
+            "ci_high": [0.70],
+            "effect_type": ["probability_superiority"],
+        }
+    )
+
+    figure = effect_interval_chart(statistics)
+
+    assert list(figure.data[0].x) == [0.62]
+    assert list(figure.data[0].error_x.array) == pytest.approx([0.08])
+    assert list(figure.data[0].error_x.arrayminus) == pytest.approx([0.08])

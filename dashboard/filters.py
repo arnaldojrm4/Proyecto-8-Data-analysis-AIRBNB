@@ -96,3 +96,34 @@ def apply_opportunity_filters(frame: pd.DataFrame, selection: FilterSelection) -
     output = frame.loc[mask].copy()
     output["evidence_status_es"] = statuses.loc[mask]
     return output
+
+
+def apply_statistical_filters(
+    statistics: pd.DataFrame,
+    opportunities: pd.DataFrame,
+    selection: FilterSelection,
+) -> pd.DataFrame:
+    """Selecciona evidencia publicada sin cambiar las poblaciones de sus pruebas."""
+
+    city_rows = statistics["city_key"].eq(selection.city_key)
+    segment_rows = statistics["analysis_family"].eq("segment")
+    opportunity_mask = opportunities["city_key"].eq(selection.city_key) & opportunities[
+        "room_type_key"
+    ].isin(selection.room_type_keys)
+    if selection.neighborhood_keys:
+        opportunity_mask &= opportunities["neighborhood_key"].isin(
+            selection.neighborhood_keys
+        )
+    allowed_segments = set(
+        opportunities.loc[opportunity_mask, "segment_key"].dropna().astype(str)
+    )
+    compatible_population = ~segment_rows | statistics["segment_key"].astype(str).isin(
+        allowed_segments
+    )
+    statuses = statistics["sensitivity_status"].map(canonical_evidence_status)
+    mask = city_rows & compatible_population
+    if selection.evidence_states:
+        mask &= statuses.isin(selection.evidence_states)
+    output = statistics.loc[mask].copy()
+    output["evidence_status_es"] = statuses.loc[mask]
+    return output

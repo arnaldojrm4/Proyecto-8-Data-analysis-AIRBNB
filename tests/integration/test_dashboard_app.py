@@ -38,3 +38,20 @@ def test_dashboard_filters_and_reset_share_one_population(
     assert any("Ranking" in heading.value for heading in app.subheader)
     app.button[0].click().run(timeout=10)
     assert not app.exception
+
+
+def test_dashboard_evidence_view_explains_all_hypothesis_families(
+    monkeypatch, powerbi_export_fixture
+) -> None:
+    monkeypatch.setenv("AIRBNB_DASHBOARD_DATA_DIR", str(powerbi_export_fixture.directory))
+    app_path = Path(__file__).resolve().parents[2] / "dashboard" / "app.py"
+    app = AppTest.from_file(app_path).run(timeout=10)
+
+    app.radio[0].set_value("Evidencia estadística").run(timeout=10)
+
+    assert not app.exception
+    rendered = " ".join(item.value for item in [*app.header, *app.subheader, *app.markdown])
+    assert "H1" in rendered
+    assert "H2" in rendered
+    assert "H3" in rendered
+    assert "no implica causalidad" in rendered

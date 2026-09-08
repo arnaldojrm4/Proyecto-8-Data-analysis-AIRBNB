@@ -95,3 +95,30 @@ def test_apply_opportunity_filters_includes_canonical_evidence_status() -> None:
 
     assert filtered["neighborhood_key"].tolist() == ["centro"]
 
+
+def test_statistical_filters_keep_citywide_results_and_matching_segments() -> None:
+    from dashboard.filters import FilterSelection, apply_statistical_filters
+
+    statistics = pd.DataFrame(
+        {
+            "result_id": ["association", "segment-centro", "segment-sur"],
+            "analysis_family": ["association", "segment", "segment"],
+            "city_key": ["madrid", "madrid", "madrid"],
+            "segment_key": [pd.NA, "centro:private", "sur:entire"],
+            "sensitivity_status": ["not_run", "robust", "fragile"],
+        }
+    )
+    opportunities = pd.DataFrame(
+        {
+            "segment_key": ["centro:private", "sur:entire"],
+            "city_key": ["madrid", "madrid"],
+            "room_type_key": ["private", "entire"],
+            "neighborhood_key": ["centro", "sur"],
+        }
+    )
+    selection = FilterSelection(city_key="madrid", room_type_keys=("private",))
+
+    filtered = apply_statistical_filters(statistics, opportunities, selection)
+
+    assert filtered["result_id"].tolist() == ["association", "segment-centro"]
+

@@ -56,3 +56,39 @@ def test_opportunity_csv_contains_only_the_visible_safe_projection(
     assert "listing_key" not in payload
     assert "centroid_latitude" not in payload
 
+
+def test_evidence_summary_separates_significance_effect_and_causality() -> None:
+    import pandas as pd
+
+    from dashboard.presentation import evidence_summary
+
+    result = pd.Series(
+        {
+            "effect_type": "spearman_rho",
+            "estimate": 0.18,
+            "p_value_adjusted": 0.01,
+            "sensitivity_status": "not_run",
+        }
+    )
+
+    summary = evidence_summary(result)
+
+    assert "evidencia estadística" in summary
+    assert "efecto pequeño" in summary
+    assert "no implica causalidad" in summary
+    assert "no evaluada" in summary
+
+
+def test_evidence_table_excludes_result_and_segment_keys(powerbi_export_fixture) -> None:
+    from dashboard.data import load_dashboard_dataset
+    from dashboard.presentation import evidence_table
+
+    dataset = load_dashboard_dataset(powerbi_export_fixture.directory)
+    table = evidence_table(dataset, dataset.statistics)
+
+    assert table.loc[0, "Ciudad"] == "Madrid"
+    assert table.loc[0, "Valor p ajustado"] == 0.02
+    assert "result_id" not in table.columns
+    assert "segment_key" not in table.columns
+    assert not any("_key" in column.casefold() for column in table.columns)
+

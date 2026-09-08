@@ -83,17 +83,17 @@ método, muestra, efecto, intervalo, ajuste, sensibilidad y limitación sin rec�
 
 ### Tests for User Story 2
 
-- [ ] T022 [P] [US2] Escribir pruebas fallidas de selección de resultados por familia y población publicada en `tests/unit/test_dashboard_filters.py`
-- [ ] T023 [P] [US2] Escribir pruebas fallidas de interpretación, magnitud y términos prohibidos en `tests/unit/test_dashboard_presentation.py`
-- [ ] T024 [US2] Añadir recorrido AppTest fallido para las tres hipótesis y sensibilidad en `tests/integration/test_dashboard_app.py`
-- [ ] T025 [P] [US2] Añadir conciliación fallida de evidencia visible contra resultados publicados en `tests/integration/test_dashboard_reconciliation.py`
+- [X] T022 [P] [US2] Escribir pruebas fallidas de selección de resultados por familia y población publicada en `tests/unit/test_dashboard_filters.py`
+- [X] T023 [P] [US2] Escribir pruebas fallidas de interpretación, magnitud y términos prohibidos en `tests/unit/test_dashboard_presentation.py`
+- [X] T024 [US2] Añadir recorrido AppTest fallido para las tres hipótesis y sensibilidad en `tests/integration/test_dashboard_app.py`
+- [X] T025 [P] [US2] Añadir conciliación fallida de evidencia visible contra resultados publicados en `tests/integration/test_dashboard_reconciliation.py`
 
 ### Implementation for User Story 2
 
-- [ ] T026 [P] [US2] Implementar figuras de efectos, intervalos y asociaciones sin inferencia nueva en `dashboard/charts.py`
-- [ ] T027 [P] [US2] Implementar resúmenes de hipótesis, significación ajustada, efecto y sensibilidad en `dashboard/presentation.py`
-- [ ] T028 [US2] Implementar navegación y detalle de tipología, segmento, asociación y sensibilidad en `dashboard/views/evidence.py`
-- [ ] T029 [US2] Integrar la vista de evidencia respetando filtros aplicables y poblaciones fijas en `dashboard/app.py`
+- [X] T026 [P] [US2] Implementar figuras de efectos, intervalos y asociaciones sin inferencia nueva en `dashboard/charts.py`
+- [X] T027 [P] [US2] Implementar resúmenes de hipótesis, significación ajustada, efecto y sensibilidad en `dashboard/presentation.py`
+- [X] T028 [US2] Implementar navegación y detalle de tipología, segmento, asociación y sensibilidad en `dashboard/views/evidence.py`
+- [X] T029 [US2] Integrar la vista de evidencia respetando filtros aplicables y poblaciones fijas en `dashboard/app.py`
 
 **Checkpoint**: US2 permite defender cada conclusión estadística sin convertir asociación en causalidad
 ni significación en relevancia práctica.

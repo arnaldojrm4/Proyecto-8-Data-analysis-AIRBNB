@@ -25,3 +25,17 @@ def test_dashboard_summary_and_ranking_reconcile_with_public_exports(
     assert ranking.loc[0, "Rango candidato"] == 1
     assert ranking.loc[0, "Actividad mediana"] == 1.2
 
+
+def test_dashboard_evidence_reconciles_with_published_result(powerbi_export_fixture) -> None:
+    from dashboard.data import load_dashboard_dataset
+    from dashboard.presentation import evidence_table
+
+    dataset = load_dashboard_dataset(powerbi_export_fixture.directory)
+    table = evidence_table(dataset, dataset.statistics)
+
+    assert len(table) == 1
+    assert table.loc[0, "Efecto"] == 0.62
+    assert table.loc[0, "Intervalo inferior"] == 0.54
+    assert table.loc[0, "Intervalo superior"] == 0.70
+    assert table.loc[0, "Valor p ajustado"] == 0.02
+

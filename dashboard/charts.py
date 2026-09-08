@@ -93,3 +93,37 @@ def opportunity_map_chart(opportunities: pd.DataFrame) -> go.Figure:
     )
     return figure
 
+
+def effect_interval_chart(statistics: pd.DataFrame) -> go.Figure:
+    """Muestra estimaciones publicadas con sus intervalos, sin recalcularlos."""
+
+    required = {"comparison", "estimate", "ci_low", "ci_high"}
+    if statistics.empty or not required.issubset(statistics.columns):
+        return _empty_figure()
+    usable = statistics.dropna(subset=list(required)).copy()
+    if usable.empty:
+        return _empty_figure()
+    estimates = pd.to_numeric(usable["estimate"])
+    low = pd.to_numeric(usable["ci_low"])
+    high = pd.to_numeric(usable["ci_high"])
+    figure = go.Figure(
+        go.Scatter(
+            x=estimates,
+            y=usable["comparison"],
+            mode="markers",
+            marker={"color": "#C44A32", "size": 9},
+            error_x={
+                "type": "data",
+                "symmetric": False,
+                "array": high - estimates,
+                "arrayminus": estimates - low,
+            },
+            hovertemplate="%{y}<br>Efecto: %{x:.3f}<extra></extra>",
+        )
+    )
+    figure.update_layout(
+        xaxis_title="Estimación e intervalo de confianza del 95%",
+        yaxis_title="Comparación",
+        margin={"l": 10, "r": 10, "t": 20, "b": 10},
+    )
+    return figure
