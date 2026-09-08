@@ -15,18 +15,23 @@ def render(dataset: DashboardDataset, statistics: pd.DataFrame) -> None:
     st.caption("¿Con qué confianza podemos sostener las observaciones?")
     st.subheader("H1 · ¿Difiere la actividad histórica entre tipologías?")
     st.markdown(
-        "Kruskal–Wallis y comparaciones Mann–Whitney dentro de ciudad, con tamaños de efecto, "
-        "intervalos y corrección de Holm."
+        "**H₀:** las distribuciones de actividad son iguales entre tipologías. "
+        "**Población de referencia:** anuncios analizables de la ciudad activa. "
+        "Kruskal–Wallis y comparaciones Mann–Whitney, con tamaños de efecto, intervalos y "
+        "corrección de Holm."
     )
     st.subheader("H2 · ¿Difiere un barrio–tipología de su referencia local?")
     st.markdown(
-        "Mann–Whitney con anfitrión como unidad inferencial, bootstrap por conglomerados y "
-        "ajuste Benjamini–Hochberg."
+        "**H₀:** el segmento y el resto de su ciudad-tipología tienen la misma distribución. "
+        "**Población de referencia:** resto de la misma ciudad y tipología. Mann–Whitney con "
+        "anfitrión como unidad inferencial, bootstrap por conglomerados y ajuste "
+        "Benjamini–Hochberg."
     )
     st.subheader("H3 · ¿Se asocian precio o estancia mínima con el proxy?")
     st.markdown(
-        "Correlación de Spearman dentro de ciudad. Una asociación no implica causalidad ni "
-        "demuestra demanda, ocupación o ingresos."
+        "**H₀:** la correlación monotónica es cero. **Población de referencia:** anuncios "
+        "analizables dentro de la ciudad. Correlación de Spearman. Una asociación no implica "
+        "causalidad ni demuestra demanda, ocupación o ingresos."
     )
     if statistics.empty:
         st.info(

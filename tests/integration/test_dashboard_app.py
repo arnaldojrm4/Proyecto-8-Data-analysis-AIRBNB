@@ -56,7 +56,22 @@ def test_dashboard_evidence_view_explains_all_hypothesis_families(
     assert "H1" in rendered
     assert "H2" in rendered
     assert "H3" in rendered
+    assert "H₀" in rendered
+    assert "Población de referencia" in rendered
     assert "no implica causalidad" in rendered
+
+
+def test_dashboard_summary_surfaces_priority_candidates(
+    monkeypatch, powerbi_export_fixture
+) -> None:
+    monkeypatch.setenv("AIRBNB_DASHBOARD_DATA_DIR", str(powerbi_export_fixture.directory))
+    app_path = Path(__file__).resolve().parents[2] / "dashboard" / "app.py"
+
+    app = AppTest.from_file(app_path).run(timeout=10)
+
+    assert not app.exception
+    assert any("Candidatos prioritarios" in item.value for item in app.subheader)
+    assert app.dataframe
 
 
 def test_dashboard_blocks_a_rejected_build_and_recovers_without_residual_metrics(

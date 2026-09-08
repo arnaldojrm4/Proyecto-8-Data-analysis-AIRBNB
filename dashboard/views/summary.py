@@ -7,7 +7,7 @@ import streamlit as st
 
 from dashboard.charts import activity_by_room_type_chart
 from dashboard.data import DashboardDataset
-from dashboard.presentation import summary_metrics
+from dashboard.presentation import opportunity_table, summary_metrics
 
 
 def render(
@@ -29,8 +29,26 @@ def render(
         activity_by_room_type_chart(listings, dataset.room_types),
         width="stretch",
     )
+    candidates = opportunities.loc[opportunities["opportunity_label"].eq("candidate")]
+    st.subheader("Candidatos prioritarios")
+    if candidates.empty:
+        st.info("No hay candidatos en la selección; revisa las observaciones en Oportunidades.")
+    else:
+        priority = opportunity_table(dataset, candidates).head(5)
+        visible = [
+            column
+            for column in (
+                "Rango candidato",
+                "Barrio",
+                "Tipología",
+                "Anuncios",
+                "Actividad mediana",
+                "Sensibilidad",
+            )
+            if column in priority
+        ]
+        st.dataframe(priority[visible], hide_index=True, width="stretch")
     st.warning(
         "Son oportunidades provisionales. El proxy de reseñas no demuestra demanda, "
         "reservas, ocupación, ingresos ni rentabilidad."
     )
-

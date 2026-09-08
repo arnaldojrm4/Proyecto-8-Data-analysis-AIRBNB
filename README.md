@@ -165,6 +165,11 @@ datos ni vuelve a ejecutar el pipeline. `AIRBNB_DASHBOARD_PORT` permite cambiar 
 Esta configuración está destinada a ejecución local o dentro de una red controlada, no a exposición
 pública sin autenticación y TLS.
 
+La [guía de estudio](docs/study-guide.md#15-panel-web-avanzado-uso-y-demostración) incluye el recorrido
+de filtros y un guion de presentación. La [aceptación avanzada](docs/acceptance/advanced-level.md) y la
+[evidencia Docker](docs/acceptance/advanced-dashboard-docker.md) registran conciliación, rendimiento,
+accesibilidad y límites.
+
 ## Dónde está documentado el código
 
 - `src/airbnb_supply_analysis/`: docstring de los 13 módulos, tipos y lógica de producción; el

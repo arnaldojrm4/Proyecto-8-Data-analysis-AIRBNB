@@ -9,6 +9,7 @@ from pathlib import Path
 import psutil
 import pytest
 import yaml
+from streamlit.testing.v1 import AppTest
 
 
 def _run_monitored(command: list[str], cwd: Path, timeout: int) -> tuple[int, float, float, str]:
@@ -106,3 +107,28 @@ def test_full_workflow_budget_and_container_limits(project_root: Path, tmp_path:
     assert code == 0, output
     assert elapsed <= 300
     assert peak_rss <= 2048
+
+
+@pytest.mark.full_data
+def test_dashboard_filter_actions_have_a_sub_two_second_p95(
+    project_root: Path,
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("AIRBNB_DASHBOARD_DATA_DIR", str(project_root / "data" / "powerbi"))
+    load_started = time.perf_counter()
+    app = AppTest.from_file(project_root / "dashboard" / "app.py").run(timeout=10)
+    initial_load = time.perf_counter() - load_started
+    assert not app.exception
+
+    durations: list[float] = []
+    states = (["robusta"], ["no evaluada"])
+    for index in range(20):
+        started = time.perf_counter()
+        app.multiselect[2].set_value(states[index % 2]).run(timeout=10)
+        durations.append(time.perf_counter() - started)
+        assert not app.exception
+
+    percentile_95 = sorted(durations)[18]
+    print(f"dashboard_initial_load_seconds={initial_load:.3f}")
+    print(f"dashboard_filter_p95_seconds={percentile_95:.3f}")
+    assert percentile_95 <= 2.0, f"p95={percentile_95:.3f}s; muestras={durations}"
