@@ -2,6 +2,8 @@
 .specify/
 .codex/
 .venv/
+venv/
+dist/
 
 # Artefactos locales: SDD y material de estudio no versionable.
 specs/*
@@ -29,6 +31,7 @@ htmlcov/
 Thumbs.db
 *.tmp
 *.swp
+*.log
 .vscode/
 .idea/
 

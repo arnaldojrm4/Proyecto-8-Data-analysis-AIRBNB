@@ -21,9 +21,9 @@ independientes.
 **Purpose**: Preparar rama, dependencias y esqueleto sin implementar comportamiento.
 
 - [X] T001 Crear el issue de la feature, añadirlo al GitHub Project en `Ready`, moverlo a `In Progress` y registrar URL, nivel, fase, propietario y criterios en `docs/project-management.md`
-- [ ] T002 Añadir Streamlit 1.63.x y actualizar el bloqueo reproducible en `pyproject.toml` y `uv.lock`
-- [ ] T003 [P] Crear el paquete y módulos vacíos definidos por el plan en `dashboard/__init__.py` y `dashboard/views/__init__.py`
-- [ ] T004 [P] Definir tema, telemetría deshabilitada y opciones seguras de servidor en `.streamlit/config.toml`
+- [X] T002 Añadir Streamlit 1.63.x y actualizar el bloqueo reproducible en `pyproject.toml` y `uv.lock`
+- [X] T003 [P] Crear el paquete y módulos vacíos definidos por el plan en `dashboard/__init__.py` y `dashboard/views/__init__.py`
+- [X] T004 [P] Definir tema, telemetría deshabilitada y opciones seguras de servidor en `.streamlit/config.toml`
 
 ---
 
