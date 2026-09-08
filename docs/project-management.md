@@ -22,11 +22,11 @@ GitHub (`Todo`, `In Progress`, `Done`).
 
 | Nivel | Fase | Issue | Rama | PR | Estado |
 |---|---|---|---|---|---|
-| Esencial | Preparación y fundamentos | [#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) | `feat/essential-foundation` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
-| Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
-| Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) | Done |
-| Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) | Done |
-| Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) | `feat/medium-powerbi-report` | [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) | Done |
+| Esencial | Preparación y fundamentos | [#2](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/2) | `feat/essential-foundation` | [#7](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/7) | Done |
+| Esencial | Base confiable | [#3](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/3) | `feat/essential-foundation`¹ | [#7](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/7) | Done |
+| Esencial | Análisis de oportunidad | [#4](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/4) | `feat/essential-opportunity-analysis` | [#7](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/7) | Done |
+| Esencial | Reproducibilidad | [#5](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/5) | `feat/essential-reproducibility` | [#8](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/8) | Done |
+| Medio | Power BI | [#6](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/6) | `feat/medium-powerbi-report` | [#10](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/10) | Done |
 
 ¹ US1 se construyó en la rama autorizada `feat/essential-foundation`; sus commits son la base de la
 rama específica de US2. Se conserva la desviación para no fingir una rama retrospectiva.
@@ -47,15 +47,15 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 
 ## Estado de sincronización (2026-09-07)
 
-- Los PR [#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) y
-  [#8](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/8) están integrados en
+- Los PR [#7](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/7) y
+  [#8](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/8) están integrados en
   `main`; el árbol final coincide con el árbol verificado de US3.
 - `tasks.md` refleja T070–T085 terminadas y la puerta Esencial aprobada.
 - La suite Docker aprobó 65 pruebas, omitió una comprobación Docker anidada y no tuvo fallos. Ruff y
   las 67 pruebas locales también aprobaron.
 - Los issues #2–#5 y los PR #7–#8 están cerrados y conciliados con `Done` en GitHub Projects.
 - T086 inició US4 desde `origin/main` en la rama `feat/medium-powerbi-report` y abrió el PR borrador
-  [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10).
+  [#10](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/10).
 - La línea base de la rama aprobó Ruff y 67 pruebas en 290,18 s antes de cualquier cambio funcional.
 - T087–T090 fijaron los contratos de exportación, privacidad y conciliación, además del checklist
   manual. La ejecución inicial registró 7 fallos esperados y 2 pruebas aprobadas, sin modificar
@@ -76,9 +76,9 @@ rama específica de US2. Se conserva la desviación para no fingir una rama retr
 
 ## Instantánea final (2026-09-07)
 
-- El PR [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) se integró en
+- El PR [#10](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/10) se integró en
   `main` mediante merge commit `12466b3abd73d13f685546183aafbb0ad21f8c01`.
-- El issue [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6) está cerrado.
+- El issue [#6](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/6) está cerrado.
 - Issue #6 y PR #10 figuran `Done` tanto en `Estado Kanban` como en el campo nativo `Status` del
   [Project #2](https://github.com/users/arnaldojrm4/projects/2).
 - La suite del HEAD integrado aprobó 94 pruebas, omitió únicamente el smoke de Docker anidado y no

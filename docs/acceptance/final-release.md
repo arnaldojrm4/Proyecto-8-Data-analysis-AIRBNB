@@ -51,6 +51,6 @@ declara 2 vCPU y 4 GB, y el test mantiene el RSS por debajo de 2 GB.
 Las conclusiones siguen limitadas a actividad histórica de reseñas y oferta relativa. No convierten
 el proxy en demanda, reservas, ocupación, liquidez, ingreso, margen o causalidad.
 
-El PR [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10) fue integrado en
+El PR [#10](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/10) fue integrado en
 `main` mediante `12466b3abd73d13f685546183aafbb0ad21f8c01`; el issue #6 y ambos elementos del
 Project #2 quedaron en `Done`.

@@ -14,8 +14,8 @@
 ## Estado externo
 
 La infraestructura local y los contratos base están disponibles. La rama remota, el issue
-[#2](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/2) y la pull request
-[#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7) están publicados. El
+[#2](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/2) y la pull request
+[#7](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/7) están publicados. El
 [Project #2](https://github.com/users/arnaldojrm4/projects/2) está vinculado al repositorio y refleja
 el estado de las fases. T001 permanece abierta únicamente porque la rama ejecutada no coincide con
 el nombre histórico previsto por esa tarea.

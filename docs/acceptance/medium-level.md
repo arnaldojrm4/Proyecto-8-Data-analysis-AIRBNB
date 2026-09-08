@@ -19,8 +19,8 @@ registrada.
 - Conciliación: [powerbi-reconciliation.md](powerbi-reconciliation.md)
 - UAT y accesibilidad: [powerbi-uat.md](powerbi-uat.md)
 - Contratos iniciales: [powerbi-contracts-red.md](powerbi-contracts-red.md)
-- Issue: [#6](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/6)
-- PR: [#10](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/10)
+- Issue: [#6](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/6)
+- PR: [#10](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/10)
 
 ## Puerta de aceptación
 

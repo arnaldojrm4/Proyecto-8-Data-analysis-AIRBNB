@@ -41,7 +41,7 @@ de extracción siguen registradas como desconocidas.
 ## Trazabilidad externa
 
 La evidencia está enlazada al issue
-[#3](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/issues/3) y a la pull request
-[#7](https://github.com/arnaldojrm4/Proyecto-8-Data-analysis-AIRBNB/pull/7). La tarea T025 permanece
+[#3](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/issues/3) y a la pull request
+[#7](https://github.com/arnaldojrm4/Proyecto8-DataAnalyst-Arnaldo/pull/7). La tarea T025 permanece
 abierta porque el trabajo se consolidó en `feat/essential-foundation`, no en la rama prevista, y el
 movimiento a `Done` depende de la revisión, integración y conciliación del tablero.
