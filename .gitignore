@@ -8,6 +8,7 @@ specs/
 docs/superpowers/
 .local-sdd/
 study-guides/
+tmp/
 __pycache__/
 *.py[cod]
 *.egg-info/

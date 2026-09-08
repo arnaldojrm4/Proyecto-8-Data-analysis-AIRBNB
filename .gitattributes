@@ -2,3 +2,6 @@
 
 # Las fuentes raw son instantáneas inmutables: Git no debe alterar sus bytes.
 data/raw/*.csv -text
+
+# Los entregables PDF se almacenan y comparan como binarios.
+*.pdf binary
