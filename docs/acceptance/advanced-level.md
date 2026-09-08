@@ -30,7 +30,9 @@
 - **SC-008:** tablas y descargas usan listas positivas sin nombres, IDs originales, claves técnicas ni
   coordenadas de anuncios.
 - **SC-010:** el ranking tabular conserva la lectura principal aunque el mapa no se represente.
-- **SC-012:** la evidencia final de suites se añadirá tras el último pase de regresión.
+- **SC-012:** Ruff aprobó y la regresión completa del host finalizó con 135 pruebas aprobadas en
+  301,50 s. Dentro de la imagen se aprobaron 125, se omitieron 2 smoke tests anidados y se excluyeron
+  las 8 pruebas de datos completos ya cubiertas en host. El pipeline contenido finalizó con 0 errores.
 
 ## Accesibilidad y vista estrecha
 
