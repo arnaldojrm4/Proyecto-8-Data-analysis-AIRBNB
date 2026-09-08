@@ -50,6 +50,30 @@ ejecución. AppTest cubre orden, etiquetas, navegación, fallback, estados y aus
 prueba humana de teclado, foco y comprensión se conserva como cierre explícito y no se sustituye por
 una afirmación automática.
 
+## Protocolo humano pendiente (T043 y T049)
+
+El panel queda disponible en `http://localhost:8501`. La persona de prueba debe iniciar un cronómetro
+sin leer documentación técnica y completar este recorrido:
+
+1. elegir una ciudad;
+2. acotar una o varias tipologías;
+3. identificar el primer candidato y verbalizar la cautela principal;
+4. abrir su evidencia y reconocer efecto, intervalo y valor ajustado;
+5. restablecer los filtros.
+
+El éxito de SC-001 exige completar los tres primeros puntos en menos de 2 minutos. Después, repetir el
+recorrido usando solo `Tab`, `Mayús+Tab`, flechas, `Espacio` y `Enter`; confirmar que el foco siempre es
+visible. Reducir la ventana aproximadamente a 768 px y comprobar que no desaparecen controles,
+ranking ni cautelas, aunque las tablas requieran desplazamiento horizontal.
+
+Registro que debe completar el revisor antes de integrar:
+
+- tiempo hasta identificar candidato y cautela: **pendiente**;
+- recorrido por teclado: **pendiente**;
+- foco visible: **pendiente**;
+- vista estrecha utilizable: **pendiente**;
+- observaciones o bloqueo: **pendiente**.
+
 ## Conciliación y limitaciones
 
 La fuente única de verdad son los ocho CSV de `data/powerbi`, identificados por `build_id` y gate
