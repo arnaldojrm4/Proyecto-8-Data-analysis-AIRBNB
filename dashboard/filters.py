@@ -81,3 +81,18 @@ def apply_listing_filters(frame: pd.DataFrame, selection: FilterSelection) -> pd
         mask &= frame["neighborhood_key"].isin(selection.neighborhood_keys)
     return frame.loc[mask].copy()
 
+
+def apply_opportunity_filters(frame: pd.DataFrame, selection: FilterSelection) -> pd.DataFrame:
+    """Filtra segmentos y traduce sensibilidad sin alterar su clasificación original."""
+
+    mask = frame["city_key"].eq(selection.city_key) & frame["room_type_key"].isin(
+        selection.room_type_keys
+    )
+    if selection.neighborhood_keys:
+        mask &= frame["neighborhood_key"].isin(selection.neighborhood_keys)
+    statuses = frame["sensitivity_status"].map(canonical_evidence_status)
+    if selection.evidence_states:
+        mask &= statuses.isin(selection.evidence_states)
+    output = frame.loc[mask].copy()
+    output["evidence_status_es"] = statuses.loc[mask]
+    return output

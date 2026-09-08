@@ -8,6 +8,15 @@ from pathlib import Path
 import streamlit as st
 
 from dashboard.data import DashboardDataError, DashboardDataset, load_dashboard_dataset
+from dashboard.filters import (
+    EVIDENCE_STATES,
+    FilterSelection,
+    apply_listing_filters,
+    apply_opportunity_filters,
+    initial_selection,
+    normalize_selection,
+)
+from dashboard.views import opportunities, summary
 
 DEFAULT_DATA_DIR = Path("data/powerbi")
 
@@ -26,6 +35,73 @@ def _control_identity(directory: Path) -> str:
     return f"{stat.st_mtime_ns}:{stat.st_size}"
 
 
+def _filters(dataset: DashboardDataset) -> FilterSelection:
+    initial = initial_selection(dataset.cities, dataset.listings)
+    city_labels = dict(
+        zip(dataset.cities["city_key"], dataset.cities["city_label_es"], strict=True)
+    )
+    city_options = sorted(city_labels, key=lambda key: city_labels[key])
+    city_key = st.sidebar.selectbox(
+        "Ciudad",
+        city_options,
+        format_func=city_labels.get,
+        index=city_options.index(st.session_state.get("selected_city", initial.city_key)),
+    )
+    st.session_state["selected_city"] = city_key
+    listing_scope = dataset.listings.loc[dataset.listings["city_key"].eq(city_key)]
+    room_keys = sorted(listing_scope["room_type_key"].dropna().astype(str).unique())
+    room_labels = dict(
+        zip(
+            dataset.room_types["room_type_key"],
+            dataset.room_types["room_type_label_es"],
+            strict=True,
+        )
+    )
+    selected_rooms = st.sidebar.multiselect(
+        "Tipología",
+        room_keys,
+        default=room_keys,
+        format_func=room_labels.get,
+        key=f"rooms_{city_key}",
+    )
+    neighborhood_scope = listing_scope.loc[listing_scope["room_type_key"].isin(selected_rooms)]
+    neighborhood_keys = sorted(
+        neighborhood_scope["neighborhood_key"].dropna().astype(str).unique()
+    )
+    neighborhood_labels = dict(
+        zip(
+            dataset.neighborhoods["neighborhood_key"],
+            dataset.neighborhoods["neighborhood_label"],
+            strict=True,
+        )
+    )
+    selected_neighborhoods = st.sidebar.multiselect(
+        "Barrio",
+        neighborhood_keys,
+        format_func=neighborhood_labels.get,
+        key=f"neighborhoods_{city_key}",
+    )
+    evidence = st.sidebar.multiselect("Estado de evidencia", EVIDENCE_STATES)
+    if st.sidebar.button("Restablecer filtros"):
+        for key in list(st.session_state):
+            if key.startswith(("rooms_", "neighborhoods_")) or key in {
+                "selected_city",
+                "Estado de evidencia",
+            }:
+                del st.session_state[key]
+        st.rerun()
+    return normalize_selection(
+        FilterSelection(
+            city_key=str(city_key),
+            room_type_keys=tuple(selected_rooms),
+            neighborhood_keys=tuple(selected_neighborhoods),
+            evidence_states=tuple(evidence),
+        ),
+        dataset.cities,
+        dataset.listings,
+    )
+
+
 def main() -> None:
     st.set_page_config(page_title="Oportunidades de captación", page_icon="🏠", layout="wide")
     st.title("Oportunidades de captación")
@@ -41,13 +117,26 @@ def main() -> None:
         )
         st.stop()
 
-    st.sidebar.radio(
+    view = st.sidebar.radio(
         "Vista",
         ("Resumen ejecutivo", "Oportunidades", "Evidencia estadística"),
         key="dashboard_view",
     )
-    st.success(f"Build {dataset.build.build_id} aprobado")
-    st.info("Las vistas analíticas se habilitarán después de seleccionar filtros.")
+    selection = _filters(dataset)
+    filtered_listings = apply_listing_filters(dataset.listings, selection)
+    filtered_opportunities = apply_opportunity_filters(dataset.opportunities, selection)
+    st.caption(
+        f"Build {dataset.build.build_id} aprobado · "
+        f"{len(filtered_listings):,} anuncios en la selección".replace(",", ".")
+    )
+    if view == "Resumen ejecutivo":
+        summary.render(dataset, filtered_listings, filtered_opportunities)
+    elif view == "Oportunidades":
+        opportunities.render(dataset, filtered_opportunities)
+    else:
+        st.header("Evidencia estadística")
+        st.info("La vista de evidencia se incorpora en el siguiente incremento.")
+
 
 
 main()

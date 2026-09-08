@@ -56,18 +56,18 @@ tabla comparten población, cambiar barrio y restablecer toda la selección.
 
 ### Tests for User Story 1
 
-- [ ] T013 [P] [US1] Escribir pruebas fallidas de indicadores y figuras con datos normales y vacíos en `tests/unit/test_dashboard_charts.py`
-- [ ] T014 [P] [US1] Escribir pruebas fallidas de etiquetas, unidades y proyección de descarga segura en `tests/unit/test_dashboard_presentation.py`
-- [ ] T015 [US1] Ampliar AppTest con recorridos fallidos de filtros, persistencia y restablecimiento en `tests/integration/test_dashboard_app.py`
-- [ ] T016 [P] [US1] Escribir conciliación fallida de indicadores y ranking contra los CSV en `tests/integration/test_dashboard_reconciliation.py`
+- [X] T013 [P] [US1] Escribir pruebas fallidas de indicadores y figuras con datos normales y vacíos en `tests/unit/test_dashboard_charts.py`
+- [X] T014 [P] [US1] Escribir pruebas fallidas de etiquetas, unidades y proyección de descarga segura en `tests/unit/test_dashboard_presentation.py`
+- [X] T015 [US1] Ampliar AppTest con recorridos fallidos de filtros, persistencia y restablecimiento en `tests/integration/test_dashboard_app.py`
+- [X] T016 [P] [US1] Escribir conciliación fallida de indicadores y ranking contra los CSV en `tests/integration/test_dashboard_reconciliation.py`
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Implementar indicadores, ranking, distribución y mapa con fallback tabular en `dashboard/charts.py`
-- [ ] T018 [P] [US1] Implementar etiquetas españolas, formatos, cautelas y descargas seguras en `dashboard/presentation.py`
-- [ ] T019 [US1] Implementar filtros coordinados, población visible e indicadores ejecutivos en `dashboard/views/summary.py`
-- [ ] T020 [US1] Implementar comparación de componentes, ranking, mapa, estados vacíos y descarga en `dashboard/views/opportunities.py`
-- [ ] T021 [US1] Integrar ambas vistas y su estado compartido en `dashboard/app.py`
+- [X] T017 [P] [US1] Implementar indicadores, ranking, distribución y mapa con fallback tabular en `dashboard/charts.py`
+- [X] T018 [P] [US1] Implementar etiquetas españolas, formatos, cautelas y descargas seguras en `dashboard/presentation.py`
+- [X] T019 [US1] Implementar filtros coordinados, población visible e indicadores ejecutivos en `dashboard/views/summary.py`
+- [X] T020 [US1] Implementar comparación de componentes, ranking, mapa, estados vacíos y descarga en `dashboard/views/opportunities.py`
+- [X] T021 [US1] Integrar ambas vistas y su estado compartido en `dashboard/app.py`
 
 **Checkpoint**: US1 funciona de forma independiente como MVP y permite identificar un candidato con su
 cautela aunque el mapa no esté disponible.

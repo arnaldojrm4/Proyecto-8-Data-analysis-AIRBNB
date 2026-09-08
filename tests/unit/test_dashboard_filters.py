@@ -73,3 +73,25 @@ def test_evidence_status_has_four_canonical_outcomes() -> None:
     assert canonical_evidence_status(None) == "no evaluada"
     assert canonical_evidence_status("unexpected") == "no evaluada"
 
+
+def test_apply_opportunity_filters_includes_canonical_evidence_status() -> None:
+    from dashboard.filters import FilterSelection, apply_opportunity_filters
+
+    opportunities = pd.DataFrame(
+        {
+            "city_key": ["madrid", "madrid"],
+            "room_type_key": ["private", "private"],
+            "neighborhood_key": ["centro", "sur"],
+            "sensitivity_status": ["robust", "fragile"],
+        }
+    )
+    selection = FilterSelection(
+        city_key="madrid",
+        room_type_keys=("private",),
+        evidence_states=("robusta",),
+    )
+
+    filtered = apply_opportunity_filters(opportunities, selection)
+
+    assert filtered["neighborhood_key"].tolist() == ["centro"]
+
