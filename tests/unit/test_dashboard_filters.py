@@ -3,6 +3,13 @@ from __future__ import annotations
 import pandas as pd
 
 
+def test_safe_option_index_falls_back_when_a_saved_choice_disappears() -> None:
+    from dashboard.filters import safe_option_index
+
+    assert safe_option_index(["madrid", "sevilla"], "removed", "sevilla") == 1
+    assert safe_option_index(["madrid", "sevilla"], "madrid", "sevilla") == 0
+
+
 def _cities() -> pd.DataFrame:
     return pd.DataFrame(
         {
@@ -121,4 +128,3 @@ def test_statistical_filters_keep_citywide_results_and_matching_segments() -> No
     filtered = apply_statistical_filters(statistics, opportunities, selection)
 
     assert filtered["result_id"].tolist() == ["association", "segment-centro"]
-

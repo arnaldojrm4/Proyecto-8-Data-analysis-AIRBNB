@@ -9,6 +9,13 @@ import pandas as pd
 EVIDENCE_STATES = ("robusta", "frágil", "conflictiva", "no evaluada")
 
 
+def safe_option_index(options: list[str], saved: object, fallback: str) -> int:
+    """Resuelve una selección persistida aunque haya cambiado el build disponible."""
+
+    value = str(saved) if saved in options else fallback
+    return options.index(value)
+
+
 @dataclass(frozen=True)
 class FilterSelection:
     """Selección coherente compartida por las vistas."""

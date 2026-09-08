@@ -16,6 +16,7 @@ from dashboard.filters import (
     apply_statistical_filters,
     initial_selection,
     normalize_selection,
+    safe_option_index,
 )
 from dashboard.presentation import dashboard_error_message
 from dashboard.views import evidence, opportunities, summary
@@ -47,7 +48,11 @@ def _filters(dataset: DashboardDataset) -> FilterSelection:
         "Ciudad",
         city_options,
         format_func=city_labels.get,
-        index=city_options.index(st.session_state.get("selected_city", initial.city_key)),
+        index=safe_option_index(
+            city_options,
+            st.session_state.get("selected_city", initial.city_key),
+            initial.city_key,
+        ),
     )
     st.session_state["selected_city"] = city_key
     listing_scope = dataset.listings.loc[dataset.listings["city_key"].eq(city_key)]

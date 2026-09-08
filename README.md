@@ -211,8 +211,8 @@ privacidad, conteos, hashes y versión. Consulta la
 
 El trabajo se organizó mediante ramas por fase, commits atómicos, pull requests y un
 [Kanban de GitHub Projects](https://github.com/users/arnaldojrm4/projects/2) como fuente única de
-planificación. La verificación host del Nivel Avanzado registra 135 pruebas aprobadas. En la ejecución
-dentro del contenedor se aprobaron 125, se omitieron intencionadamente 2 smoke tests que intentarían
+planificación. La verificación host del Nivel Avanzado registra 138 pruebas aprobadas. En la ejecución
+dentro del contenedor se aprobaron 128, se omitieron intencionadamente 2 smoke tests que intentarían
 iniciar Docker dentro de Docker y se excluyeron las 8 pruebas de datos completos ya cubiertas en host.
 
 ## Límites de interpretación

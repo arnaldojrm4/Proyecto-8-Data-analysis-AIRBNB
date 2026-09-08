@@ -152,3 +152,40 @@ def test_safe_download_rejects_an_unapproved_field(powerbi_export_fixture) -> No
 
     assert caught.value.code == "restricted_export_field"
     assert caught.value.artifact == "oportunidades_filtradas.csv"
+
+
+def test_dashboard_translates_an_unreadable_csv_to_a_stable_error(
+    powerbi_export_fixture,
+    tmp_path: Path,
+) -> None:
+    from dashboard.data import DashboardDataError, load_dashboard_dataset
+
+    export_dir = _copy_exports(powerbi_export_fixture.directory, tmp_path / "unreadable")
+    (export_dir / "dim_city.csv").write_text("", encoding="utf-8")
+
+    with pytest.raises(DashboardDataError) as caught:
+        load_dashboard_dataset(export_dir)
+
+    assert caught.value.code == "unsupported_schema"
+    assert caught.value.artifact == "dim_city.csv"
+
+
+def test_dashboard_rejects_a_non_numeric_recorded_row_count(
+    powerbi_export_fixture,
+    tmp_path: Path,
+) -> None:
+    from dashboard.data import DashboardDataError, load_dashboard_dataset
+
+    export_dir = _copy_exports(powerbi_export_fixture.directory, tmp_path / "invalid-count")
+
+    def corrupt(frame: pd.DataFrame) -> None:
+        frame["output_row_count"] = frame["output_row_count"].astype(object)
+        frame.loc[frame["output_file"].eq("fact_listings.csv"), "output_row_count"] = "invalid"
+
+    _rewrite(export_dir / "build_control.csv", corrupt)
+
+    with pytest.raises(DashboardDataError) as caught:
+        load_dashboard_dataset(export_dir)
+
+    assert caught.value.code == "row_count_mismatch"
+    assert caught.value.artifact == "fact_listings.csv"

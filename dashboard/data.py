@@ -90,10 +90,13 @@ def _read_tables(directory: Path) -> dict[str, pd.DataFrame]:
     for filename in sorted(EXPECTED_POWERBI_FILES):
         if not (directory / filename).is_file():
             _fail("missing_file", filename, "No existe la exportación obligatoria.")
-    return {
-        name: pd.read_csv(directory / filename)
-        for name, filename in TABLE_FILES.items()
-    }
+    tables: dict[str, pd.DataFrame] = {}
+    for name, filename in TABLE_FILES.items():
+        try:
+            tables[name] = pd.read_csv(directory / filename)
+        except (pd.errors.EmptyDataError, pd.errors.ParserError, UnicodeDecodeError) as error:
+            _fail("unsupported_schema", filename, f"El CSV no puede interpretarse: {error}")
+    return tables
 
 
 def _validate_required_columns(tables: dict[str, pd.DataFrame]) -> None:
@@ -140,7 +143,15 @@ def _validate_row_counts(tables: dict[str, pd.DataFrame]) -> None:
         if not matches:
             continue
         actual = len(tables[matches[0]])
-        if actual != int(row.output_row_count):
+        try:
+            expected = int(row.output_row_count)
+        except (TypeError, ValueError):
+            _fail(
+                "row_count_mismatch",
+                str(row.output_file),
+                "El recuento publicado no es un número entero.",
+            )
+        if actual != expected:
             detail = f"Esperadas {row.output_row_count}; leídas {actual}."
             _fail("row_count_mismatch", str(row.output_file), detail)
 

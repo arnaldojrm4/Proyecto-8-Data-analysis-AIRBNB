@@ -38,7 +38,7 @@ Tras integrar robustez, accesibilidad y documentación se repitió la puerta com
 
 - `docker compose build --no-cache pipeline`: aprobado;
 - `docker compose run --rm pipeline all --log-format json`: `status=success`, 0 errores y unos 203 s;
-- suite explícita dentro de la imagen: 125 aprobadas, 2 omitidas por evitar Docker dentro de Docker y
+- suite explícita dentro de la imagen final: 128 aprobadas, 2 omitidas por evitar Docker dentro de Docker y
   8 de datos completos cubiertas en el host;
 - panel recreado desde `airbnb-supply-analysis:advanced`: HTTP 200 en 4,07 s y estado `healthy`;
 - usuario efectivo: `dashboard`; consumo puntual: 96,79 MiB de un límite de 1 GiB.
