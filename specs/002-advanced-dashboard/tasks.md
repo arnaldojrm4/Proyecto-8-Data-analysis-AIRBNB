@@ -157,7 +157,7 @@ recuento incorrecto, clave duplicada y relación huérfana y comprobar bloqueo s
 - [X] T045 Ejecutar unitarias, contractuales, integración, AppTest y Ruff y registrar evidencia en `docs/acceptance/advanced-level.md`
 - [X] T046 Ejecutar build, pipeline y smoke test Docker desde cero y registrar evidencia en `docs/acceptance/advanced-dashboard-docker.md`
 - [X] T047 Conciliar muestras del panel con CSV y Power BI y registrar diferencias cero en `docs/acceptance/advanced-level.md`
-- [ ] T048 Crear el PR, mover el issue a `Review`, registrar commits y revisión y moverlo a `Done` solo tras integrar en `docs/project-management.md`
+- [X] T048 Crear el PR, mover el issue a `Review`, registrar commits y revisión y moverlo a `Done` solo tras integrar en `docs/project-management.md`
 - [ ] T049 Ejecutar con un usuario de prueba el recorrido cronometrado de SC-001 y registrar tiempo, éxito y observaciones en `docs/acceptance/advanced-level.md`
 
 ---

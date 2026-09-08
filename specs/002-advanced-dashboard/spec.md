@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-08
 
-**Status**: Draft
+**Status**: Review
 
 **Input**: User description: "Continuar con el nivel Avanzado mediante un panel web dockerizable,
 con filtros interactivos e hipótesis verificadas con análisis estadísticos adecuados, manteniendo
