@@ -19,7 +19,7 @@ from dashboard.filters import (
     safe_option_index,
 )
 from dashboard.presentation import dashboard_error_message
-from dashboard.views import evidence, opportunities, summary
+from dashboard.views import evidence, market_structure, opportunities, summary
 
 DEFAULT_DATA_DIR = Path("data/powerbi")
 
@@ -110,8 +110,8 @@ def _filters(dataset: DashboardDataset) -> FilterSelection:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Oportunidades de captación", page_icon="🏠", layout="wide")
-    st.title("Oportunidades de captación")
+    st.set_page_config(page_title="Estructura del mercado Airbnb", page_icon="🏠", layout="wide")
+    st.title("Estructura del mercado Airbnb")
     data_dir = Path(os.environ.get("AIRBNB_DASHBOARD_DATA_DIR", DEFAULT_DATA_DIR))
     try:
         dataset = _load_cached(str(data_dir), _control_identity(data_dir))
@@ -124,7 +124,12 @@ def main() -> None:
 
     view = st.sidebar.radio(
         "Vista",
-        ("Resumen ejecutivo", "Oportunidades", "Evidencia estadística"),
+        (
+            "Estructura del mercado",
+            "Resumen ejecutivo",
+            "Oportunidades",
+            "Evidencia estadística",
+        ),
         key="dashboard_view",
     )
     selection = _filters(dataset)
@@ -141,6 +146,8 @@ def main() -> None:
     )
     if view == "Resumen ejecutivo":
         summary.render(dataset, filtered_listings, filtered_opportunities)
+    elif view == "Estructura del mercado":
+        market_structure.render(dataset, filtered_listings)
     elif view == "Oportunidades":
         opportunities.render(dataset, filtered_opportunities)
     else:

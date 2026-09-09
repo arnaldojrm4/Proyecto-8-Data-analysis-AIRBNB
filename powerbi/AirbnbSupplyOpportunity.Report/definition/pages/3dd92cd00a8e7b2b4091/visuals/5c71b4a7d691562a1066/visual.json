@@ -1,0 +1,115 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "5c71b4a7d691562a1066",
+  "position": {
+    "x": 20,
+    "y": 496,
+    "z": 31000,
+    "height": 150,
+    "width": 600,
+    "tabOrder": 30
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Neighborhood"
+                    }
+                  },
+                  "Property": "neighborhood_label"
+                }
+              },
+              "queryRef": "Dim Neighborhood.neighborhood_label",
+              "nativeQueryRef": "neighborhood_label"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Actividad por anuncio"
+                }
+              },
+              "queryRef": "_Measures.Actividad por anuncio",
+              "nativeQueryRef": "Actividad por anuncio"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Anuncios analizables"
+                }
+              },
+              "queryRef": "_Measures.Anuncios analizables",
+              "nativeQueryRef": "Anuncios analizables"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Cobertura de actividad"
+                }
+              },
+              "queryRef": "_Measures.Cobertura de actividad",
+              "nativeQueryRef": "Cobertura de actividad"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ranking de actividad por anuncio y barrio con volumen y cobertura en contexto.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

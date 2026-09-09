@@ -1,0 +1,107 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "47aa17e831f4f1442130",
+  "position": {
+    "x": 20,
+    "y": 100,
+    "z": 11000,
+    "height": 90,
+    "width": 1240,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Anuncios analizables"
+                }
+              },
+              "queryRef": "_Measures.Anuncios analizables",
+              "nativeQueryRef": "Anuncios analizables"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Actividad por anuncio"
+                }
+              },
+              "queryRef": "_Measures.Actividad por anuncio",
+              "nativeQueryRef": "Actividad por anuncio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Cobertura de actividad"
+                }
+              },
+              "queryRef": "_Measures.Cobertura de actividad",
+              "nativeQueryRef": "Cobertura de actividad"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Cuota de anuncios en carteras >5"
+                }
+              },
+              "queryRef": "_Measures.Cuota de anuncios en carteras >5",
+              "nativeQueryRef": "Cuota de anuncios en carteras >5"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Anuncios analizables, actividad media, cobertura y cuota de carteras mayores de cinco.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

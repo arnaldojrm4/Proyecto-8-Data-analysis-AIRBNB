@@ -1,30 +1,64 @@
-El proyecto parte de datos de alojamientos de Airbnb en distintas ciudades. Su finalidad educativa es construir un análisis reproducible, obtener conclusiones útiles para negocio y comunicar los resultados mediante un notebook, un dashboard y una presentación técnica.
-
 # Airbnb Supply Opportunity Analysis
 
-Este repositorio estudia qué combinaciones de **ciudad, barrio y tipología de alojamiento** conviene
-investigar primero para captar nueva oferta. El análisis está pensado para un público de negocio no
-técnico, pero conserva el código, las pruebas, los supuestos y la incertidumbre necesarios para que
-otra persona pueda reproducirlo y auditarlo.
+Este repositorio estudia la **estructura del mercado de alojamientos de Airbnb** en seis ciudades:
+oferta y actividad relativa por barrio, concentración histórica de reseñas, tamaño de las carteras
+observadas y dispersión geográfica. El análisis conserva el código, los datos derivados, los
+supuestos y las pruebas necesarios para reproducir y auditar cada resultado.
 
-La entrega cubre el **Nivel Esencial** completo y el **Nivel Medio**: auditoría de seis fuentes, ETL,
-EDA, análisis estadístico, notebooks documentados, visualizaciones estáticas e interactivas, modelo
-semántico y panel de Power BI Desktop sin licencia de pago, Docker, Git y trazabilidad del proyecto.
+## Entrega principal
 
-## Pregunta de negocio
+La fuente analítica principal es el [EDA de estructura del mercado](notebooks/04_market_structure_eda.ipynb).
+Su versión ejecutada y lista para consultar está en
+[04_market_structure_eda.html](output/04_market_structure_eda.html). Los resultados se presentan en
+dos productos interactivos construidos sobre la misma exportación validada:
 
-La pregunta no es simplemente qué tipología registra más reseñas. Se busca detectar segmentos donde
-coincidan:
+1. **Dashboard web:** [dashboard/app.py](dashboard/app.py). Abre directamente la vista
+   **Estructura del mercado** y permite filtrar por ciudad, tipología y barrio.
+2. **Power BI:** [AirbnbSupplyOpportunity.pbip](powerbi/AirbnbSupplyOpportunity.pbip). La primera
+   página es **Estructura del mercado**, seguida del resumen y del análisis previo de oportunidades.
 
-- actividad histórica de reseñas relativamente alta;
-- una muestra suficiente para evitar rankings frágiles;
-- evidencia estadística y un tamaño de efecto relevante;
-- estabilidad ante análisis de sensibilidad;
-- y una cuota local de oferta inferior a la cuota de esa tipología en su ciudad.
+Para abrir el dashboard desde la raíz del proyecto:
 
-El resultado es una **priorización para investigación comercial**, no una orden automática de
-captación. `reviews_per_month` se utiliza como proxy de actividad histórica y no mide reservas,
-ocupación, demanda actual, liquidez ni rentabilidad.
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run dashboard\app.py
+```
+
+Después abre `http://localhost:8501`. Para Power BI Desktop, abre el archivo `.pbip`, actualiza el
+modelo y guarda una copia `.pbix`. La [guía de Power BI](powerbi/README.md) contiene los pasos y el
+parámetro `DataRoot`.
+
+## Preguntas principales
+
+El EDA principal responde cuatro preguntas:
+
+1. ¿Qué barrios combinan mucha o poca oferta con mayor o menor actividad relativa?
+2. ¿Qué porcentaje de anuncios concentra la mayor parte de las reseñas históricas?
+3. ¿Qué proporción de anuncios pertenece a cada tamaño de cartera observado: 1, 2–5, 6–10 y >10?
+4. ¿Cómo cambian la actividad, la concentración y la dispersión geográfica entre ciudades?
+
+`reviews_per_month` representa actividad relativa y `number_of_reviews` actividad histórica
+acumulada. Ninguna de las dos variables prueba reservas, necesidad de oferta adicional, ocupación o
+rentabilidad. El tamaño de cartera tampoco identifica propiedad, profesionalidad ni estatus fiscal.
+
+## Resultados principales del EDA
+
+El análisis conserva **220.031 anuncios**. La cobertura de actividad es del 100 % en cinco ciudades
+y del 99,7 % en Sídney. Los resultados comparables por ciudad son:
+
+| Ciudad | Anuncios | Actividad por anuncio | Reseñas del top 20 % | Anuncios necesarios para el 80 % | Carteras >5 | Radio geográfico p90 |
+|---|---:|---:|---:|---:|---:|---:|
+| Londres | 85.068 | 0,92 | 77,6 % | 21,9 % | 23,2 % | 13,2 km |
+| Madrid | 19.618 | 0,80 | 82,0 % | 18,7 % | 27,1 % | 6,2 km |
+| Milán | 18.322 | 0,58 | 84,4 % | 16,6 % | 20,0 % | 4,8 km |
+| Nueva York | 48.895 | 1,09 | 78,2 % | 21,3 % | 9,8 % | 11,5 km |
+| Sídney | 36.662 | 0,77 | 84,3 % | 16,8 % | 13,4 % | 18,8 km |
+| Tokio | 11.466 | 1,93 | 66,1 % | 31,4 % | 60,1 % | 12,4 km |
+
+Los datos sugieren tres líneas de negocio: priorizar la investigación de barrios con actividad alta
+y volumen suficiente; adaptar la captación a la concentración real de cada ciudad; y tratar Tokio
+como un mercado con una estructura de cartera claramente distinta. Estas señales sirven para
+formular hipótesis comerciales que deben validarse con reservas, disponibilidad, antigüedad del
+anuncio, ingresos y costes.
 
 ## Datos y preparación
 
@@ -49,15 +83,15 @@ las comparaciones emplean mediana, rango intercuartílico y métodos no paramét
 La explicación completa está en [ETL y calidad](docs/etl-and-quality.md) y el significado de cada
 campo en el [diccionario de datos](docs/data-dictionary.md).
 
-## Cómo se obtuvieron las conclusiones
+## Metodología y trazabilidad
 
 El flujo reproducible sigue esta secuencia:
 
 1. **Inventario y auditoría:** valida nombre, tamaño, filas, cabecera y SHA-256 de cada CSV.
 2. **Modelo canónico:** estandariza tipos y nombres, conserva el linaje y valida la clave
    `city_key + listing_id`.
-3. **EDA:** estudia distribuciones, mezcla de tipologías, valores atípicos, barrios y asociaciones
-   dentro de cada ciudad.
+3. **EDA principal:** compara oferta y actividad por barrio, concentración de reseñas, tamaño de
+   cartera y dispersión geográfica dentro de cada ciudad.
 4. **Contrastes:** usa Kruskal-Wallis y `epsilon_squared` para comparar tipologías; Mann-Whitney,
    probabilidad de superioridad e intervalos bootstrap por anfitrión para los segmentos locales.
 5. **Control de falsos positivos:** aplica Holm en contrastes confirmatorios y
@@ -67,12 +101,15 @@ El flujo reproducible sigue esta secuencia:
 7. **Regla transparente:** clasifica cada segmento como `candidate`, `consolidated`, `watch` o
    `insufficient_evidence`; Power BI presenta estas etiquetas, pero no recalcula la estadística.
 
-El notebook [EDA ejecutivo](notebooks/03_executive_eda.ipynb) enlaza los gráficos con su
-interpretación. La metodología y las cifras completas están resumidas en
+El análisis estadístico anterior permanece disponible como evidencia complementaria en
 [hallazgos ejecutivos](docs/analysis/executive-findings.md) y
 [rigor estadístico](docs/acceptance/statistical-rigor.md).
 
-## Conclusiones principales
+## Material de soporte y análisis anteriores
+
+Los notebooks 01–03 documentan la auditoría, el ETL y una priorización anterior de oportunidades.
+Se conservan por trazabilidad y como análisis complementario; no son la portada analítica del
+proyecto. Aquel análisis obtuvo los siguientes resultados:
 
 Se identificaron **28 segmentos candidatos**: 13 en Sídney, 12 en Nueva York y uno en Madrid, Milán
 y Tokio. Londres no supera simultáneamente todos los criterios; los umbrales no se relajaron para
@@ -107,13 +144,15 @@ Otros aprendizajes relevantes:
   negativamente en las seis ciudades, con mayor magnitud en Sídney (`rho = -0,335`). Son asociaciones,
   no relaciones causales.
 
-## Notebooks y visualizaciones
+### Notebooks de soporte
 
-Los notebooks se leen y ejecutan en orden:
+El orden recomendado es comenzar por el EDA principal y consultar después el soporte necesario:
 
-1. [01_data_audit.ipynb](notebooks/01_data_audit.ipynb): procedencia, esquema, completitud y calidad.
-2. [02_etl.ipynb](notebooks/02_etl.ipynb): transformaciones, tratamientos y conciliación de filas.
-3. [03_executive_eda.ipynb](notebooks/03_executive_eda.ipynb): EDA, estadística y oportunidades.
+1. [04_market_structure_eda.ipynb](notebooks/04_market_structure_eda.ipynb): análisis principal,
+   hipótesis, conclusiones observadas e insights de negocio.
+2. [01_data_audit.ipynb](notebooks/01_data_audit.ipynb): procedencia, esquema, completitud y calidad.
+3. [02_etl.ipynb](notebooks/02_etl.ipynb): transformaciones, tratamientos y conciliación de filas.
+4. [03_executive_eda.ipynb](notebooks/03_executive_eda.ipynb): priorización estadística anterior.
 
 Cada bloque de código está precedido por Markdown que explica la pregunta, el método y los supuestos,
 y seguido por conclusiones explícitas. Seaborn y Matplotlib producen distribuciones, composiciones y
@@ -137,8 +176,10 @@ El informe [Power BI Desktop](powerbi/README.md) es gratuito y utiliza ocho CSV 
 Python. Un modelo estrella separa tres dimensiones, tablas de hechos y control del build. El parámetro
 `DataRoot` evita rutas personales y permite refrescar el panel en otro equipo.
 
-Sus tres páginas responden, en orden:
+Sus cuatro páginas responden, en orden:
 
+- **cómo se estructura el mercado**, comparando oferta, actividad relativa, concentración de reseñas
+  y tamaño de cartera observado;
 - **qué investigar**, con indicadores y ranking de candidatos;
 - **dónde se concentra la oportunidad**, con segmentación por ciudad, barrio y tipología;
 - **con qué confianza**, mostrando muestra, efecto, intervalo y evidencia estadística.
@@ -147,11 +188,13 @@ Los filtros de ciudad, tipología y estado de evidencia son interactivos. Si el 
 el ranking agregado conserva la lectura principal. La entrega fue conciliada contra 220.031 anuncios,
 1.497 segmentos y 28 candidatos sin diferencias entre los CSV y el modelo.
 
-## Panel web avanzado
+## Dashboard interactivo principal
 
-El nivel Avanzado añade un panel web complementario con las mismas tres preguntas ejecutivas y las
-mismas exportaciones seguras que Power BI. Sus filtros coordinados permiten seleccionar ciudad,
-tipología, barrio y estado de evidencia. La vista estadística explica las tres familias de hipótesis,
+El dashboard web presenta el EDA principal con las mismas exportaciones seguras que Power BI. Abre
+directamente en **Estructura del mercado**. Sus filtros coordinados permiten seleccionar ciudad,
+tipología, barrio y estado de evidencia. La vista **Estructura del mercado** permite explorar la
+oferta y actividad relativa por barrio, la concentración de reseñas y los tamaños de cartera. La
+vista estadística anterior explica las tres familias de hipótesis,
 el tamaño del efecto, el intervalo de confianza, el valor p ajustado y la sensibilidad sin recalcular
 pruebas sobre selecciones arbitrarias.
 

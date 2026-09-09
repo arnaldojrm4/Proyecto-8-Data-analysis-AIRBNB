@@ -1,0 +1,83 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "14d9e7fab56377f83e56",
+  "position": {
+    "x": 640,
+    "y": 496,
+    "z": 32000,
+    "height": 150,
+    "width": 620,
+    "tabOrder": 31
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Listings"
+                    }
+                  },
+                  "Property": "portfolio_bucket"
+                }
+              },
+              "queryRef": "Fact Listings.portfolio_bucket",
+              "nativeQueryRef": "portfolio_bucket"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Anuncios analizables"
+                }
+              },
+              "queryRef": "_Measures.Anuncios analizables",
+              "nativeQueryRef": "Anuncios analizables"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Anuncios analizables por grupo excluyente de tamaño de cartera observado.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

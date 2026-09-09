@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "3dd92cd00a8e7b2b4091",
+  "displayName": "Estructura del mercado",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

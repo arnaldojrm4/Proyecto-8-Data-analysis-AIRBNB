@@ -12,6 +12,7 @@ POWERBI_ROOT = PROJECT_ROOT / "powerbi"
 MODEL_DEFINITION = POWERBI_ROOT / "AirbnbSupplyOpportunity.SemanticModel" / "definition"
 REPORT_DEFINITION = POWERBI_ROOT / "AirbnbSupplyOpportunity.Report" / "definition"
 EXPECTED_PAGES = [
+    "Estructura del mercado",
     "Resumen ejecutivo",
     "Oportunidades de captación",
     "Detalle y confianza",
@@ -21,12 +22,25 @@ EXPECTED_MEASURES = {
     "Segmentos candidatos",
     "Cuota activa histórica",
     "Actividad histórica mediana",
+    "Actividad por anuncio",
+    "Cobertura de actividad",
+    "Cuota de anuncios en carteras >5",
     "Precio local mediano",
     "Cuota de oferta",
     "Efecto de actividad",
     "Estado de evidencia",
     "Diferencia de conciliación",
 }
+
+
+def test_market_structure_columns_are_imported_without_host_identifiers() -> None:
+    listing_model = (MODEL_DEFINITION / "tables" / "Fact Listings.tmdl").read_text(
+        encoding="utf-8"
+    )
+    assert "column portfolio_size" in listing_model
+    assert "column portfolio_bucket" in listing_model
+    assert "sourceColumn: portfolio_size" in listing_model
+    assert "host_id" not in listing_model
 
 
 def _tmdl_text() -> str:
@@ -72,7 +86,7 @@ def test_relationships_are_one_to_many_and_unidirectional() -> None:
     assert "fromCardinality: one" not in relationships
 
 
-def test_report_has_exactly_three_decision_first_pages() -> None:
+def test_report_has_expected_decision_first_pages() -> None:
     pages_index = json.loads(
         (REPORT_DEFINITION / "pages" / "pages.json").read_text(encoding="utf-8")
     )
@@ -85,6 +99,7 @@ def test_report_has_exactly_three_decision_first_pages() -> None:
         )
         pages.append(page["displayName"])
     assert pages == EXPECTED_PAGES
+    assert pages_index["activePageName"] == pages_index["pageOrder"][0]
 
 
 def test_visuals_have_reading_order_and_spanish_alt_text() -> None:
