@@ -74,6 +74,18 @@ table 'Fact Listings'
 		summarizeBy: none
 		sourceColumn: activity_proxy_is_analyzable
 
+	column portfolio_size
+		dataType: int64
+		lineageTag: 3a25479e-7059-4a7c-a485-7e64cf97445a
+		summarizeBy: none
+		sourceColumn: portfolio_size
+
+	column portfolio_bucket
+		dataType: string
+		lineageTag: 90a8c946-6b70-44cd-9ec4-b135e7f5b808
+		summarizeBy: none
+		sourceColumn: portfolio_bucket
+
 	column price_is_valid
 		dataType: boolean
 		lineageTag: bf68a471-4a88-43eb-842b-fc0573833d75
@@ -97,7 +109,6 @@ table 'Fact Listings'
 		source =
 				let
 				    GuardRows = Table.RowCount(BuildGuard),
-				    Output = CsvFromRoot("fact_listings.csv", {{"listing_key", type text}, {"city_key", type text}, {"neighborhood_key", type text}, {"room_type_key", type text}, {"price", type number}, {"minimum_nights", Int64.Type}, {"number_of_reviews", Int64.Type}, {"reviews_per_month_observed", type number}, {"activity_proxy", type number}, {"activity_proxy_derived_zero", type logical}, {"activity_proxy_is_analyzable", type logical}, {"price_is_valid", type logical}, {"minimum_nights_is_valid", type logical}, {"coordinate_is_valid", type logical}})
+				    Output = CsvFromRoot("fact_listings.csv", {{"listing_key", type text}, {"city_key", type text}, {"neighborhood_key", type text}, {"room_type_key", type text}, {"price", type number}, {"minimum_nights", Int64.Type}, {"number_of_reviews", Int64.Type}, {"reviews_per_month_observed", type number}, {"activity_proxy", type number}, {"activity_proxy_derived_zero", type logical}, {"activity_proxy_is_analyzable", type logical}, {"portfolio_size", Int64.Type}, {"portfolio_bucket", type text}, {"price_is_valid", type logical}, {"minimum_nights_is_valid", type logical}, {"coordinate_is_valid", type logical}})
 				in
 				    if GuardRows > 0 then Output else error Error.Record("Release bloqueada", "build_control.csv no contiene filas.", null)
-

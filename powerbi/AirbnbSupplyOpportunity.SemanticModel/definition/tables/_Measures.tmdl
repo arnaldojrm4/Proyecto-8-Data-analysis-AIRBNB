@@ -32,6 +32,24 @@ table _Measures
 		displayFolder: 02 Actividad
 		lineageTag: 57090f11-2677-4f7c-8baa-d607406600b9
 
+	/// Población: anuncios analizables en el contexto filtrado. Denominador: anuncios con proxy conocido. Exclusiones: actividad desconocida. Limitación: reseñas mensuales no equivalen a demanda, reservas u ocupación.
+	measure 'Actividad por anuncio' = CALCULATE(AVERAGE('Fact Listings'[activity_proxy]), KEEPFILTERS('Fact Listings'[activity_proxy_is_analyzable] = TRUE()))
+		formatString: 0.00
+		displayFolder: 02 Actividad
+		lineageTag: 5a241988-c78f-433a-8992-4be6655405ed
+
+	/// Población: anuncios visibles. Denominador: anuncios visibles. Exclusiones: ninguna. Limitación: informa qué parte tiene proxy interpretable.
+	measure 'Cobertura de actividad' = DIVIDE([Anuncios analizables], COUNTROWS('Fact Listings'))
+		formatString: 0.0%
+		displayFolder: 02 Actividad
+		lineageTag: b620c739-3914-4e5e-a8e0-00cd5574ee49
+
+	/// Población: anuncios visibles. Denominador: anuncios visibles. Exclusiones: ninguna. Limitación: tamaño de cartera observado; no acredita propiedad ni profesionalidad.
+	measure 'Cuota de anuncios en carteras >5' = DIVIDE(CALCULATE(COUNTROWS('Fact Listings'), KEEPFILTERS('Fact Listings'[portfolio_size] > 5)), COUNTROWS('Fact Listings'))
+		formatString: 0.0%
+		displayFolder: 04 Oferta
+		lineageTag: 90946116-646f-4054-966f-20dced0e4ec2
+
 	/// Población: precios publicados válidos en la ciudad. Denominador: precios visibles válidos. Exclusiones: nulos o no positivos. Limitación: moneda y fecha desconocidas; no comparar importes entre ciudades ni interpretar como ingreso.
 	measure 'Precio local mediano' = CALCULATE(MEDIAN('Fact Listings'[price]), KEEPFILTERS('Fact Listings'[price_is_valid] = TRUE()))
 		formatString: #,##0.00
@@ -161,4 +179,3 @@ table _Measures
 	partition _Measures = calculated
 		mode: import
 		source = ROW("Placeholder", BLANK())
-

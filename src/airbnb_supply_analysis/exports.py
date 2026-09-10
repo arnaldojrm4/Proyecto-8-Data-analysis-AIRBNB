@@ -46,6 +46,8 @@ LISTING_COLUMNS: Final = [
     "activity_proxy",
     "activity_proxy_derived_zero",
     "activity_proxy_is_analyzable",
+    "portfolio_size",
+    "portfolio_bucket",
     "price_is_valid",
     "minimum_nights_is_valid",
     "coordinate_is_valid",
@@ -314,6 +316,17 @@ def _build_room_type_dimension(listings: pd.DataFrame, opportunities: pd.DataFra
 
 def _build_listing_fact(listings: pd.DataFrame) -> pd.DataFrame:
     output = listings.copy()
+    observed_size = output.groupby(["city_key", "host_id"])["listing_id"].transform("nunique")
+    source_size = output.get(
+        "calculated_host_listings_count",
+        pd.Series(pd.NA, index=output.index, dtype="Int64"),
+    )
+    output["portfolio_size"] = source_size.fillna(observed_size).astype("int64")
+    output["portfolio_bucket"] = pd.cut(
+        output["portfolio_size"],
+        bins=[0, 1, 5, 10, float("inf")],
+        labels=["1", "2–5", "6–10", ">10"],
+    ).astype("string")
     output["listing_key"] = output["listing_key"].map(
         lambda value: _surrogate_key("listing", value)
     )

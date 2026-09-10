@@ -39,6 +39,8 @@ EXPECTED_COLUMNS = {
         "activity_proxy",
         "activity_proxy_derived_zero",
         "activity_proxy_is_analyzable",
+        "portfolio_size",
+        "portfolio_bucket",
         "price_is_valid",
         "minimum_nights_is_valid",
         "coordinate_is_valid",
@@ -158,6 +160,7 @@ NUMERIC_COLUMNS = {
         "number_of_reviews",
         "reviews_per_month_observed",
         "activity_proxy",
+        "portfolio_size",
     },
     "fact_opportunity_segments.csv": {
         "listing_count",
@@ -221,6 +224,21 @@ BOOLEAN_COLUMNS = {
         "coordinate_is_valid",
     }
 }
+
+
+def test_listing_export_publishes_anonymized_observed_portfolio_size(
+    powerbi_export_fixture,
+) -> None:
+    from airbnb_supply_analysis.exports import _build_listing_fact
+
+    listings = powerbi_export_fixture.listings.copy()
+    listings["host_id"] = 42
+
+    exported = _build_listing_fact(listings)
+
+    assert exported["portfolio_size"].tolist() == [2, 2]
+    assert exported["portfolio_bucket"].tolist() == ["2–5", "2–5"]
+    assert "host_id" not in exported.columns
 
 
 def _read(path: Path) -> pd.DataFrame:

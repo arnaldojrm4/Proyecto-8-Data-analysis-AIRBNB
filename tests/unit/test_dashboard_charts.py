@@ -74,3 +74,40 @@ def test_effect_chart_uses_estimate_and_confidence_interval() -> None:
     assert list(figure.data[0].x) == [0.62]
     assert list(figure.data[0].error_x.array) == pytest.approx([0.08])
     assert list(figure.data[0].error_x.arrayminus) == pytest.approx([0.08])
+
+
+def test_supply_activity_scatter_retains_neighborhood_context() -> None:
+    from dashboard.charts import supply_activity_scatter
+
+    metrics = pd.DataFrame(
+        {
+            "neighborhood_label": ["Centro", "Norte"],
+            "listing_count": [100, 20],
+            "activity_per_listing": [1.2, 0.5],
+            "activity_coverage": [1.0, 0.8],
+        }
+    )
+
+    figure = supply_activity_scatter(metrics)
+
+    assert list(figure.data[0].x) == [100, 20]
+    assert list(figure.data[0].y) == [1.2, 0.5]
+    assert list(figure.data[0].text) == ["Centro", "Norte"]
+    assert figure.layout.xaxis.type == "log"
+
+
+def test_portfolio_mix_chart_uses_percent_scale_and_exclusive_buckets() -> None:
+    from dashboard.charts import portfolio_mix_chart
+
+    mix = pd.DataFrame(
+        {
+            "portfolio_bucket": ["1", "2–5", "6–10", ">10"],
+            "listing_count": [6, 2, 1, 1],
+            "listing_share": [0.6, 0.2, 0.1, 0.1],
+        }
+    )
+
+    figure = portfolio_mix_chart(mix)
+
+    assert list(figure.data[0].x) == [0.6, 0.2, 0.1, 0.1]
+    assert figure.layout.xaxis.tickformat == ".0%"

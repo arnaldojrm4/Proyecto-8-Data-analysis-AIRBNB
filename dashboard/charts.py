@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
+
+from dashboard.market_structure import pareto_curve
 
 
 def _empty_figure() -> go.Figure:
@@ -125,5 +128,161 @@ def effect_interval_chart(statistics: pd.DataFrame) -> go.Figure:
         xaxis_title="Estimación e intervalo de confianza del 95%",
         yaxis_title="Comparación",
         margin={"l": 10, "r": 10, "t": 20, "b": 10},
+    )
+    return figure
+
+
+def supply_activity_scatter(metrics: pd.DataFrame) -> go.Figure:
+    """Relaciona oferta y actividad al grano de barrio."""
+
+    if metrics.empty:
+        return _empty_figure()
+    figure = go.Figure(
+        go.Scatter(
+            x=metrics["listing_count"],
+            y=metrics["activity_per_listing"],
+            text=metrics["neighborhood_label"],
+            customdata=metrics[["activity_coverage"]],
+            mode="markers",
+            marker={
+                "size": metrics["listing_count"].pow(0.5).clip(8, 38),
+                "color": metrics["activity_per_listing"],
+                "colorscale": "YlOrRd",
+                "line": {"color": "#17324D", "width": 0.7},
+                "showscale": True,
+                "colorbar": {"title": "Actividad"},
+            },
+            hovertemplate=(
+                "<b>%{text}</b><br>Anuncios: %{x:,.0f}<br>Actividad: %{y:.2f}"
+                "<br>Cobertura: %{customdata[0]:.1%}<extra></extra>"
+            ),
+        )
+    )
+    figure.update_layout(
+        xaxis={"title": "Anuncios del barrio (escala log)", "type": "log"},
+        yaxis={"title": "Reseñas/mes por anuncio", "rangemode": "tozero"},
+        margin={"l": 10, "r": 10, "t": 20, "b": 10},
+        height=460,
+    )
+    return figure
+
+
+def neighborhood_activity_map(metrics: pd.DataFrame) -> go.Figure:
+    """Dibuja centroides agregados y conserva oferta en el tamaño del punto."""
+
+    required = ["centroid_latitude", "centroid_longitude"]
+    usable = metrics.dropna(subset=required)
+    if usable.empty:
+        return _empty_figure()
+    figure = go.Figure(
+        go.Scattermap(
+            lat=usable["centroid_latitude"],
+            lon=usable["centroid_longitude"],
+            text=usable["neighborhood_label"],
+            customdata=usable[["listing_count", "activity_per_listing", "activity_coverage"]],
+            mode="markers",
+            marker={
+                "size": usable["listing_count"].pow(0.5).clip(7, 32),
+                "color": usable["activity_per_listing"],
+                "colorscale": "YlOrRd",
+                "showscale": True,
+            },
+            hovertemplate=(
+                "<b>%{text}</b><br>Anuncios: %{customdata[0]:,.0f}"
+                "<br>Actividad: %{customdata[1]:.2f}"
+                "<br>Cobertura: %{customdata[2]:.1%}<extra></extra>"
+            ),
+        )
+    )
+    figure.update_layout(
+        map={"style": "open-street-map", "zoom": 9},
+        margin={"l": 0, "r": 0, "t": 0, "b": 0},
+        height=460,
+    )
+    return figure
+
+
+def pareto_review_chart(listings: pd.DataFrame) -> go.Figure:
+    """Representa la concentración acumulada de reseñas históricas."""
+
+    curve = pareto_curve(listings)
+    if curve.empty:
+        return _empty_figure()
+    figure = go.Figure()
+    figure.add_trace(
+        go.Scatter(
+            x=curve["listing_share"],
+            y=curve["review_share"],
+            mode="lines",
+            line={"color": "#2F6B8A", "width": 3},
+            name="Concentración observada",
+            hovertemplate="Anuncios: %{x:.1%}<br>Reseñas: %{y:.1%}<extra></extra>",
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=[0, 1], y=[0, 1], mode="lines", name="Igualdad",
+            line={"color": "#7B8794", "dash": "dash"}, hoverinfo="skip",
+        )
+    )
+    figure.add_vline(x=0.2, line_dash="dot", line_color="#C76D3A")
+    figure.add_hline(y=0.8, line_dash="dot", line_color="#C76D3A")
+    figure.update_layout(
+        xaxis={"title": "% acumulado de anuncios", "tickformat": ".0%"},
+        yaxis={"title": "% acumulado de reseñas", "tickformat": ".0%"},
+        margin={"l": 10, "r": 10, "t": 20, "b": 10},
+        height=420,
+    )
+    return figure
+
+
+def reviews_histogram_chart(listings: pd.DataFrame) -> go.Figure:
+    """Muestra la cola de reseñas con transformación logarítmica declarada."""
+
+    if listings.empty:
+        return _empty_figure()
+    values = pd.to_numeric(listings["number_of_reviews"], errors="coerce").fillna(0)
+    figure = go.Figure(
+        go.Histogram(x=np.log1p(values), nbinsx=35, marker_color="#77B5D9")
+    )
+    figure.update_layout(
+        xaxis_title="log(1 + número de reseñas)",
+        yaxis_title="Anuncios",
+        margin={"l": 10, "r": 10, "t": 20, "b": 10},
+        height=420,
+        showlegend=False,
+    )
+    return figure
+
+
+def portfolio_mix_chart(mix: pd.DataFrame) -> go.Figure:
+    """Compara la composición de listings por grupo de cartera."""
+
+    if mix.empty:
+        return _empty_figure()
+    colors = ["#77B5D9", "#2F6B8A", "#D8B365", "#C76D3A"]
+    figure = go.Figure(
+        go.Bar(
+            x=mix["listing_share"],
+            y=mix["portfolio_bucket"],
+            orientation="h",
+            marker_color=colors,
+            text=mix["listing_share"].map(lambda value: f"{value:.1%}"),
+            textposition="auto",
+            customdata=mix[["listing_count"]],
+            hovertemplate=(
+                "Cartera %{y}<br>Anuncios: %{customdata[0]:,.0f}<br>Cuota: %{x:.1%}<extra></extra>"
+            ),
+        )
+    )
+    figure.update_layout(
+        xaxis={"title": "Porcentaje de anuncios", "tickformat": ".0%", "rangemode": "tozero"},
+        yaxis={
+            "title": "Anuncios del host",
+            "categoryorder": "array",
+            "categoryarray": mix["portfolio_bucket"].tolist(),
+        },
+        margin={"l": 10, "r": 10, "t": 20, "b": 10},
+        height=360,
     )
     return figure

@@ -1,9 +1,8 @@
 # Guía del informe Power BI Desktop
 
-> **Panel complementario avanzado:** el repositorio también incluye una aplicación web portable en
-> `dashboard/` que consume estos mismos ocho CSV validados. Power BI continúa siendo la entrega BI de
-> escritorio; el panel web añade despliegue Docker sin alterar el modelo ni recalcular la estadística.
-> Consulta la sección “Panel web avanzado” del README principal para ejecutarlo.
+> **Entregas principales:** este proyecto Power BI y la aplicación web de `dashboard/` presentan el
+> EDA de estructura del mercado sobre los mismos ocho CSV validados. Consulta “Dashboard interactivo
+> principal” en el README raíz para ejecutar la versión web.
 
 Esta carpeta contiene la definición y la documentación del informe ejecutivo local para explorar
 oportunidades provisionales de captación de alojamientos. El informe consume únicamente los ocho
@@ -33,7 +32,7 @@ Consulta la [descarga y requisitos oficiales](https://learn.microsoft.com/es-es/
 
 | Artefacto | Contenido | Estado actual |
 |---|---|---|
-| `airbnb-supply-opportunity.pbix` | Informe editable con datos importados | Completo (T095–T100) |
+| `airbnb-supply-opportunity.pbix` | Informe editable con datos importados | Requiere actualizar desde el PBIP tras cambios del EDA |
 | `airbnb-supply-opportunity.pbit` | Plantilla sin datos importados | Completo (T101) |
 | `theme.json` | Tema accesible validado con el esquema oficial 2.157 | Completo (T094) |
 | `acceptance-checklist.md` | Lista de aceptación manual | PASS (T103–T105) |
@@ -49,6 +48,18 @@ las etiquetas `Candidato`, `Consolidado`, `En observación` o `Evidencia insufic
 es la única señal. El contrato automatizado está en
 `tests/contract/test_powerbi_theme.py` y el archivo referencia el esquema oficial de la versión
 Desktop probada.
+
+## Página Estructura del mercado
+
+El proyecto versionable `AirbnbSupplyOpportunity.pbip` abre en esta página principal para explorar
+oferta y actividad relativa por barrio. Incluye KPI de actividad media, cobertura y carteras
+observadas mayores de cinco; scatter oferta-actividad, mapa de centroides, ranking por barrio y
+composición por tamaño de cartera. Los filtros de ciudad y tipología afectan a toda la página.
+
+`portfolio_size` se calcula antes de anonimizar el anuncio y no publica `host_id`. En Tokio usa el
+número de anuncios observados por host dentro del snapshot. La página no identifica propiedad,
+profesionalidad ni estatus fiscal. Después de regenerar los CSV, abre el `.pbip`, actualiza y guarda
+el `.pbix` para incorporar físicamente la nueva página y las columnas al paquete binario.
 
 ## Preparar los datos
 

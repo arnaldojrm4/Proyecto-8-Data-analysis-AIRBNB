@@ -27,7 +27,9 @@ REQUIRED_COLUMNS = {
     "neighborhoods": {"neighborhood_key", "neighborhood_label"},
     "room_types": {"room_type_key", "room_type_label_es"},
     "listings": {
-        "city_key", "neighborhood_key", "room_type_key", "activity_proxy", "price"
+        "city_key", "neighborhood_key", "room_type_key", "activity_proxy", "price",
+        "number_of_reviews", "activity_proxy_is_analyzable", "portfolio_size",
+        "portfolio_bucket",
     },
     "opportunities": {
         "build_id", "segment_key", "city_key", "neighborhood_key", "room_type_key",

@@ -260,7 +260,8 @@ def navigator(page_id: str, tab: int = 90) -> dict[str, Any]:
     visual = {
         "visualType": "pageNavigator",
         "visualContainerObjects": chrome(
-            "Navegación entre Resumen ejecutivo, Oportunidades de captación y Detalle y confianza."
+            "Navegación entre Resumen ejecutivo, Estructura del mercado, "
+            "Oportunidades de captación y Detalle y confianza."
         ),
     }
     return visual_container(page_id, "navigation", 20, 672, 1020, 40, tab, visual)
@@ -422,8 +423,11 @@ def common_slicers(page_id: str, include_status: bool = True) -> dict[str, dict[
 
 
 def build_pages() -> list[str]:
-    page_ids = [identifier("page", name) for name in ("summary", "opportunity", "detail")]
-    summary, opportunity, detail = page_ids
+    summary = identifier("page", "summary")
+    market_structure = identifier("page", "market_structure")
+    opportunity = identifier("page", "opportunity")
+    detail = identifier("page", "detail")
+    page_ids = [market_structure, summary, opportunity, detail]
 
     summary_visuals = {
         "title": textbox(
@@ -497,6 +501,104 @@ def build_pages() -> list[str]:
             ),
         ]
     }
+    market_visuals = {
+        "title": textbox(
+            market_structure,
+            "title",
+            "¿Dónde coinciden oferta y actividad relativa por barrio?",
+            (20, 16, 680, 60),
+            0,
+            size=23,
+            bold=True,
+        ),
+        **common_slicers(market_structure, include_status=False),
+        "kpis": card(
+            market_structure,
+            "kpis",
+            [
+                "Anuncios analizables",
+                "Actividad por anuncio",
+                "Cobertura de actividad",
+                "Cuota de anuncios en carteras >5",
+            ],
+            (20, 100, 1240, 90),
+            10,
+            "Anuncios analizables, actividad media, cobertura y cuota de carteras mayores de cinco.",
+        ),
+        "scatter": chart(
+            market_structure,
+            "scatter",
+            "scatterChart",
+            {
+                "Category": [("Column", "Dim Neighborhood", "neighborhood_label")],
+                "X": [("Measure", "_Measures", "Anuncios analizables")],
+                "Y": [("Measure", "_Measures", "Actividad por anuncio")],
+                "Size": [("Measure", "_Measures", "Anuncios analizables")],
+                "Tooltips": [("Measure", "_Measures", "Cobertura de actividad")],
+            },
+            (20, 208, 600, 270),
+            20,
+            "Dispersión por barrio: anuncios analizables frente a reseñas mensuales por anuncio, con cobertura en tooltip.",
+        ),
+        "map": chart(
+            market_structure,
+            "map",
+            "azureMap",
+            {
+                "Category": [("Column", "Dim Neighborhood", "neighborhood_label")],
+                "Y": [("Column", "Dim Neighborhood", "centroid_latitude")],
+                "X": [("Column", "Dim Neighborhood", "centroid_longitude")],
+                "Size": [("Measure", "_Measures", "Anuncios analizables")],
+                "Tooltips": [
+                    ("Measure", "_Measures", "Actividad por anuncio"),
+                    ("Measure", "_Measures", "Cobertura de actividad"),
+                ],
+            },
+            (640, 208, 620, 270),
+            21,
+            "Mapa de centroides agregados por barrio; tamaño según anuncios y actividad disponible en tooltip.",
+        ),
+        "ranking": chart(
+            market_structure,
+            "ranking",
+            "clusteredBarChart",
+            {
+                "Category": [("Column", "Dim Neighborhood", "neighborhood_label")],
+                "Y": [("Measure", "_Measures", "Actividad por anuncio")],
+                "Tooltips": [
+                    ("Measure", "_Measures", "Anuncios analizables"),
+                    ("Measure", "_Measures", "Cobertura de actividad"),
+                ],
+            },
+            (20, 496, 600, 150),
+            30,
+            "Ranking de actividad por anuncio y barrio con volumen y cobertura en contexto.",
+        ),
+        "portfolio": chart(
+            market_structure,
+            "portfolio",
+            "clusteredBarChart",
+            {
+                "Category": [("Column", "Fact Listings", "portfolio_bucket")],
+                "Y": [("Measure", "_Measures", "Anuncios analizables")],
+            },
+            (640, 496, 620, 150),
+            31,
+            "Anuncios analizables por grupo excluyente de tamaño de cartera observado.",
+        ),
+        "warning": textbox(
+            market_structure,
+            "warning",
+            "Actividad = proxy de reseñas mensuales; cartera = escala observada. No demuestran demanda, reservas, ocupación, propiedad ni profesionalidad.",
+            (20, 652, 1000, 44),
+            40,
+            size=12,
+            bold=True,
+        ),
+        "reset": reset_button(market_structure),
+        "navigation": navigator(market_structure),
+    }
+    page(market_structure, "Estructura del mercado", market_visuals)
     page(summary, "Resumen ejecutivo", summary_visuals)
 
     opportunity_visuals = {
@@ -796,7 +898,9 @@ def main() -> None:
                     "items": [{"name": THEME_FILE, "path": THEME_FILE, "type": "CustomTheme"}],
                 }
             ],
-            "annotations": [{"name": "defaultPage", "value": identifier("page", "summary")}],
+            "annotations": [
+                {"name": "defaultPage", "value": identifier("page", "market_structure")}
+            ],
         },
     )
     page_ids = build_pages()

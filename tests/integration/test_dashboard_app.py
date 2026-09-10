@@ -32,6 +32,8 @@ def test_dashboard_filters_and_reset_share_one_population(
 
     app = AppTest.from_file(app_path).run(timeout=10)
 
+    app.radio[0].set_value("Resumen ejecutivo").run(timeout=10)
+
     assert not app.exception
     assert app.selectbox[0].label == "Ciudad"
     assert app.multiselect[0].label == "Tipología"
@@ -69,12 +71,29 @@ def test_dashboard_summary_surfaces_priority_candidates(
 
     app = AppTest.from_file(app_path).run(timeout=10)
 
+    app.radio[0].set_value("Resumen ejecutivo").run(timeout=10)
+
     assert not app.exception
     assert any("Candidatos prioritarios" in item.value for item in app.subheader)
     assert app.dataframe
     warnings = " ".join(item.value for item in app.warning)
     assert "Una reseña es solo un indicio de actividad" in warnings
     assert "no equivale a una reserva" in warnings
+
+
+def test_dashboard_market_structure_view_renders_metrics_charts_and_table(
+    monkeypatch, powerbi_export_fixture
+) -> None:
+    monkeypatch.setenv("AIRBNB_DASHBOARD_DATA_DIR", str(powerbi_export_fixture.directory))
+    app_path = Path(__file__).resolve().parents[2] / "dashboard" / "app.py"
+    app = AppTest.from_file(app_path).run(timeout=10)
+
+    assert not app.exception
+    assert app.radio[0].value == "Estructura del mercado"
+    assert any(item.value == "Estructura del mercado Airbnb" for item in app.title)
+    assert any(metric.label == "Actividad/anuncio" for metric in app.metric)
+    assert len(app.get("plotly_chart")) >= 4
+    assert app.dataframe
 
 
 def test_dashboard_blocks_a_rejected_build_and_recovers_without_residual_metrics(
